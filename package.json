@@ -1,0 +1,56 @@
+{
+    "name": "lwc-soql-builder",
+    "description": "My amazing LWC app",
+    "version": "0.0.1",
+    "author": "Atsuhiko Kimura",
+    "bugs": "https://github.com/Atsuhiko Kimura/lwc-soql-builder/issues",
+    "dependencies": {
+        "compression": "^1.7.4",
+        "express": "^4.17.1",
+        "helmet": "^3.21.3"
+    },
+    "devDependencies": {
+        "eslint": "^6.8.0",
+        "husky": "^4.2.3",
+        "lint-staged": "^10.0.8",
+        "lwc-services": "^2.0.0",
+        "prettier": "^1.19.1"
+    },
+    "engines": {
+        "node": ">=10.13.0",
+        "npm": ">=6.4.1",
+        "yarn": ">=1.9.4"
+    },
+    "homepage": "https://github.com/Atsuhiko Kimura/lwc-soql-builder",
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "keywords": [
+        "lwc"
+    ],
+    "license": "MIT",
+    "lint-staged": {
+        "**/*.{css,html,js,json,md,ts,yaml,yml}": [
+            "prettier --write"
+        ],
+        "./src/**/*.js": [
+            "eslint"
+        ]
+    },
+    "repository": "Atsuhiko Kimura/lwc-soql-builder",
+    "scripts": {
+        "build": "lwc-services build -m production -w scripts/webpack.config.js",
+        "build:development": "lwc-services build -w scripts/webpack.config.js",
+        "lint": "eslint ./src/**/*.js",
+        "prettier": "prettier --write \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
+        "prettier:verify": "prettier --list-different \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
+        "serve": "node scripts/server.js",
+        "test:unit": "lwc-services test:unit",
+        "test:unit:coverage": "lwc-services test:unit --coverage",
+        "test:unit:debug": "lwc-services test:unit --debug",
+        "test:unit:watch": "lwc-services test:unit --watch",
+        "watch": "lwc-services watch -w scripts/webpack.config.js"
+    }
+}
