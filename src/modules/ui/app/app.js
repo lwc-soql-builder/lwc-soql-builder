@@ -3,6 +3,7 @@ import jsforce from 'jsforce';
 
 export default class App extends LightningElement {
     sobjects;
+    filteredSObjects;
     connection;
 
     get isLoggedIn() {
@@ -30,6 +31,7 @@ export default class App extends LightningElement {
                 .then(res => {
                     console.log(res);
                     this.sobjects = res.sobjects;
+                    this.filteredSObjects = this.sobjects;
                 })
                 .catch(err => {
                     console.error(err);
@@ -42,6 +44,17 @@ export default class App extends LightningElement {
                 localStorage.setItem('instanceUrl', connection.instanceUrl);
                 this.connection = connection;
             });
+        }
+    }
+
+    filterSObjects(event) {
+        const keyword = event.target.value;
+        if (keyword) {
+            this.filteredSObjects = this.sobjects.filter(sobject => {
+                return `${sobject.name} ${sobject.label}`.includes(keyword);
+            });
+        } else {
+            this.filteredSObjects = this.sobjects;
         }
     }
 

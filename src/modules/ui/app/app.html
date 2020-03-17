@@ -58,20 +58,20 @@
       <div class="left-panel">
         <nav class="slds-nav-vertical" aria-label="Sub page">
           <div class="slds-form-element slds-p-horizontal_large slds-p-top_small">
-            <label class="slds-form-element__label slds-assistive-text" for="input-id-01">Filter navigation items</label>
+            <label class="slds-form-element__label slds-assistive-text">Filter navigation items</label>
             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
               <span class="slds-icon_container slds-icon-utility-search">
                 <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
                   <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#search"></use>
                 </svg>
               </span>
-              <input type="search" id="input-id-01" placeholder="Quick Find" class="slds-input" />
+              <input type="search" placeholder="Quick Find" class="slds-input" onkeyup={filterSObjects} />
             </div>
           </div>
           <div class="slds-nav-vertical__section">
             <h2 id="entity-header" class="slds-nav-vertical__title slds-border_bottom">SObjects</h2>
-            <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={sobjects}>
-              <template for:each={sobjects} for:item="sobject">
+            <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={filteredSObjects}>
+              <template for:each={filteredSObjects} for:item="sobject">
                 <li class="slds-nav-vertical__item slds-border_bottom" key={sobject.name} if:true={sobject.queryable}>
                   <a href="javascript:void(0);" class="slds-nav-vertical__action">{sobject.name} / {sobject.label}</a>
                 </li>
