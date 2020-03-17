@@ -1,6 +1,6 @@
 import '@lwc/synthetic-shadow';
 import { buildCustomElementConstructor } from 'lwc';
-import MyApp from 'my/app';
+import UiApp from 'ui/app';
 
 const availableFeature = detectFeatures();
 const isCompatibleBrowser = Object.keys(availableFeature).some(
@@ -10,7 +10,7 @@ const isCompatibleBrowser = Object.keys(availableFeature).some(
 if (isCompatibleBrowser) {
     unsupportedErrorMessage(availableFeature);
 } else {
-    customElements.define('my-app', buildCustomElementConstructor(MyApp));
+    customElements.define('ui-app', buildCustomElementConstructor(UiApp));
 
     if ('serviceWorker' in navigator) {
         // Register service worker after page load event to avoid delaying critical requests for the
