@@ -5,6 +5,7 @@ export default class App extends LightningElement {
     sobjects;
     filteredSObjects;
     connection;
+    output;
 
     get isLoggedIn() {
         return !!(this.connection && this.connection.accessToken);
@@ -68,5 +69,58 @@ export default class App extends LightningElement {
     logout() {
         this.connection = null;
         localStorage.clear();
+    }
+
+    executeSOQL() {
+        if (!this.connection) return;
+        const input = this.template.querySelector('.soql-input');
+        console.log(input);
+        if (!input) return;
+        const query = input.value;
+        console.log(query);
+        if (!query) return;
+        this.connection
+            .query(query)
+            .then(res => {
+                console.log(res);
+                this.output = this._formatResponse(res);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    _formatResponse(res) {
+        let output = {
+            totalSize: res.totalSize,
+            rows: []
+        };
+        let columns = new Set();
+        res.records.forEach(record => {
+            Object.keys(record).forEach(name => {
+                if (name !== 'attributes') {
+                    columns.add(name);
+                }
+            });
+        });
+        output.columns = Array.from(columns);
+        res.records.forEach(record => {
+            let row = {
+                key: Math.random()
+                    .toString(36)
+                    .slice(-8),
+                values: []
+            };
+            output.columns.forEach(column => {
+                row.values.push({
+                    key: Math.random()
+                        .toString(36)
+                        .slice(-8),
+                    data: record[column]
+                });
+            });
+            output.rows.push(row);
+        });
+        return output;
     }
 }

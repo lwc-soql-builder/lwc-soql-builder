@@ -84,11 +84,11 @@
         <div class="right-top-panel">
           <div class="right-top-left-panel">
             <div class="slds-p-around_small">
-              <button class="slds-button slds-button_neutral">Execute SOQL</button>
+              <button class="slds-button slds-button_neutral" onclick={executeSOQL}>Execute SOQL</button>
               <button class="slds-button slds-button_neutral">Save SOQL</button>
             </div>
             <div class="soql-editor slds-p-horizontal_small slds-p-bottom_small">
-              <textarea class="slds-textarea" placeholder="Input SOQL"></textarea>
+              <textarea class="slds-textarea soql-input" placeholder="Input SOQL"></textarea>
             </div>
           </div>
           <div class="right-top-right-panel">
@@ -121,119 +121,38 @@
           </div>
         </div>
         <div class="right-bottom-panel">
-          <div class="slds-p-around_small">
-            <button class="slds-button slds-button_neutral">Export CSV</button>
-          </div>
-          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
-            <thead>
-              <tr class="slds-line-height_reset">
-                <th class="" scope="col">
-                  <div class="slds-truncate" title="Opportunity Name">Opportunity Name</div>
-                </th>
-                <th class="" scope="col">
-                  <div class="slds-truncate" title="Account Name">Account Name</div>
-                </th>
-                <th class="" scope="col">
-                  <div class="slds-truncate" title="Close Date">Close Date</div>
-                </th>
-                <th class="" scope="col">
-                  <div class="slds-truncate" title="Stage">Stage</div>
-                </th>
-                <th class="" scope="col">
-                  <div class="slds-truncate" title="Confidence">Confidence</div>
-                </th>
-                <th class="" scope="col">
-                  <div class="slds-truncate" title="Amount">Amount</div>
-                </th>
-                <th class="" scope="col">
-                  <div class="slds-truncate" title="Contact">Contact</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="slds-hint-parent">
-                <th data-label="Opportunity Name" scope="row">
-                  <div class="slds-truncate" title="Cloudhub">
-                    <a href="javascript:void(0);" tabindex="-1">Cloudhub</a>
-                  </div>
-                </th>
-                <td data-label="Account Name">
-                  <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
-                </td>
-                <td data-label="Close Date">
-                  <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
-                </td>
-                <td data-label="Prospecting">
-                  <div class="slds-truncate" title="Prospecting">Prospecting</div>
-                </td>
-                <td data-label="Confidence">
-                  <div class="slds-truncate" title="20%">20%</div>
-                </td>
-                <td data-label="Amount">
-                  <div class="slds-truncate" title="$25k">$25k</div>
-                </td>
-                <td data-label="Contact">
-                  <div class="slds-truncate" title="jrogers@cloudhub.com">
-                    <a href="javascript:void(0);" tabindex="-1">jrogers@cloudhub.com</a>
-                  </div>
-                </td>
-              </tr>
-              <tr class="slds-hint-parent">
-                <th data-label="Opportunity Name" scope="row">
-                  <div class="slds-truncate" title="Cloudhub + Anypoint Connectors">
-                    <a href="javascript:void(0);" tabindex="-1">Cloudhub + Anypoint Connectors</a>
-                  </div>
-                </th>
-                <td data-label="Account Name">
-                  <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
-                </td>
-                <td data-label="Close Date">
-                  <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
-                </td>
-                <td data-label="Prospecting">
-                  <div class="slds-truncate" title="Prospecting">Prospecting</div>
-                </td>
-                <td data-label="Confidence">
-                  <div class="slds-truncate" title="20%">20%</div>
-                </td>
-                <td data-label="Amount">
-                  <div class="slds-truncate" title="$25k">$25k</div>
-                </td>
-                <td data-label="Contact">
-                  <div class="slds-truncate" title="jrogers@cloudhub.com">
-                    <a href="javascript:void(0);" tabindex="-1">jrogers@cloudhub.com</a>
-                  </div>
-                </td>
-              </tr>
-              <tr class="slds-hint-parent">
-                <th data-label="Opportunity Name" scope="row">
-                  <div class="slds-truncate" title="Cloudhub">
-                    <a href="javascript:void(0);" tabindex="-1">Cloudhub</a>
-                  </div>
-                </th>
-                <td data-label="Account Name">
-                  <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
-                </td>
-                <td data-label="Close Date">
-                  <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
-                </td>
-                <td data-label="Prospecting">
-                  <div class="slds-truncate" title="Prospecting">Prospecting</div>
-                </td>
-                <td data-label="Confidence">
-                  <div class="slds-truncate" title="20%">20%</div>
-                </td>
-                <td data-label="Amount">
-                  <div class="slds-truncate" title="$25k">$25k</div>
-                </td>
-                <td data-label="Contact">
-                  <div class="slds-truncate" title="jrogers@cloudhub.com">
-                    <a href="javascript:void(0);" tabindex="-1">jrogers@cloudhub.com</a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <template if:true={output}>
+            <div class="slds-p-around_small slds-grid">
+              <button class="slds-button slds-button_neutral">Export CSV</button>
+              <div class="slds-p-around_x-small slds-col_bump-left">Total: {output.totalSize}</div>
+            </div>
+            <div class="output-panel">
+              <div class="output-panel-scrollable">
+                <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_striped">
+                  <thead>
+                    <tr class="slds-line-height_reset">
+                      <template for:each={output.columns} for:item="column">
+                        <th class="" scope="col" key={column}>
+                          <div class="slds-truncate" title={column}>{column}</div>
+                        </th>
+                      </template>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template for:each={output.rows} for:item="row">
+                      <tr class="slds-hint-parent" key={row.key}>
+                        <template for:each={row.values} for:item="value">
+                          <td key={value.key}>
+                            <div class="slds-truncate" title={value.data}>{value.data}</div>
+                          </td>
+                        </template>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
