@@ -2,9 +2,12 @@ import { LightningElement } from 'lwc';
 import jsforce from 'jsforce';
 
 export default class App extends LightningElement {
+    connection;
     sobjects;
     filteredSObjects;
-    connection;
+    selectedSObject;
+    selectedSObjectMeta;
+    tabStatus = {};
     output;
 
     get isLoggedIn() {
@@ -57,6 +60,65 @@ export default class App extends LightningElement {
         } else {
             this.filteredSObjects = this.sobjects;
         }
+    }
+
+    selectSObject(event) {
+        const sObjectName = event.target.dataset.name;
+        console.log(sObjectName);
+        this.selectedSObject = this.sobjects.find(
+            sobject => sobject.name === sObjectName
+        );
+        if (!this.selectedSObject) return;
+        this.connection
+            .request(
+                `/services/data/v48.0/sobjects/${this.selectedSObject.name}/describe`
+            )
+            .then(res => {
+                console.log(res);
+                this.selectedSObjectMeta = res;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    deselectSObject() {
+        this.selectedSObject = null;
+    }
+
+    selectTab(event) {
+        const tabs = this.template.querySelectorAll(
+            '.sobject-tabs .slds-tabs_default__item'
+        );
+        tabs.forEach(tab => {
+            tab.classList.remove('slds-is-active');
+        });
+        const domId = event.target.dataset.id;
+        console.log(domId);
+        const tab = this.template.querySelector(`[data-id=${domId}]`);
+        console.log(tab);
+        tab.parentNode.classList.add('slds-is-active');
+        const tabContents = this.template.querySelectorAll(
+            '.sobject-tabs .slds-tabs_default__content'
+        );
+        tabContents.forEach(tabContent => {
+            tabContent.classList.add('slds-hide');
+        });
+        const tabContent = this.template.querySelector(
+            `[data-id=${domId}__content]`
+        );
+        console.log(tabContent);
+        tabContent.classList.remove('slds-hide');
+    }
+
+    selectField(event) {
+        const fieldName = event.target.dataset.name;
+        console.log(fieldName);
+    }
+
+    selectRelationship(event) {
+        const relationshipName = event.target.dataset.name;
+        console.log(relationshipName);
     }
 
     login() {

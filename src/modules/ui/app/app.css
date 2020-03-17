@@ -27,6 +27,13 @@
   flex: 1;
   position: relative;
 }
+.left-panel .slds-tabs_default__content {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  right: 0;
+  padding: 0;
+}
 .left-panel-scrollable {
   position: absolute;
   height: 100%;
