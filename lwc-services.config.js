@@ -4,6 +4,10 @@ module.exports = {
     resources: [
         { from: 'src/resources', to: 'dist/resources/' },
         { from: 'src/index.html', to: 'dist/' },
-        { from: 'src/manifest.json', to: 'dist/' }
+        { from: 'src/manifest.json', to: 'dist/' },
+        {
+            from: 'node_modules/@salesforce-ux/design-system/assets',
+            to: 'dist/resources/slds'
+        }
     ]
 };

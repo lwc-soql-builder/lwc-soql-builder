@@ -1,38 +1,31 @@
-.center {
-    text-align: center;
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
-.link {
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    background-color: #ff6000;
-    color: white;
-    margin-left: 33%;
-    margin-right: 33%;
-    display: inline-block;
-    margin-top: 1em;
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
 }
-.info {
-    color: black;
-    background-color: #e4f2f8;
-    margin: auto;
-    padding: 15px 10px;
-    text-align: left;
-    width: 300px;
-    border-radius: 5px;
+.left-panel {
+  display: flex;
+  height: 100%;
+  width: 300px;
+  background-color: rgb(255, 255, 255);
+  position: relative;
 }
-.code {
-    font-family: monospace;
+.left-panel-scrollable {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  right: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
-.container {
-    margin-top: 30px;
-}
-
-img {
-    max-width: 150px;
-}
-
-.greeting {
-    height: 75px;
+.right-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }

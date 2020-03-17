@@ -1,5 +1,9 @@
 {
-    "extends": ["@salesforce/eslint-config-lwc/recommended"],
+    "extends": [
+        "@salesforce/eslint-config-lwc/recommended",
+        "eslint:recommended",
+        "plugin:prettier/recommended"
+    ],
     "rules": {
         "@lwc/lwc/no-async-operation": "warn",
         "@lwc/lwc/no-inner-html": "warn",

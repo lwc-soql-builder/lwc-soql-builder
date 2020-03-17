@@ -1,9 +1,9 @@
 {
-    "name": "My LWC App",
+    "name": "LWC SOQL Builder",
     "theme_color": "#2196f3",
     "background_color": "#2196f3",
     "display": "standalone",
-    "short_name": "LWC",
+    "short_name": "LSB",
     "Scope": "/",
     "start_url": "/",
     "icons": [

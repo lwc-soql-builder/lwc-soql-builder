@@ -1,25 +1,70 @@
 <template>
-    <!-- LWC sample component <my-greeting> -->
-    <div class="center greeting">
-        <!-- <my-greeting speed="slow"></my-greeting> -->
-        <my-greeting speed="medium"></my-greeting>
-        <!-- <my-greeting speed="fast"></my-greeting> -->
-    </div>
-
-    <div class="center">
-        <img src="/resources/lwc.png" />
-    </div>
-
-    <!-- Page code -->
-    <div class="center">
-        <div class="container">
-            <p class="info">
-                Edit <strong class="code">src/modules/my/app/app.html</strong>
-                <br />and save for live reload.
-            </p>
+  <div class="app">
+    <div>
+      <header class="slds-builder-header">
+        <div class="slds-builder-header__item">
+          <div class="slds-builder-header__item-label slds-media slds-media_center">
+            <div class="slds-media__figure">
+              <span class="slds-icon_container slds-icon-utility-builder slds-current-color">
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                  <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#builder"></use>
+                </svg>
+              </span>
+            </div>
+            <div class="slds-media__body">LWC SOQL Buidler</div>
+          </div>
         </div>
-        <div>
-            <a href="https://lwc.dev" class="link" target="_blank">Learn LWC</a>
+        <div class="slds-builder-header__item slds-builder-header__utilities">
+          <div class="slds-builder-header__utilities-item" if:false={isLoggedIn}>
+            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={onLogin}>
+              <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-utility-forward slds-current-color">
+                  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#forward"></use>
+                  </svg>
+                </span>
+              </div>
+              <div class="slds-media__body">Login</div>
+            </a>
+          </div>
+          <div class="slds-builder-header__utilities-item" if:true={isLoggedIn}>
+            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={onLogout}>
+              <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-utility-logout slds-current-color">
+                  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#logout"></use>
+                  </svg>
+                </span>
+              </div>
+              <div class="slds-media__body">Logout</div>
+            </a>
+          </div>
+          <div class="slds-builder-header__utilities-item">
+            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-utility-help slds-current-color">
+                  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#help"></use>
+                  </svg>
+                </span>
+              </div>
+              <div class="slds-media__body">Help</div>
+            </a>
+          </div>
         </div>
+      </header>
     </div>
+    <div class="body">
+      <div class="left-panel">
+        <div class="left-panel-scrollable" if:true={sobjects}>
+          <template for:each={sobjects} for:item="sobject">
+            <div class="slds-border_bottom" key={sobject.name} if:true={sobject.queryable}>
+              <div class="slds-p-around_medium">{sobject.name} / {sobject.label}</div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="right-panel"></div>
+    </div>
+  </div>
 </template>
