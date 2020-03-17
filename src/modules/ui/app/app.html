@@ -16,7 +16,7 @@
         </div>
         <div class="slds-builder-header__item slds-builder-header__utilities">
           <div class="slds-builder-header__utilities-item" if:false={isLoggedIn}>
-            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={onLogin}>
+            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={login}>
               <div class="slds-media__figure">
                 <span class="slds-icon_container slds-icon-utility-forward slds-current-color">
                   <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
@@ -28,7 +28,7 @@
             </a>
           </div>
           <div class="slds-builder-header__utilities-item" if:true={isLoggedIn}>
-            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={onLogout}>
+            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={logout}>
               <div class="slds-media__figure">
                 <span class="slds-icon_container slds-icon-utility-logout slds-current-color">
                   <svg class="slds-icon slds-icon_x-small" aria-hidden="true">

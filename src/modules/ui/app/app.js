@@ -35,7 +35,7 @@ export default class App extends LightningElement {
                 })
                 .catch(err => {
                     console.error(err);
-                    this.onLogout();
+                    this.logout();
                 });
         } else {
             jsforce.browser.on('connect', connection => {
@@ -58,14 +58,14 @@ export default class App extends LightningElement {
         }
     }
 
-    onLogin() {
+    login() {
         jsforce.browser.login(() => {
             console.log('login callback');
             window.location.reload();
         });
     }
 
-    onLogout() {
+    logout() {
         this.connection = null;
         localStorage.clear();
     }
