@@ -8,12 +8,23 @@
   flex: 1;
   display: flex;
   flex-direction: row;
+  background-color: #FFF;
 }
 .left-panel {
   display: flex;
   height: 100%;
   width: 300px;
-  background-color: rgb(255, 255, 255);
+  background-color: #FFF;
+  position: relative;
+  border-right: 1px solid #dddbda;
+}
+.left-panel .slds-nav-vertical {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.left-panel .slds-nav-vertical__section {
+  flex: 1;
   position: relative;
 }
 .left-panel-scrollable {
@@ -28,4 +39,29 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+}
+.right-top-panel {
+  border-bottom: 1px solid #dddbda;
+  flex: 1;
+  display: flex;
+}
+.right-top-left-panel {
+  flex: 1;
+  border-right: 1px solid #dddbda;
+  display: flex;
+  flex-direction: column;
+}
+.soql-editor {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+.soql-editor textarea {
+  flex: 1;
+}
+.right-top-right-panel {
+  width: 300px;
+}
+.right-bottom-panel {
+  flex: 1;
 }

@@ -56,15 +56,186 @@
     </div>
     <div class="body">
       <div class="left-panel">
-        <div class="left-panel-scrollable" if:true={sobjects}>
-          <template for:each={sobjects} for:item="sobject">
-            <div class="slds-border_bottom" key={sobject.name} if:true={sobject.queryable}>
-              <div class="slds-p-around_medium">{sobject.name} / {sobject.label}</div>
+        <nav class="slds-nav-vertical" aria-label="Sub page">
+          <div class="slds-form-element slds-p-horizontal_large slds-p-top_small">
+            <label class="slds-form-element__label slds-assistive-text" for="input-id-01">Filter navigation items</label>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+              <span class="slds-icon_container slds-icon-utility-search">
+                <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
+                  <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#search"></use>
+                </svg>
+              </span>
+              <input type="search" id="input-id-01" placeholder="Quick Find" class="slds-input" />
             </div>
-          </template>
+          </div>
+          <div class="slds-nav-vertical__section">
+            <h2 id="entity-header" class="slds-nav-vertical__title slds-border_bottom">SObjects</h2>
+            <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={sobjects}>
+              <template for:each={sobjects} for:item="sobject">
+                <li class="slds-nav-vertical__item slds-border_bottom" key={sobject.name} if:true={sobject.queryable}>
+                  <a href="javascript:void(0);" class="slds-nav-vertical__action">{sobject.name} / {sobject.label}</a>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="right-panel">
+        <div class="right-top-panel">
+          <div class="right-top-left-panel">
+            <div class="slds-p-around_small">
+              <button class="slds-button slds-button_neutral">Execute SOQL</button>
+              <button class="slds-button slds-button_neutral">Save SOQL</button>
+            </div>
+            <div class="soql-editor slds-p-horizontal_small slds-p-bottom_small">
+              <textarea class="slds-textarea" placeholder="Input SOQL"></textarea>
+            </div>
+          </div>
+          <div class="right-top-right-panel">
+            <div class="slds-tabs_scoped">
+              <ul class="slds-tabs_scoped__nav" role="tablist">
+                <li class="slds-tabs_scoped__item slds-is-active" title="Item One" role="presentation">
+                  <a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">Saved Queries</a>
+                </li>
+                <li class="slds-tabs_scoped__item" title="Item Two" role="presentation">
+                  <a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" id="tab-scoped-2__item">Recent Queries</a>
+                </li>
+              </ul>
+              <div id="tab-scoped-1" class="slds-tabs_scoped__content slds-p-around_none slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+                <div class="slds-p-around_small slds-border_top slds-truncate">
+                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
+                </div>
+                <div class="slds-p-around_small slds-border_top slds-truncate">
+                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
+                </div>
+              </div>
+              <div id="tab-scoped-2" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">
+                <div class="slds-p-around_small slds-border_top slds-truncate">
+                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
+                </div>
+                <div class="slds-p-around_small slds-border_top slds-truncate">
+                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-bottom-panel">
+          <div class="slds-p-around_small">
+            <button class="slds-button slds-button_neutral">Export CSV</button>
+          </div>
+          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Opportunity Name">Opportunity Name</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Account Name">Account Name</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Close Date">Close Date</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Stage">Stage</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Confidence">Confidence</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Amount">Amount</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Contact">Contact</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="slds-hint-parent">
+                <th data-label="Opportunity Name" scope="row">
+                  <div class="slds-truncate" title="Cloudhub">
+                    <a href="javascript:void(0);" tabindex="-1">Cloudhub</a>
+                  </div>
+                </th>
+                <td data-label="Account Name">
+                  <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
+                </td>
+                <td data-label="Close Date">
+                  <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
+                </td>
+                <td data-label="Prospecting">
+                  <div class="slds-truncate" title="Prospecting">Prospecting</div>
+                </td>
+                <td data-label="Confidence">
+                  <div class="slds-truncate" title="20%">20%</div>
+                </td>
+                <td data-label="Amount">
+                  <div class="slds-truncate" title="$25k">$25k</div>
+                </td>
+                <td data-label="Contact">
+                  <div class="slds-truncate" title="jrogers@cloudhub.com">
+                    <a href="javascript:void(0);" tabindex="-1">jrogers@cloudhub.com</a>
+                  </div>
+                </td>
+              </tr>
+              <tr class="slds-hint-parent">
+                <th data-label="Opportunity Name" scope="row">
+                  <div class="slds-truncate" title="Cloudhub + Anypoint Connectors">
+                    <a href="javascript:void(0);" tabindex="-1">Cloudhub + Anypoint Connectors</a>
+                  </div>
+                </th>
+                <td data-label="Account Name">
+                  <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
+                </td>
+                <td data-label="Close Date">
+                  <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
+                </td>
+                <td data-label="Prospecting">
+                  <div class="slds-truncate" title="Prospecting">Prospecting</div>
+                </td>
+                <td data-label="Confidence">
+                  <div class="slds-truncate" title="20%">20%</div>
+                </td>
+                <td data-label="Amount">
+                  <div class="slds-truncate" title="$25k">$25k</div>
+                </td>
+                <td data-label="Contact">
+                  <div class="slds-truncate" title="jrogers@cloudhub.com">
+                    <a href="javascript:void(0);" tabindex="-1">jrogers@cloudhub.com</a>
+                  </div>
+                </td>
+              </tr>
+              <tr class="slds-hint-parent">
+                <th data-label="Opportunity Name" scope="row">
+                  <div class="slds-truncate" title="Cloudhub">
+                    <a href="javascript:void(0);" tabindex="-1">Cloudhub</a>
+                  </div>
+                </th>
+                <td data-label="Account Name">
+                  <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
+                </td>
+                <td data-label="Close Date">
+                  <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
+                </td>
+                <td data-label="Prospecting">
+                  <div class="slds-truncate" title="Prospecting">Prospecting</div>
+                </td>
+                <td data-label="Confidence">
+                  <div class="slds-truncate" title="20%">20%</div>
+                </td>
+                <td data-label="Amount">
+                  <div class="slds-truncate" title="$25k">$25k</div>
+                </td>
+                <td data-label="Contact">
+                  <div class="slds-truncate" title="jrogers@cloudhub.com">
+                    <a href="javascript:void(0);" tabindex="-1">jrogers@cloudhub.com</a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="right-panel"></div>
     </div>
   </div>
 </template>
