@@ -1,6 +1,25 @@
 import { LightningElement } from 'lwc';
 import jsforce from 'jsforce';
 
+class QueryBuilder {
+    sObjectName;
+    query;
+
+    constructor(sObjectName) {
+        this.sObjectName = sObjectName;
+        this.query = `SELECT Id FROM ${this.sObjectName}`;
+    }
+
+    addField(fieldName) {
+        const fromIndex = this.query.lastIndexOf(' FROM ');
+        this.query =
+            this.query.substring(0, fromIndex) +
+            ', ' +
+            fieldName +
+            this.query.substring(fromIndex);
+    }
+}
+
 export default class App extends LightningElement {
     connection;
     sobjects;
@@ -8,6 +27,8 @@ export default class App extends LightningElement {
     selectedSObject;
     selectedSObjectMeta;
     tabStatus = {};
+    query;
+    queryBuilder;
     output;
 
     get isLoggedIn() {
@@ -80,6 +101,8 @@ export default class App extends LightningElement {
             .catch(err => {
                 console.error(err);
             });
+        this.queryBuilder = new QueryBuilder(sObjectName);
+        this.query = this.queryBuilder.query;
     }
 
     deselectSObject() {
@@ -114,6 +137,11 @@ export default class App extends LightningElement {
     selectField(event) {
         const fieldName = event.target.dataset.name;
         console.log(fieldName);
+        if (!this.queryBuilder) {
+            this.queryBuilder = new QueryBuilder(this.selectedSObject.name);
+        }
+        this.queryBuilder.addField(fieldName);
+        this.query = this.queryBuilder.query;
     }
 
     selectRelationship(event) {
