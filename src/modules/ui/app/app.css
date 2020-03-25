@@ -85,3 +85,6 @@
   right: 0;
   overflow: auto;
 }
+.slds-welcome-mat__info {
+  background-image: url(./resources/slds/images/welcome-mat/bg-info@2x.png);
+}

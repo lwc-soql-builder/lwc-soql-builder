@@ -20,6 +20,9 @@ class QueryBuilder {
     }
 }
 
+const CLIENT_ID =
+    '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
+
 export default class App extends LightningElement {
     connection;
     sobjects;
@@ -35,13 +38,15 @@ export default class App extends LightningElement {
         return !!(this.connection && this.connection.accessToken);
     }
 
+    get locationOrigin() {
+        return window.location.origin;
+    }
+
     connectedCallback() {
         jsforce.browser.init({
-            clientId:
-                '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5',
-            redirectUri: 'http://localhost:3001/'
+            clientId: CLIENT_ID,
+            redirectUri: `${this.locationOrigin}/`
         });
-
         const accessToken = localStorage.getItem('accessToken');
         const instanceUrl = localStorage.getItem('instanceUrl');
         console.log(accessToken, instanceUrl);
@@ -149,11 +154,12 @@ export default class App extends LightningElement {
         console.log(relationshipName);
     }
 
-    login() {
-        jsforce.browser.login(() => {
-            console.log('login callback');
-            window.location.reload();
-        });
+    loginProduction() {
+        this._login('https://login.salesforce.com');
+    }
+
+    loginSandbox() {
+        this._login('https://test.salesforce.com');
     }
 
     logout() {
@@ -178,6 +184,13 @@ export default class App extends LightningElement {
             .catch(err => {
                 console.error(err);
             });
+    }
+
+    _login(loginUrl) {
+        jsforce.browser.login({ loginUrl }, () => {
+            console.log('login callback');
+            window.location.reload();
+        });
     }
 
     _formatResponse(res) {
