@@ -57,87 +57,13 @@
     <div class="body">
       <div class="left-panel">
         <template if:false={selectedSObject}>
-          <nav class="slds-nav-vertical" aria-label="Sub page">
-            <div>
-              <h2 class="slds-nav-vertical__title">SObjects</h2>
-            </div>
-            <div class="slds-form-element slds-p-horizontal_large">
-              <label class="slds-form-element__label slds-assistive-text">Filter sObjects</label>
-              <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                <span class="slds-icon_container slds-icon-utility-search">
-                  <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
-                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#search"></use>
-                  </svg>
-                </span>
-                <input type="search" placeholder="Quick Find" class="slds-input" onkeyup={filterSObjects} />
-              </div>
-            </div>
-            <div class="slds-nav-vertical__section slds-border_top">
-              <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={filteredSObjects}>
-                <template for:each={filteredSObjects} for:item="sobject">
-                  <li class="slds-nav-vertical__item slds-border_bottom" key={sobject.name} if:true={sobject.queryable}>
-                    <a href="javascript:void(0);" class="slds-nav-vertical__action" onclick={selectSObject} data-name={sobject.name}>{sobject.name} / {sobject.label}</a>
-                  </li>
-                </template>
-              </ul>
-            </div>
-          </nav>
+          <ui-sobjects-panel onselect={selectSObject}></ui-sobjects-panel>
         </template>
         <template if:true={selectedSObject}>
-          <nav class="slds-nav-vertical" aria-label="Sub page">
-            <div class="slds-p-left_small">
-              <div class="slds-grid">
-                <button class="slds-button slds-button_icon" title="Back" onclick={deselectSObject}>
-                  <svg class="slds-button__icon" aria-hidden="true">
-                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#back"></use>
-                  </svg>
-                  <span class="slds-assistive-text">Back</span>
-                </button>
-                <h2 class="slds-nav-vertical__title slds-p-left_x-small slds-truncate">{selectedSObject.name} / {selectedSObject.label}</h2>
-              </div>
-            </div>
-            <div class="slds-form-element slds-p-horizontal_large">
-              <label class="slds-form-element__label slds-assistive-text">Filter fields</label>
-              <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                <span class="slds-icon_container slds-icon-utility-search">
-                  <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
-                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#search"></use>
-                  </svg>
-                </span>
-                <input type="search" placeholder="Quick Find" class="slds-input" onkeyup={filterFields} />
-              </div>
-            </div>
-            <div class="slds-nav-vertical__section">
-              <div class="slds-tabs_default sobject-tabs">
-                <ul class="slds-tabs_default__nav" role="tablist">
-                  <li class="slds-tabs_default__item slds-is-active" title="Fields" role="presentation">
-                    <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-fields" id="tab-fields__item" onclick={selectTab} data-id="tab-fields">Fields</a>
-                  </li>
-                  <li class="slds-tabs_default__item" title="Child Relationships" role="presentation">
-                    <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-child-relationships" id="tab-child-relationships__item" onclick={selectTab} data-id="tab-child-relationships">Child Relationships</a>
-                  </li>
-                </ul>
-                <div id="tab-fields" class="slds-tabs_default__content slds-p-around_none" role="tabpanel" aria-labelledby="tab-fields__item" data-id="tab-fields__content">
-                  <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={selectedSObjectMeta}>
-                    <template for:each={selectedSObjectMeta.fields} for:item="field">
-                      <li class="slds-nav-vertical__item slds-border_bottom" key={field.name}>
-                        <a href="javascript:void(0);" class="slds-nav-vertical__action" onclick={selectField} data-name={field.name}>{field.name} / {field.label}</a>
-                      </li>
-                    </template>
-                  </ul>
-                </div>
-                <div id="tab-child-relationships" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="tab-child-relationships__item" data-id="tab-child-relationships__content">
-                  <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={selectedSObjectMeta}>
-                    <template for:each={selectedSObjectMeta.childRelationships} for:item="relation">
-                      <li class="slds-nav-vertical__item slds-border_bottom" key={relation.relationshipName} if:true={relation.relationshipName}>
-                        <a href="javascript:void(0);" class="slds-nav-vertical__action" onclick={selectRelationship} data-name={relation.relationshipName}>{relation.relationshipName} / {relation.childSObject}</a>
-                      </li>
-                    </template>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </nav>
+          <ui-fields-panel
+            sobject={selectedSObject}
+            ondeselect={deselectSObject}
+            onselectfield={selectField}></ui-fields-panel>
         </template>
       </div>
       <div class="right-panel">

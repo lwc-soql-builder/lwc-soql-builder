@@ -18,30 +18,6 @@
   position: relative;
   border-right: 1px solid #dddbda;
 }
-.left-panel .slds-nav-vertical {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.left-panel .slds-nav-vertical__section {
-  flex: 1;
-  position: relative;
-}
-.left-panel .slds-tabs_default__content {
-  position: absolute;
-  height: 100%;
-  left: 0;
-  right: 0;
-  padding: 0;
-}
-.left-panel-scrollable {
-  position: absolute;
-  height: 100%;
-  left: 0;
-  right: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 .right-panel {
   display: flex;
   flex: 1;
