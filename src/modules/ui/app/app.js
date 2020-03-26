@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import jsforce from 'jsforce';
+import salesforce from '../../service/salesforce-service';
 
 class QueryBuilder {
     sObjectName;
@@ -20,11 +20,7 @@ class QueryBuilder {
     }
 }
 
-const CLIENT_ID =
-    '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
-
 export default class App extends LightningElement {
-    connection;
     sobjects;
     filteredSObjects;
     selectedSObject;
@@ -33,9 +29,10 @@ export default class App extends LightningElement {
     query;
     queryBuilder;
     output;
+    salesforce;
 
     get isLoggedIn() {
-        return !!(this.connection && this.connection.accessToken);
+        return salesforce.isLoggedIn();
     }
 
     get locationOrigin() {
@@ -43,20 +40,9 @@ export default class App extends LightningElement {
     }
 
     connectedCallback() {
-        jsforce.browser.init({
-            clientId: CLIENT_ID,
-            redirectUri: `${this.locationOrigin}/`
-        });
-        const accessToken = localStorage.getItem('accessToken');
-        const instanceUrl = localStorage.getItem('instanceUrl');
-        console.log(accessToken, instanceUrl);
-        if (accessToken) {
-            this.connection = new jsforce.Connection({
-                accessToken: accessToken,
-                instanceUrl: instanceUrl,
-                version: '48.0'
-            });
-            this.connection
+        salesforce.init();
+        if (salesforce.isLoggedIn()) {
+            salesforce.connection
                 .request('/services/data/v48.0/sobjects')
                 .then(res => {
                     console.log(res);
@@ -67,13 +53,6 @@ export default class App extends LightningElement {
                     console.error(err);
                     this.logout();
                 });
-        } else {
-            jsforce.browser.on('connect', connection => {
-                console.log(connection);
-                localStorage.setItem('accessToken', connection.accessToken);
-                localStorage.setItem('instanceUrl', connection.instanceUrl);
-                this.connection = connection;
-            });
         }
     }
 
@@ -95,7 +74,8 @@ export default class App extends LightningElement {
             sobject => sobject.name === sObjectName
         );
         if (!this.selectedSObject) return;
-        this.connection
+        if (!salesforce.connection) return;
+        salesforce.connection
             .request(
                 `/services/data/v48.0/sobjects/${this.selectedSObject.name}/describe`
             )
@@ -155,27 +135,27 @@ export default class App extends LightningElement {
     }
 
     loginProduction() {
-        this._login('https://login.salesforce.com');
+        salesforce.login('https://login.salesforce.com');
     }
 
     loginSandbox() {
-        this._login('https://test.salesforce.com');
+        salesforce.login('https://test.salesforce.com');
     }
 
     logout() {
-        this.connection = null;
-        localStorage.clear();
+        salesforce.logout();
+        window.location.reload();
     }
 
     executeSOQL() {
-        if (!this.connection) return;
+        if (!salesforce.connection) return;
         const input = this.template.querySelector('.soql-input');
         console.log(input);
         if (!input) return;
         const query = input.value;
         console.log(query);
         if (!query) return;
-        this.connection
+        salesforce.connection
             .query(query)
             .then(res => {
                 console.log(res);
@@ -184,13 +164,6 @@ export default class App extends LightningElement {
             .catch(err => {
                 console.error(err);
             });
-    }
-
-    _login(loginUrl) {
-        jsforce.browser.login({ loginUrl }, () => {
-            console.log('login callback');
-            window.location.reload();
-        });
     }
 
     _formatResponse(res) {
