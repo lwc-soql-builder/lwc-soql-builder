@@ -15,18 +15,6 @@
           </div>
         </div>
         <div class="slds-builder-header__item slds-builder-header__utilities">
-          <div class="slds-builder-header__utilities-item" if:false={isLoggedIn}>
-            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={login}>
-              <div class="slds-media__figure">
-                <span class="slds-icon_container slds-icon-utility-forward slds-current-color">
-                  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#forward"></use>
-                  </svg>
-                </span>
-              </div>
-              <div class="slds-media__body">Login</div>
-            </a>
-          </div>
           <div class="slds-builder-header__utilities-item" if:true={isLoggedIn}>
             <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={logout}>
               <div class="slds-media__figure">
@@ -69,116 +57,23 @@
       <div class="right-panel">
         <div class="right-top-panel">
           <div class="right-top-left-panel">
-            <div class="slds-p-around_small">
-              <button class="slds-button slds-button_neutral" onclick={executeSOQL}>Execute SOQL</button>
-              <button class="slds-button slds-button_neutral">Save SOQL</button>
-            </div>
-            <div class="soql-editor slds-p-horizontal_small slds-p-bottom_small">
-              <textarea class="slds-textarea soql-input" placeholder="Input SOQL">{query}</textarea>
-            </div>
+            <ui-query-editor-panel
+              query={query}
+              onquery={handleQueryResponse}></ui-query-editor-panel>
           </div>
           <div class="right-top-right-panel">
-            <div class="slds-tabs_default">
-              <ul class="slds-tabs_default__nav" role="tablist">
-                <li class="slds-tabs_default__item slds-is-active" title="Item One" role="presentation">
-                  <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-saved-queries" id="tab-saved-queries__item">Saved Queries</a>
-                </li>
-                <li class="slds-tabs_default__item" title="Item Two" role="presentation">
-                  <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-recent-queries" id="tab-recent-queries__item">Recent Queries</a>
-                </li>
-              </ul>
-              <div id="tab-saved-queries" class="slds-tabs_default__content slds-p-around_none slds-show" role="tabpanel" aria-labelledby="tab-saved-queries__item">
-                <div class="slds-p-around_small slds-border_bottom slds-truncate">
-                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
-                </div>
-                <div class="slds-p-around_small slds-border_bottom slds-truncate">
-                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
-                </div>
-              </div>
-              <div id="tab-recent-queries" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="tab-recent-queries__item">
-                <div class="slds-p-around_small slds-border_top slds-truncate">
-                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
-                </div>
-                <div class="slds-p-around_small slds-border_top slds-truncate">
-                  SELECT AccountNumber, AccountSource, AnnualRevenue, BillingAddress, BillingGeocodeAccuracy, ChannelProgramLevelName, ChannelProgramName, CleanStatus, CreatedById, CreatedDate, DandbCompanyId, Description, DunsNumber, Fax, Id, Industry, IsCustomerPortal, IsDeleted, IsPartner, Jigsaw, JigsawCompanyId, LastActivityDate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, MasterRecordId, NaicsCode, NaicsDesc, Name, NumberOfEmployees, OwnerId, Ownership, ParentId, Phone, PhotoUrl, Rating, RecordTypeId, SystemModstamp, TickerSymbol, Tradestyle, Type, Website, YearStarted FROM Account
-                </div>
-              </div>
-            </div>
+            <ui-query-list-panel></ui-query-list-panel>
           </div>
         </div>
         <div class="right-bottom-panel">
-          <template if:true={output}>
-            <div class="slds-p-around_small slds-grid">
-              <button class="slds-button slds-button_neutral">Export CSV</button>
-              <div class="slds-p-around_x-small slds-col_bump-left">Total: {output.totalSize}</div>
-            </div>
-            <div class="output-panel">
-              <div class="output-panel-scrollable">
-                <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_striped">
-                  <thead>
-                    <tr class="slds-line-height_reset">
-                      <template for:each={output.columns} for:item="column">
-                        <th class="" scope="col" key={column}>
-                          <div class="slds-truncate" title={column}>{column}</div>
-                        </th>
-                      </template>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <template for:each={output.rows} for:item="row">
-                      <tr class="slds-hint-parent" key={row.key}>
-                        <template for:each={row.values} for:item="value">
-                          <td key={value.key}>
-                            <div class="slds-truncate" title={value.data}>{value.data}</div>
-                          </td>
-                        </template>
-                      </tr>
-                    </template>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <template if:true={queryResponse}>
+            <ui-output-panel response={queryResponse}></ui-output-panel>
           </template>
         </div>
       </div>
     </div>
   </div>
   <template if:false={isLoggedIn}>
-    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-modal="true">
-      <div class="slds-modal__container">
-        <div class="slds-modal__content">
-          <div class="slds-welcome-mat slds-welcome-mat_splash">
-            <div class="slds-welcome-mat__content slds-grid">
-              <div class="slds-welcome-mat__info slds-size_1-of-1">
-                <div class="slds-welcome-mat__info-content">
-                  <h2 class="slds-welcome-mat__info-title" id="welcome-mat-101-label">Welcome to LWC SOQL Builder!</h2>
-                  <div class="slds-welcome-mat__info-description slds-text-longform">
-                    <p>LWC SOQL Builder is a SOQL execution tool developed in Lightning Web Components Open Source, which provides useful features such as viewing the list of items, completing item names, saving queries, and exporting execution results to CSV.</p>
-                    <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light" role="status">
-                      <div class="slds-media__figure">
-                        <span class="slds-icon_container slds-icon-utility-info" title="information">
-                          <svg class="slds-icon slds-icon_small slds-icon-text-default" aria-hidden="true">
-                            <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#info"></use>
-                          </svg>
-                          <span class="slds-assistive-text">information</span>
-                        </span>
-                      </div>
-                      <div class="slds-media__body slds-text-align_left">
-                        <p>Since LWC SOQL Builder only throws requests from the client side, you must add "{locationOrigin}" to the CORS whitelist in the Salesforce organization you are connecting to.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="slds-welcome-mat__info-actions">
-                    <button class="slds-button slds-button_brand" onclick={loginProduction}>Login to Production Org</button>
-                    <button class="slds-button slds-button_brand" onclick={loginSandbox}>Login to Sandbox Org</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="slds-backdrop slds-backdrop_open"></div>
+    <ui-welcome-modal></ui-welcome-modal>
   </template>
 </template>

@@ -33,9 +33,7 @@ export default class FieldsPanel extends LightningElement {
             tab.classList.remove('slds-is-active');
         });
         const domId = event.target.dataset.id;
-        console.log(domId);
         const tab = this.template.querySelector(`[data-id=${domId}]`);
-        console.log(tab);
         tab.parentNode.classList.add('slds-is-active');
         const tabContents = this.template.querySelectorAll(
             '.sobject-tabs .slds-tabs_default__content'
@@ -46,7 +44,6 @@ export default class FieldsPanel extends LightningElement {
         const tabContent = this.template.querySelector(
             `[data-id=${domId}__content]`
         );
-        console.log(tabContent);
         tabContent.classList.remove('slds-hide');
     }
 

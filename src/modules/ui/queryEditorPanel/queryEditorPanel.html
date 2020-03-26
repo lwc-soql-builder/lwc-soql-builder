@@ -1,0 +1,9 @@
+<template>
+  <div class="slds-p-around_small">
+    <button class="slds-button slds-button_neutral" onclick={executeQuery}>Execute SOQL</button>
+    <button class="slds-button slds-button_neutral">Save SOQL</button>
+  </div>
+  <div class="soql-editor slds-p-horizontal_small slds-p-bottom_small">
+    <textarea class="slds-textarea soql-input" placeholder="Input SOQL">{query}</textarea>
+  </div>
+</template>

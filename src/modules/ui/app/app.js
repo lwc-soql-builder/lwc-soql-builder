@@ -22,10 +22,9 @@ class QueryBuilder {
 
 export default class App extends LightningElement {
     selectedSObject;
-    tabStatus = {};
     query;
     queryBuilder;
-    output;
+    queryResponse;
 
     get isLoggedIn() {
         return salesforce.isLoggedIn();
@@ -65,69 +64,18 @@ export default class App extends LightningElement {
         console.log(relationshipName);
     }
 
-    loginProduction() {
-        salesforce.login('https://login.salesforce.com');
-    }
-
-    loginSandbox() {
-        salesforce.login('https://test.salesforce.com');
-    }
-
     logout() {
         salesforce.logout();
         window.location.reload();
     }
 
-    executeSOQL() {
-        if (!salesforce.connection) return;
-        const input = this.template.querySelector('.soql-input');
-        console.log(input);
-        if (!input) return;
-        const query = input.value;
-        console.log(query);
-        if (!query) return;
-        salesforce.connection
-            .query(query)
-            .then(res => {
-                console.log(res);
-                this.output = this._formatResponse(res);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }
-
-    _formatResponse(res) {
-        let output = {
-            totalSize: res.totalSize,
-            rows: []
-        };
-        let columns = new Set();
-        res.records.forEach(record => {
-            Object.keys(record).forEach(name => {
-                if (name !== 'attributes') {
-                    columns.add(name);
-                }
-            });
-        });
-        output.columns = Array.from(columns);
-        res.records.forEach(record => {
-            let row = {
-                key: Math.random()
-                    .toString(36)
-                    .slice(-8),
-                values: []
-            };
-            output.columns.forEach(column => {
-                row.values.push({
-                    key: Math.random()
-                        .toString(36)
-                        .slice(-8),
-                    data: record[column]
-                });
-            });
-            output.rows.push(row);
-        });
-        return output;
+    handleQueryResponse(event) {
+        const { error, result } = event.detail;
+        console.log(result);
+        if (error) {
+            window.console.error(error);
+        } else {
+            this.queryResponse = result;
+        }
     }
 }

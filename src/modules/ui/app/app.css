@@ -34,14 +34,6 @@
   display: flex;
   flex-direction: column;
 }
-.soql-editor {
-  position: relative;
-  flex: 1;
-  display: flex;
-}
-.soql-editor textarea {
-  flex: 1;
-}
 .right-top-right-panel {
   width: 300px;
 }
@@ -49,18 +41,4 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-.output-panel { 
-  position: relative;
-  flex: 1;
-}
-.output-panel-scrollable {
-  position: absolute;
-  height: 100%;
-  left: 0;
-  right: 0;
-  overflow: auto;
-}
-.slds-welcome-mat__info {
-  background-image: url(./resources/slds/images/welcome-mat/bg-info@2x.png);
 }

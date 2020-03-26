@@ -15,6 +15,12 @@ class SalseforceService {
             clientId: CLIENT_ID,
             redirectUri: `${this.locationOrigin}/`
         });
+        jsforce.browser.on('connect', connection => {
+            console.log(connection);
+            localStorage.setItem(ACCESS_TOKEN_KEY, connection.accessToken);
+            localStorage.setItem(INSTANCE_URL_KEY, connection.instanceUrl);
+            this.connection = connection;
+        });
 
         const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
         const instanceUrl = localStorage.getItem(INSTANCE_URL_KEY);
@@ -24,14 +30,6 @@ class SalseforceService {
                 accessToken,
                 instanceUrl,
                 version: '48.0'
-            });
-        } else {
-            localStorage.clear();
-            jsforce.browser.on('connect', connection => {
-                console.log(connection);
-                localStorage.setItem(ACCESS_TOKEN_KEY, connection.accessToken);
-                localStorage.setItem(INSTANCE_URL_KEY, connection.instanceUrl);
-                this.connection = connection;
             });
         }
     }

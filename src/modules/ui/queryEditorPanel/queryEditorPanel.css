@@ -1,0 +1,13 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.soql-editor {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+.soql-editor textarea {
+  flex: 1;
+}

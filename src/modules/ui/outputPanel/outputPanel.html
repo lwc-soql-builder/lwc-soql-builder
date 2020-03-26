@@ -1,0 +1,32 @@
+<template>
+  <div class="slds-p-around_small slds-grid">
+    <button class="slds-button slds-button_neutral">Export CSV</button>
+    <div class="slds-p-around_x-small slds-col_bump-left">Total: {output.totalSize}</div>
+  </div>
+  <div class="output-panel">
+    <div class="output-panel-scrollable">
+      <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_striped">
+        <thead>
+          <tr class="slds-line-height_reset">
+            <template for:each={output.columns} for:item="column">
+              <th class="" scope="col" key={column}>
+                <div class="slds-truncate" title={column}>{column}</div>
+              </th>
+            </template>
+          </tr>
+        </thead>
+        <tbody>
+          <template for:each={output.rows} for:item="row">
+            <tr class="slds-hint-parent" key={row.key}>
+              <template for:each={row.values} for:item="value">
+                <td key={value.key}>
+                  <div class="slds-truncate" title={value.data}>{value.data}</div>
+                </td>
+              </template>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
