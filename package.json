@@ -1,9 +1,9 @@
 {
     "name": "lwc-soql-builder",
-    "description": "My amazing LWC app",
+    "description": "LWC SOQL Builder is a SOQL execution tool developed in Lightning Web Components Open Source, which provides useful features such as viewing the list of items, completing item names, saving queries, and exporting execution results to CSV.",
     "version": "0.0.1",
-    "author": "Atsuhiko Kimura",
-    "bugs": "https://github.com/Atsuhiko Kimura/lwc-soql-builder/issues",
+    "author": "atskimura",
+    "bugs": "https://github.com/atskimura/lwc-soql-builder/issues",
     "dependencies": {
         "@salesforce-ux/design-system": "^2.11.6",
         "compression": "^1.7.4",
@@ -25,7 +25,7 @@
         "npm": ">=6.4.1",
         "yarn": ">=1.9.4"
     },
-    "homepage": "https://github.com/Atsuhiko Kimura/lwc-soql-builder",
+    "homepage": "https://github.com/atskimura/lwc-soql-builder",
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
@@ -43,7 +43,7 @@
             "eslint"
         ]
     },
-    "repository": "Atsuhiko Kimura/lwc-soql-builder",
+    "repository": "atskimura/lwc-soql-builder",
     "scripts": {
         "build": "lwc-services build -m production -w scripts/webpack.config.js",
         "build:development": "lwc-services build -w scripts/webpack.config.js",
