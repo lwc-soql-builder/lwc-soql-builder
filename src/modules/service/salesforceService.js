@@ -2,8 +2,8 @@ import jsforce from 'jsforce';
 
 const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
-const ACCESS_TOKEN_KEY = 'accessToken';
-const INSTANCE_URL_KEY = 'instanceUrl';
+const ACCESS_TOKEN_KEY = 'lsb.accessToken';
+const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 
 class SalseforceService {
     constructor() {
