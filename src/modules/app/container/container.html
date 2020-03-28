@@ -45,35 +45,35 @@
     <div class="body">
       <div class="left-panel">
         <template if:false={selectedSObject}>
-          <ui-sobjects-panel onselect={selectSObject}></ui-sobjects-panel>
+          <cmp-sobjects-panel onselect={selectSObject}></cmp-sobjects-panel>
         </template>
         <template if:true={selectedSObject}>
-          <ui-fields-panel
+          <cmp-fields-panel
             sobject={selectedSObject}
             ondeselect={deselectSObject}
-            onselectfield={selectField}></ui-fields-panel>
+            onselectfield={selectField}></cmp-fields-panel>
         </template>
       </div>
       <div class="right-panel">
         <div class="right-top-panel">
           <div class="right-top-left-panel">
-            <ui-query-editor-panel
+            <cmp-query-editor-panel
               query={query}
-              onquery={handleQueryResponse}></ui-query-editor-panel>
+              onquery={handleQueryResponse}></cmp-query-editor-panel>
           </div>
           <div class="right-top-right-panel">
-            <ui-query-list-panel></ui-query-list-panel>
+            <cmp-query-list-panel></cmp-query-list-panel>
           </div>
         </div>
         <div class="right-bottom-panel">
           <template if:true={queryResponse}>
-            <ui-output-panel response={queryResponse}></ui-output-panel>
+            <cmp-output-panel response={queryResponse}></cmp-output-panel>
           </template>
         </div>
       </div>
     </div>
   </div>
   <template if:false={isLoggedIn}>
-    <ui-welcome-modal></ui-welcome-modal>
+    <cmp-welcome-modal></cmp-welcome-modal>
   </template>
 </template>
