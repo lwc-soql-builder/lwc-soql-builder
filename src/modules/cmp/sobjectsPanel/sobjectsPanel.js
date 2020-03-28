@@ -16,7 +16,8 @@ export default class SobjectsPanel extends LightningElement {
                 })
                 .catch(err => {
                     console.error(err);
-                    this.logout();
+                    salesforce.logout();
+                    window.location.reload();
                 });
         }
     }
