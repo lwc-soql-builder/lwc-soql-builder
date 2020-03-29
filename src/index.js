@@ -1,5 +1,6 @@
 import '@lwc/synthetic-shadow';
-import { buildCustomElementConstructor } from 'lwc';
+import { buildCustomElementConstructor, register } from 'lwc';
+import { registerWireService } from '@lwc/wire-service';
 import AppContainer from 'app/container';
 
 const availableFeature = detectFeatures();
@@ -10,6 +11,8 @@ const isCompatibleBrowser = Object.keys(availableFeature).some(
 if (isCompatibleBrowser) {
     unsupportedErrorMessage(availableFeature);
 } else {
+    registerWireService(register);
+
     customElements.define(
         'app-container',
         buildCustomElementConstructor(AppContainer)

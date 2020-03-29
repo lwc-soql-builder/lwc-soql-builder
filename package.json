@@ -18,7 +18,9 @@
         "husky": "^4.2.3",
         "lint-staged": "^10.0.8",
         "lwc-services": "^2.0.0",
-        "prettier": "^1.19.1"
+        "prettier": "^1.19.1",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0"
     },
     "engines": {
         "node": ">=10.13.0",

@@ -1,23 +1,23 @@
-import { LightningElement, api } from 'lwc';
-import salesforce from '../../service/salesforceService';
+import { LightningElement, api, wire } from 'lwc';
+import { connectStore, store } from '../../app/store/store';
+import { describeSObjectIfNeeded } from '../../app/store/store';
 
 export default class FieldsPanel extends LightningElement {
     @api sobject;
     sobjectMeta;
 
+    @wire(connectStore, { store })
+    storeChange({ sobject }) {
+        if (sobject.data) {
+            this.sobjectMeta = sobject.data;
+        } else if (sobject.error) {
+            console.error(sobject.error);
+        }
+    }
+
     connectedCallback() {
-        if (salesforce.isLoggedIn()) {
-            salesforce.connection
-                .request(
-                    `/services/data/v48.0/sobjects/${this.sobject.name}/describe`
-                )
-                .then(res => {
-                    console.log(res);
-                    this.sobjectMeta = res;
-                })
-                .catch(err => {
-                    console.error(err);
-                });
+        if (this.sobject.name) {
+            store.dispatch(describeSObjectIfNeeded(this.sobject.name));
         }
     }
 

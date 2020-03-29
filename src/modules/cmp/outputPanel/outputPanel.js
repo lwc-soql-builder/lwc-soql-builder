@@ -1,11 +1,16 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, wire } from 'lwc';
+import { connectStore, store } from '../../app/store/store';
 
 export default class OutputPanel extends LightningElement {
-    @api response;
     output;
 
-    connectedCallback() {
-        this.output = this._generateTableData(this.response);
+    @wire(connectStore, { store })
+    storeChange({ query }) {
+        if (query.data) {
+            this.output = this._generateTableData(query.data);
+        } else if (query.error) {
+            console.error(query.error);
+        }
     }
 
     /**

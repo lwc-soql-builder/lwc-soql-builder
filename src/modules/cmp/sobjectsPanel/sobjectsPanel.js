@@ -1,25 +1,26 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import salesforce from '../../service/salesforceService';
+import { connectStore, store } from '../../app/store/store';
+import { fetchSObjectsIfNeeded } from '../../app/store/store';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;
     filteredSObjects;
 
-    connectedCallback() {
-        if (salesforce.isLoggedIn()) {
-            salesforce.connection
-                .request('/services/data/v48.0/sobjects')
-                .then(res => {
-                    console.log(res);
-                    this.sobjects = res.sobjects;
-                    this.filteredSObjects = this.sobjects;
-                })
-                .catch(err => {
-                    console.error(err);
-                    salesforce.logout();
-                    window.location.reload();
-                });
+    @wire(connectStore, { store })
+    storeChange({ sobjects }) {
+        if (sobjects.data) {
+            this.sobjects = sobjects.data.sobjects;
+            this.filteredSObjects = this.sobjects;
+        } else if (sobjects.error) {
+            console.error(sobjects.error);
+            salesforce.logout();
+            window.location.reload();
         }
+    }
+
+    connectedCallback() {
+        store.dispatch(fetchSObjectsIfNeeded());
     }
 
     filterSObjects(event) {

@@ -57,18 +57,14 @@
       <div class="right-panel">
         <div class="right-top-panel">
           <div class="right-top-left-panel">
-            <cmp-query-editor-panel
-              query={query}
-              onquery={handleQueryResponse}></cmp-query-editor-panel>
+            <cmp-query-editor-panel query={query}></cmp-query-editor-panel>
           </div>
           <div class="right-top-right-panel">
             <cmp-query-list-panel></cmp-query-list-panel>
           </div>
         </div>
         <div class="right-bottom-panel">
-          <template if:true={queryResponse}>
-            <cmp-output-panel response={queryResponse}></cmp-output-panel>
-          </template>
+          <cmp-output-panel></cmp-output-panel>
         </div>
       </div>
     </div>

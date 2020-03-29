@@ -68,14 +68,4 @@ export default class App extends LightningElement {
         salesforce.logout();
         window.location.reload();
     }
-
-    handleQueryResponse(event) {
-        const { error, result } = event.detail;
-        console.log(result);
-        if (error) {
-            window.console.error(error);
-        } else {
-            this.queryResponse = result;
-        }
-    }
 }
