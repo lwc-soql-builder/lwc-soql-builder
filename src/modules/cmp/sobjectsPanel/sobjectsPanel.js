@@ -1,5 +1,5 @@
 import { LightningElement, wire } from 'lwc';
-import salesforce from '../../service/salesforceService';
+import salesforce from '../../service/salesforce';
 import { connectStore, store } from '../../app/store/store';
 import { fetchSObjectsIfNeeded } from '../../app/store/store';
 

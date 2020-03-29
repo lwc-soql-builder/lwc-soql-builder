@@ -5,7 +5,7 @@ const CLIENT_ID =
 const ACCESS_TOKEN_KEY = 'lsb.accessToken';
 const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 
-class SalseforceService {
+class Salseforce {
     constructor() {
         this.locationOrigin = window.location.origin;
     }
@@ -50,4 +50,4 @@ class SalseforceService {
     }
 }
 
-export default new SalseforceService();
+export default new Salseforce();

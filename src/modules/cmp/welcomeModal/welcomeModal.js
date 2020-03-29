@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import salesforce from '../../service/salesforceService';
+import salesforce from '../../service/salesforce';
 
 export default class WelcomeModal extends LightningElement {
     get locationOrigin() {

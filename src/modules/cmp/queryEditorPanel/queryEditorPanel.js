@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import salesforce from '../../service/salesforceService';
+import salesforce from '../../service/salesforce';
 import { store } from '../../app/store/store';
 import { describeQuery } from '../../app/store/store';
 
