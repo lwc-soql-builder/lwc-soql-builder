@@ -63,9 +63,4 @@ export default class App extends LightningElement {
         const relationshipName = event.detail;
         console.log(relationshipName);
     }
-
-    logout() {
-        salesforce.logout();
-        window.location.reload();
-    }
 }

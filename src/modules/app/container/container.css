@@ -4,9 +4,6 @@
   width: 100%;
   height: 100%;
 }
-.header-logo {
-  height: 85%;
-}
 .body {
   flex: 1;
   display: flex;

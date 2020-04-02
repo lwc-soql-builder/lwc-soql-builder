@@ -1,46 +1,7 @@
 <template>
   <div class="app">
     <div>
-      <header class="slds-builder-header">
-        <div class="slds-builder-header__item">
-          <div class="slds-builder-header__item-label slds-media slds-media_center">
-            <img class="header-logo" src="./resources/imgs/logo_white.svg">
-          </div>
-        </div>
-        <div class="slds-builder-header__item slds-builder-header__utilities">
-          <div class="slds-builder-header__utilities-item" if:true={isLoggedIn}>
-            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={logout}>
-              <div class="slds-media__figure">
-                <span class="slds-icon_container slds-icon-utility-logout slds-current-color">
-                  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#logout"></use>
-                  </svg>
-                </span>
-              </div>
-              <div class="slds-media__body">Logout</div>
-            </a>
-          </div>
-          <div class="slds-builder-header__utilities-item">
-            <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center">
-              <div class="slds-media__figure">
-                <span class="slds-icon_container slds-icon-utility-help slds-current-color">
-                  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#help"></use>
-                  </svg>
-                </span>
-              </div>
-              <div class="slds-media__body">Help</div>
-            </a>
-          </div>
-          <div class="slds-builder-header__utilities-item">
-            <a href="https://github.com/atskimura/lwc-soql-builder" class="slds-builder-header__item-action slds-media slds-media_center" target="_blank">
-                <span class="slds-avatar">
-                  <img src="./resources/imgs/GitHub-Mark-Light-64px.png">
-                </span>
-            </a>
-          </div>
-        </div>
-      </header>
+      <cmp-header></cmp-header>
     </div>
     <div class="body">
       <div class="left-panel">
