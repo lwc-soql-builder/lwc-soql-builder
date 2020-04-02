@@ -1,29 +1,10 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, track } from 'lwc';
+import { composeQuery, getField } from 'soql-parser-js';
 import salesforce from '../../service/salesforce';
 
-class QueryBuilder {
-    sObjectName;
-    query;
-
-    constructor(sObjectName) {
-        this.sObjectName = sObjectName;
-        this.query = `SELECT Id FROM ${this.sObjectName}`;
-    }
-
-    addField(fieldName) {
-        const fromIndex = this.query.lastIndexOf(' FROM ');
-        this.query =
-            this.query.substring(0, fromIndex) +
-            ', ' +
-            fieldName +
-            this.query.substring(fromIndex);
-    }
-}
-
-export default class App extends LightningElement {
+export default class Container extends LightningElement {
+    @track query;
     selectedSObject;
-    query;
-    queryBuilder;
     queryResponse;
 
     get isLoggedIn() {
@@ -34,6 +15,11 @@ export default class App extends LightningElement {
         return window.location.origin;
     }
 
+    get queryText() {
+        if (!this.query) return '';
+        return composeQuery(this.query, { format: true });
+    }
+
     connectedCallback() {
         salesforce.init();
     }
@@ -41,8 +27,10 @@ export default class App extends LightningElement {
     selectSObject(event) {
         this.selectedSObject = event.detail;
         console.log(this.selectedSObject);
-        this.queryBuilder = new QueryBuilder(this.selectedSObject.name);
-        this.query = this.queryBuilder.query;
+        this.query = {
+            fields: [getField('Id')],
+            sObject: this.selectedSObject.name
+        };
     }
 
     deselectSObject() {
@@ -52,15 +40,16 @@ export default class App extends LightningElement {
     selectField(event) {
         const fieldName = event.detail;
         console.log(fieldName);
-        if (!this.queryBuilder) {
-            this.queryBuilder = new QueryBuilder(this.selectedSObject.name);
-        }
-        this.queryBuilder.addField(fieldName);
-        this.query = this.queryBuilder.query;
+        this.query.fields.push(getField(fieldName));
     }
 
     selectRelationship(event) {
         const relationshipName = event.detail;
         console.log(relationshipName);
+        const subquery = {
+            fields: [getField('Id')],
+            relationshipName
+        };
+        this.query.fields.push(getField({ subquery }));
     }
 }
