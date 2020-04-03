@@ -1,32 +1,15 @@
-import {
-    SELECT_FIELD,
-    DESELECT_FIELD,
-    SELECT_RELATIONSHIP,
-    DESELECT_RELATIONSHIP
-} from './constants';
+import { TOGGLE_FIELD, TOGGLE_RELATIONSHIP } from './constants';
 
-export function selectField(fieldName) {
+export function toggleField(fieldName) {
     return {
-        type: SELECT_FIELD,
+        type: TOGGLE_FIELD,
         payload: { fieldName }
     };
 }
 
-export function deselectField() {
+export function toggleRelationship(relationshipName) {
     return {
-        type: DESELECT_FIELD
-    };
-}
-
-export function selectRelationship(relationshipName) {
-    return {
-        type: SELECT_RELATIONSHIP,
+        type: TOGGLE_RELATIONSHIP,
         payload: { relationshipName }
-    };
-}
-
-export function deselectRelationship() {
-    return {
-        type: DESELECT_RELATIONSHIP
     };
 }

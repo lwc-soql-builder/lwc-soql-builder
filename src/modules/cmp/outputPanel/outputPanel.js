@@ -39,19 +39,21 @@ export default class OutputPanel extends LightningElement {
             });
         });
         output.columns = Array.from(columns);
-        res.records.forEach(record => {
+        res.records.forEach((record, rowIdx) => {
             let row = {
-                key: Math.random()
-                    .toString(36)
-                    .slice(-8),
+                key: rowIdx,
                 values: []
             };
-            output.columns.forEach(column => {
+            output.columns.forEach((column, valueIdx) => {
+                const rawData = record[column];
+                let data = rawData;
+                if (data && data.totalSize) {
+                    data = `${column}(${data.totalSize})`;
+                }
                 row.values.push({
-                    key: Math.random()
-                        .toString(36)
-                        .slice(-8),
-                    data: record[column]
+                    key: `${rowIdx}-${valueIdx}`,
+                    data,
+                    rawData
                 });
             });
             output.rows.push(row);

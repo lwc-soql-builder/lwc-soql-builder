@@ -1,25 +1,20 @@
-import {
-    SELECT_FIELD,
-    DESELECT_FIELD,
-    SELECT_RELATIONSHIP,
-    DESELECT_RELATIONSHIP
-} from './constants';
+import { TOGGLE_FIELD, TOGGLE_RELATIONSHIP } from './constants';
 import { SELECT_SOBJECT } from '../sobjects/constants';
 
-function addField(state = [], action) {
-    return [...state, action.payload.fieldName];
+function toggleField(state = [], action) {
+    const { fieldName } = action.payload;
+    if (state.includes(fieldName)) {
+        return state.filter(el => el !== fieldName);
+    }
+    return [...state, fieldName];
 }
 
-function removeField(state = [], action) {
-    return state.filter(el => el !== action.payload.fieldName);
-}
-
-function addRelationship(state = [], action) {
-    return [...state, action.payload.relationshipName];
-}
-
-function removeRelationship(state = [], action) {
-    return state.filter(el => el !== action.payload.relationshipName);
+function toggleRelationship(state = [], action) {
+    const { relationshipName } = action.payload;
+    if (state.includes(relationshipName)) {
+        return state.filter(el => el !== relationshipName);
+    }
+    return [...state, relationshipName];
 }
 
 export default function sobjects(state = {}, action) {
@@ -30,31 +25,16 @@ export default function sobjects(state = {}, action) {
                 selectedFields: ['Id']
             };
 
-        case SELECT_FIELD:
+        case TOGGLE_FIELD:
             return {
                 ...state,
-                selectedFields: addField(state.selectedFields, action)
+                selectedFields: toggleField(state.selectedFields, action)
             };
 
-        case DESELECT_FIELD:
+        case TOGGLE_RELATIONSHIP:
             return {
                 ...state,
-                selectedFields: removeField(state.selectedFields, action)
-            };
-
-        case SELECT_RELATIONSHIP:
-            return {
-                ...state,
-                selectedRelationships: addRelationship(
-                    state.selectedRelationships,
-                    action
-                )
-            };
-
-        case DESELECT_RELATIONSHIP:
-            return {
-                ...state,
-                selectedRelationships: removeRelationship(
+                selectedRelationships: toggleRelationship(
                     state.selectedRelationships,
                     action
                 )

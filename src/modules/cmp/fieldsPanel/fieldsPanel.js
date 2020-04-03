@@ -4,13 +4,12 @@ import {
     store,
     describeSObjectIfNeeded,
     deselectSObject,
-    selectField,
-    selectRelationship
+    toggleField,
+    toggleRelationship
 } from '../../app/store/store';
 
 export default class FieldsPanel extends LightningElement {
     @api sobject;
-    sobjectMeta;
     tabs = [
         {
             id: 'tab-fields',
@@ -23,16 +22,21 @@ export default class FieldsPanel extends LightningElement {
             isActive: false
         }
     ];
+    fields = [];
+    relationships = [];
+    _sobjectMeta;
 
     @wire(connectStore, { store })
-    storeChange({ sobject }) {
+    storeChange({ sobject, ui }) {
         const sobjectState = sobject[this.sobject.name];
         if (!sobjectState) return;
         if (sobjectState.data) {
-            this.sobjectMeta = sobjectState.data;
+            this._sobjectMeta = sobjectState.data;
         } else if (sobjectState.error) {
             console.error(sobject.error);
         }
+
+        this._updateFields(ui);
     }
 
     get isFieldsActive() {
@@ -65,12 +69,35 @@ export default class FieldsPanel extends LightningElement {
     selectField(event) {
         const fieldName = event.target.dataset.name;
         console.log(fieldName);
-        store.dispatch(selectField(fieldName));
+        store.dispatch(toggleField(fieldName));
     }
 
     selectRelationship(event) {
         const relationshipName = event.target.dataset.name;
         console.log(relationshipName);
-        store.dispatch(selectRelationship(relationshipName));
+        store.dispatch(toggleRelationship(relationshipName));
+    }
+
+    _updateFields(ui) {
+        if (!this._sobjectMeta) return;
+        this.fields = this._sobjectMeta.fields.map(field => {
+            return {
+                ...field,
+                isActive:
+                    ui.selectedFields && ui.selectedFields.includes(field.name)
+            };
+        });
+        this.relationships = this._sobjectMeta.childRelationships.map(
+            relation => {
+                return {
+                    ...relation,
+                    isActive:
+                        ui.selectedRelationships &&
+                        ui.selectedRelationships.includes(
+                            relation.relationshipName
+                        )
+                };
+            }
+        );
     }
 }
