@@ -4,7 +4,7 @@ import {
     RECEIVE_SOBJECT_ERROR
 } from './constants';
 
-export default function sobject(
+function sobject(
     state = {
         isFetching: false,
         data: null,
@@ -33,6 +33,23 @@ export default function sobject(
                 isFetching: false,
                 error: action.payload.error
             };
+
+        default:
+            return state;
+    }
+}
+
+export default function sobjects(state = {}, action) {
+    switch (action.type) {
+        case REQUEST_SOBJECT:
+        case RECEIVE_SOBJECT_SUCCESS:
+        case RECEIVE_SOBJECT_ERROR: {
+            const sobjectState = state[action.payload.sObjectName];
+            return {
+                ...state,
+                [action.payload.sObjectName]: sobject(sobjectState, action)
+            };
+        }
 
         default:
             return state;

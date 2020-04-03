@@ -6,23 +6,24 @@ import {
     RECEIVE_SOBJECT_ERROR
 } from './constants';
 
-function requestSObject() {
+function requestSObject(sObjectName) {
     return {
-        type: REQUEST_SOBJECT
+        type: REQUEST_SOBJECT,
+        payload: { sObjectName }
     };
 }
 
-function receiveSObjectSuccess(data) {
+function receiveSObjectSuccess(sObjectName, data) {
     return {
         type: RECEIVE_SOBJECT_SUCCESS,
-        payload: { data }
+        payload: { sObjectName, data }
     };
 }
 
-function receiveSObjectError(error) {
+function receiveSObjectError(sObjectName, error) {
     return {
         type: RECEIVE_SOBJECT_ERROR,
-        payload: { error }
+        payload: { sObjectName, error }
     };
 }
 
@@ -33,7 +34,7 @@ function shouldFetchSObject({ sobject }, sObjectName) {
 function describeSObject(sObjectName) {
     return async dispatch => {
         if (salesforce.isLoggedIn()) {
-            dispatch(requestSObject());
+            dispatch(requestSObject(sObjectName));
 
             salesforce.connection
                 .request(
@@ -41,11 +42,11 @@ function describeSObject(sObjectName) {
                 )
                 .then(res => {
                     console.log(res);
-                    dispatch(receiveSObjectSuccess(res));
+                    dispatch(receiveSObjectSuccess(sObjectName, res));
                 })
                 .catch(err => {
                     console.error(err);
-                    dispatch(receiveSObjectError(err));
+                    dispatch(receiveSObjectError(sObjectName, err));
                 });
         }
     };

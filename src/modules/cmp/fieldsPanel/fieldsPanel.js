@@ -8,9 +8,11 @@ export default class FieldsPanel extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobject }) {
-        if (sobject.data) {
-            this.sobjectMeta = sobject.data;
-        } else if (sobject.error) {
+        const sobjectState = sobject[this.sobject.name];
+        if (!sobjectState) return;
+        if (sobjectState.data) {
+            this.sobjectMeta = sobjectState.data;
+        } else if (sobjectState.error) {
             console.error(sobject.error);
         }
     }

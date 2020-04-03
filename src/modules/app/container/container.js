@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import { composeQuery, getField } from 'soql-parser-js';
 import salesforce from '../../service/salesforce';
 
