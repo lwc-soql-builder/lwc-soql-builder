@@ -11,6 +11,18 @@ import {
 export default class FieldsPanel extends LightningElement {
     @api sobject;
     sobjectMeta;
+    tabs = [
+        {
+            id: 'tab-fields',
+            label: 'Fields',
+            isActive: true
+        },
+        {
+            id: 'tab-relationships',
+            label: 'Child Relationships',
+            isActive: false
+        }
+    ];
 
     @wire(connectStore, { store })
     storeChange({ sobject }) {
@@ -21,6 +33,16 @@ export default class FieldsPanel extends LightningElement {
         } else if (sobjectState.error) {
             console.error(sobject.error);
         }
+    }
+
+    get isFieldsActive() {
+        return !!this.tabs.find(tab => tab.id === 'tab-fields' && tab.isActive);
+    }
+
+    get isRelationshipsActive() {
+        return !!this.tabs.find(
+            tab => tab.id === 'tab-relationships' && tab.isActive
+        );
     }
 
     connectedCallback() {
@@ -34,25 +56,10 @@ export default class FieldsPanel extends LightningElement {
     }
 
     selectTab(event) {
-        const tabs = this.template.querySelectorAll(
-            '.sobject-tabs .slds-tabs_default__item'
-        );
-        tabs.forEach(tab => {
-            tab.classList.remove('slds-is-active');
+        const tabId = event.target.dataset.id;
+        this.tabs = this.tabs.map(tab => {
+            return { ...tab, isActive: tab.id === tabId };
         });
-        const domId = event.target.dataset.id;
-        const tab = this.template.querySelector(`[data-id=${domId}]`);
-        tab.parentNode.classList.add('slds-is-active');
-        const tabContents = this.template.querySelectorAll(
-            '.sobject-tabs .slds-tabs_default__content'
-        );
-        tabContents.forEach(tabContent => {
-            tabContent.classList.add('slds-hide');
-        });
-        const tabContent = this.template.querySelector(
-            `[data-id=${domId}__content]`
-        );
-        tabContent.classList.remove('slds-hide');
     }
 
     selectField(event) {
