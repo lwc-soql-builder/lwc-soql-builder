@@ -6,6 +6,7 @@ import logger from './middlewares/logger';
 import sobjects from './modules/sobjects/reducers';
 import sobject from './modules/sobject/reducers';
 import query from './modules/query/reducers';
+import ui from './modules/ui/reducers';
 
 let middlewares = [thunk, logger];
 
@@ -13,7 +14,8 @@ export const store = createStore(
     combineReducers({
         sobjects,
         sobject,
-        query
+        query,
+        ui
     }),
     applyMiddleware(...middlewares)
 );

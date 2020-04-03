@@ -1,6 +1,12 @@
 import { LightningElement, api, wire } from 'lwc';
-import { connectStore, store } from '../../app/store/store';
-import { describeSObjectIfNeeded } from '../../app/store/store';
+import {
+    connectStore,
+    store,
+    describeSObjectIfNeeded,
+    deselectSObject,
+    selectField,
+    selectRelationship
+} from '../../app/store/store';
 
 export default class FieldsPanel extends LightningElement {
     @api sobject;
@@ -24,7 +30,7 @@ export default class FieldsPanel extends LightningElement {
     }
 
     deselectSObject() {
-        this.dispatchEvent(new CustomEvent('deselect'));
+        store.dispatch(deselectSObject());
     }
 
     selectTab(event) {
@@ -52,20 +58,12 @@ export default class FieldsPanel extends LightningElement {
     selectField(event) {
         const fieldName = event.target.dataset.name;
         console.log(fieldName);
-        this.dispatchEvent(
-            new CustomEvent('selectfield', {
-                detail: fieldName
-            })
-        );
+        store.dispatch(selectField(fieldName));
     }
 
     selectRelationship(event) {
         const relationshipName = event.target.dataset.name;
         console.log(relationshipName);
-        this.dispatchEvent(
-            new CustomEvent('selectrelation', {
-                detail: relationshipName
-            })
-        );
+        store.dispatch(selectRelationship(relationshipName));
     }
 }

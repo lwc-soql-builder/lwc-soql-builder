@@ -1,7 +1,7 @@
 import { LightningElement, wire } from 'lwc';
 import salesforce from '../../service/salesforce';
 import { connectStore, store } from '../../app/store/store';
-import { fetchSObjectsIfNeeded } from '../../app/store/store';
+import { fetchSObjectsIfNeeded, selectSObject } from '../../app/store/store';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;
@@ -37,13 +37,6 @@ export default class SobjectsPanel extends LightningElement {
     selectSObject(event) {
         const sObjectName = event.target.dataset.name;
         console.log(sObjectName);
-        this.selectedSObject = this.sobjects.find(
-            sobject => sobject.name === sObjectName
-        );
-        this.dispatchEvent(
-            new CustomEvent('select', {
-                detail: this.selectedSObject
-            })
-        );
+        store.dispatch(selectSObject(sObjectName));
     }
 }
