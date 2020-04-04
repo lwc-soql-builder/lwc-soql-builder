@@ -1,5 +1,9 @@
-import { TOGGLE_FIELD, TOGGLE_RELATIONSHIP } from './constants';
-import { SELECT_SOBJECT } from '../sobjects/constants';
+import {
+    SELECT_SOBJECT,
+    DESELECT_SOBJECT,
+    TOGGLE_FIELD,
+    TOGGLE_RELATIONSHIP
+} from './constants';
 
 function toggleField(state = [], action) {
     const { fieldName } = action.payload;
@@ -22,7 +26,14 @@ export default function sobjects(state = {}, action) {
         case SELECT_SOBJECT:
             return {
                 ...state,
+                selectedSObject: action.payload.sObjectName,
                 selectedFields: ['Id']
+            };
+
+        case DESELECT_SOBJECT:
+            return {
+                ...state,
+                selectedSObject: undefined
             };
 
         case TOGGLE_FIELD:

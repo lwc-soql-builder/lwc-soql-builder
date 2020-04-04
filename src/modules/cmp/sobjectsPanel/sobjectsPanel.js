@@ -1,7 +1,11 @@
 import { LightningElement, wire } from 'lwc';
 import salesforce from '../../service/salesforce';
-import { connectStore, store } from '../../app/store/store';
-import { fetchSObjectsIfNeeded, selectSObject } from '../../app/store/store';
+import {
+    connectStore,
+    store,
+    fetchSObjectsIfNeeded,
+    selectSObject
+} from '../../app/store/store';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;

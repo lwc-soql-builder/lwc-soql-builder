@@ -26,7 +26,7 @@ function receiveQueryError(error) {
     };
 }
 
-export function describeQuery(query) {
+export function executeQuery(query) {
     return async dispatch => {
         if (salesforce.isLoggedIn()) {
             dispatch(requestQuery());

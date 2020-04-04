@@ -8,7 +8,9 @@
           </svg>
           <span class="slds-assistive-text">Back</span>
         </button>
-        <h2 class="slds-nav-vertical__title slds-p-left_x-small slds-truncate">{sobject.name} / {sobject.label}</h2>
+        <h2 class="slds-nav-vertical__title slds-p-left_x-small slds-truncate" if:true={sobjectMeta}>
+          {sobjectMeta.name} / {sobjectMeta.label}
+        </h2>
       </div>
     </div>
     <div class="slds-form-element slds-p-horizontal_large">

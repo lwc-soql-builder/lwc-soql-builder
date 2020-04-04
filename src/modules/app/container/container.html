@@ -6,7 +6,7 @@
     <div class="body">
       <div class="left-panel">
         <template if:false={selectedSObject}>
-          <cmp-sobjects-panel onselect={selectSObject}></cmp-sobjects-panel>
+          <cmp-sobjects-panel></cmp-sobjects-panel>
         </template>
         <template if:true={selectedSObject}>
           <cmp-fields-panel sobject={selectedSObject}></cmp-fields-panel>

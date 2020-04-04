@@ -22,19 +22,20 @@ export default class FieldsPanel extends LightningElement {
             isActive: false
         }
     ];
+    sobjectMeta;
     fields = [];
     relationships = [];
     _rawFields = [];
     _rawRelationships = [];
-    _sobjectMeta;
     _keyword;
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
-        const sobjectState = sobject[this.sobject.name];
+        const sobjectState = sobject[this.sobject];
         if (!sobjectState) return;
         if (sobjectState.data) {
-            this._sobjectMeta = sobjectState.data;
+            this.sobjectMeta = sobjectState.data;
+            console.log(this.sobjectMeta);
         } else if (sobjectState.error) {
             console.error(sobject.error);
         }
@@ -53,8 +54,8 @@ export default class FieldsPanel extends LightningElement {
     }
 
     connectedCallback() {
-        if (this.sobject.name) {
-            store.dispatch(describeSObjectIfNeeded(this.sobject.name));
+        if (this.sobject) {
+            store.dispatch(describeSObjectIfNeeded(this.sobject));
         }
     }
 
@@ -87,15 +88,15 @@ export default class FieldsPanel extends LightningElement {
     }
 
     _updateFields(ui) {
-        if (!this._sobjectMeta) return;
-        this._rawFields = this._sobjectMeta.fields.map(field => {
+        if (!this.sobjectMeta) return;
+        this._rawFields = this.sobjectMeta.fields.map(field => {
             return {
                 ...field,
                 isActive:
                     ui.selectedFields && ui.selectedFields.includes(field.name)
             };
         });
-        this._rawRelationships = this._sobjectMeta.childRelationships.map(
+        this._rawRelationships = this.sobjectMeta.childRelationships.map(
             relation => {
                 return {
                     ...relation,

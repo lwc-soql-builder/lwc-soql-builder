@@ -6,9 +6,9 @@ export default class Container extends LightningElement {
     selectedSObject;
 
     @wire(connectStore, { store })
-    storeChange({ sobjects }) {
-        if (sobjects.selectedSObject) {
-            this.selectedSObject = sobjects.selectedSObject;
+    storeChange({ ui }) {
+        if (ui.selectedSObject) {
+            this.selectedSObject = ui.selectedSObject;
         } else {
             this.selectedSObject = null;
         }

@@ -3,9 +3,7 @@ import salesforce from '../../../../service/salesforce';
 import {
     REQUEST_SOBJECTS,
     RECEIVE_SOBJECTS_SUCCESS,
-    RECEIVE_SOBJECTS_ERROR,
-    SELECT_SOBJECT,
-    DESELECT_SOBJECT
+    RECEIVE_SOBJECTS_ERROR
 } from './constants';
 
 function requestSObjects() {
@@ -25,19 +23,6 @@ function receiveSObjectsError(error) {
     return {
         type: RECEIVE_SOBJECTS_ERROR,
         payload: { error }
-    };
-}
-
-export function selectSObject(sObjectName) {
-    return {
-        type: SELECT_SOBJECT,
-        payload: { sObjectName }
-    };
-}
-
-export function deselectSObject() {
-    return {
-        type: DESELECT_SOBJECT
     };
 }
 
