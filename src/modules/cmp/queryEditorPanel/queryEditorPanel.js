@@ -14,7 +14,6 @@ export default class QueryEditorPanel extends LightningElement {
     completionStyle;
     completionFields;
     _sobjectMeta;
-    _keyword;
     _selectionStart;
     _soql;
 
@@ -56,13 +55,12 @@ export default class QueryEditorPanel extends LightningElement {
         store.dispatch(formatSoql());
     }
 
-    handleChangeSoql(event) {
+    handleKeyupSoql(event) {
         const { value } = event.target;
-        if (this._soql !== value)
+        if (this._soql !== value) {
             store.dispatch(updateSoql(event.target.value));
-    }
+        }
 
-    handleInputSoql(event) {
         if (!this._sobjectMeta) return;
         if (!this.isCompletionVisible) {
             this._openCompletion(event);
@@ -71,15 +69,58 @@ export default class QueryEditorPanel extends LightningElement {
         }
     }
 
-    _openCompletion(event) {
-        const { key, altKey, ctrlKey, metaKey, target } = event;
-        this._selectionStart = target.selectionStart;
-        this._keyword = '';
-        if (ctrlKey && key === ' ') {
-            this._searchCompletionFields(event);
-        } else if (key !== ' ' && !altKey && !ctrlKey && !metaKey) {
-            this._addKeyword(event);
+    handleKeydownSoql(event) {
+        const { key, isComposing } = event;
+        if (this.isCompletionVisible) {
+            if (isComposing) return;
+            switch (key) {
+                case 'ArrowDown':
+                    this._selectBellowField(event);
+                    break;
+                case 'ArrowUp':
+                    this._selectAboveField(event);
+                    break;
+                case 'Enter':
+                    this._insertField(event);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            if (isComposing && key === 'Enter') {
+                this._openCompletion(event);
+            }
         }
+    }
+
+    _openCompletion(event) {
+        const { target } = event;
+        this._selectionStart =
+            this._findSeparator(
+                target.value.substring(0, target.selectionEnd)
+            ) || target.selectionEnd;
+        if (this._canOpenCompletion(event)) {
+            this._searchCompletionFields(event);
+        }
+    }
+
+    _canOpenCompletion(event) {
+        const { key, altKey, ctrlKey, metaKey, isComposing } = event;
+        return (
+            (ctrlKey && key === ' ') ||
+            (key.length === 1 &&
+                ![' ', ',', '.'].includes(key) &&
+                !altKey &&
+                !ctrlKey &&
+                !metaKey &&
+                !isComposing) ||
+            (isComposing && key === 'Enter')
+        );
+    }
+
+    _findSeparator(value) {
+        const result = /[,. ][^,. ]*$/g.exec(value);
+        return result && result.index + 1;
     }
 
     _closeCompletion() {
@@ -95,7 +136,12 @@ export default class QueryEditorPanel extends LightningElement {
     }
 
     _searchCompletionFields(event) {
-        const escapedKeyword = this._escapeRegExp(this._keyword);
+        const { target } = event;
+        const keyword = target.value.substring(
+            this._selectionStart,
+            target.selectionEnd
+        );
+        const escapedKeyword = this._escapeRegExp(keyword);
         const keywordPattern = new RegExp(escapedKeyword, 'i');
         this.completionFields = this._sobjectMeta.fields
             .filter(field =>
@@ -121,7 +167,6 @@ export default class QueryEditorPanel extends LightningElement {
     }
 
     _handleCompletion(event) {
-        if (event.isComposing) return;
         const { key, altKey, ctrlKey, metaKey } = event;
         if (altKey || ctrlKey || metaKey) {
             this._closeCompletion();
@@ -139,32 +184,23 @@ export default class QueryEditorPanel extends LightningElement {
                 this._deleteKeyword(event);
                 break;
             case 'ArrowDown':
-                this._selectBellowField(event);
-                break;
             case 'ArrowUp':
-                this._selectAboveField(event);
-                break;
             case 'Enter':
-                this._insertField(event);
+                if (event.isComposing) {
+                    this._searchCompletionFields(event);
+                }
                 break;
             default:
-                this._addKeyword(event);
+                this._searchCompletionFields(event);
                 break;
-        }
-    }
-
-    _addKeyword(event) {
-        const { key } = event;
-        if (key.length === 1) {
-            this._keyword += key;
-            this._searchCompletionFields(event);
         }
     }
 
     _deleteKeyword(event) {
-        this._keyword = this._keyword.slice(0, -1);
-        if (this._keyword) this._searchCompletionFields(event);
-        else this._closeCompletion();
+        this._searchCompletionFields(event);
+        if (this._selectionStart === event.target.selectionStart) {
+            this._closeCompletion();
+        }
     }
 
     _selectBellowField(event) {
