@@ -11,3 +11,13 @@
 .soql-editor textarea {
   flex: 1;
 }
+.completion-popover {
+  position: absolute;
+  width: 300px;
+  max-height: 100%;
+  overflow: auto;
+}
+.slds-listbox__option.is-active {
+  background: rgba(21,137,238,.1);
+  box-shadow: inset 0.25rem 0 0 #1589ee;
+}

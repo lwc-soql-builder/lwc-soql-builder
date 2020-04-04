@@ -1,9 +1,16 @@
-import { getField, getFlattenedFields } from 'soql-parser-js';
+import {
+    getField,
+    getFlattenedFields,
+    composeQuery,
+    parseQuery,
+    isQueryValid
+} from 'soql-parser-js';
 import {
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
     TOGGLE_FIELD,
-    TOGGLE_RELATIONSHIP
+    TOGGLE_RELATIONSHIP,
+    UPDATE_SOQL
 } from './constants';
 
 const INITIAL_QUERY = {
@@ -51,15 +58,18 @@ function toggleRelationship(state = [], action) {
 
 export default function sobjects(state = {}, action) {
     switch (action.type) {
-        case SELECT_SOBJECT:
+        case SELECT_SOBJECT: {
+            const query = {
+                ...INITIAL_QUERY,
+                sObject: action.payload.sObjectName
+            };
             return {
                 ...state,
                 selectedSObject: action.payload.sObjectName,
-                query: {
-                    ...INITIAL_QUERY,
-                    sObject: action.payload.sObjectName
-                }
+                query,
+                soql: composeQuery(query, { format: true })
             };
+        }
 
         case DESELECT_SOBJECT:
             return {
@@ -67,17 +77,34 @@ export default function sobjects(state = {}, action) {
                 selectedSObject: undefined
             };
 
-        case TOGGLE_FIELD:
+        case TOGGLE_FIELD: {
+            const query = toggleField(state.query, action);
             return {
                 ...state,
-                query: toggleField(state.query, action)
+                query,
+                soql: composeQuery(query, { format: true })
             };
+        }
 
-        case TOGGLE_RELATIONSHIP:
+        case TOGGLE_RELATIONSHIP: {
+            const query = toggleRelationship(state.query, action);
             return {
                 ...state,
-                query: toggleRelationship(state.query, action)
+                query,
+                soql: composeQuery(query, { format: true })
             };
+        }
+
+        case UPDATE_SOQL: {
+            const { soql } = action.payload;
+            const query = isQueryValid(soql) ? parseQuery(soql) : state.query;
+            return {
+                ...state,
+                selectedSObject: query.sObject,
+                query,
+                soql
+            };
+        }
 
         default:
             return state;

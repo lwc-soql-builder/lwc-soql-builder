@@ -2,7 +2,8 @@ import {
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
     TOGGLE_FIELD,
-    TOGGLE_RELATIONSHIP
+    TOGGLE_RELATIONSHIP,
+    UPDATE_SOQL
 } from './constants';
 
 export function selectSObject(sObjectName) {
@@ -29,5 +30,12 @@ export function toggleRelationship(relationshipName) {
     return {
         type: TOGGLE_RELATIONSHIP,
         payload: { relationshipName }
+    };
+}
+
+export function updateSoql(soql) {
+    return {
+        type: UPDATE_SOQL,
+        payload: { soql }
     };
 }

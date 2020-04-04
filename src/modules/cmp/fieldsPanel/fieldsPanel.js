@@ -10,7 +10,6 @@ import {
 } from '../../app/store/store';
 
 export default class FieldsPanel extends LightningElement {
-    @api sobject;
     tabs = [
         {
             id: 'tab-fields',
@@ -26,13 +25,21 @@ export default class FieldsPanel extends LightningElement {
     sobjectMeta;
     fields = [];
     relationships = [];
+    _selectedSObject;
     _rawFields = [];
     _rawRelationships = [];
     _keyword;
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
-        const sobjectState = sobject[this.sobject];
+        if (!ui.selectedSObject) return;
+
+        if (ui.selectedSObject !== this._selectedSObject) {
+            this._selectedSObject = ui.selectedSObject;
+            store.dispatch(describeSObjectIfNeeded(ui.selectedSObject));
+        }
+
+        const sobjectState = sobject[ui.selectedSObject];
         if (!sobjectState) return;
         if (sobjectState.data) {
             this.sobjectMeta = sobjectState.data;
@@ -52,12 +59,6 @@ export default class FieldsPanel extends LightningElement {
         return !!this.tabs.find(
             tab => tab.id === 'tab-relationships' && tab.isActive
         );
-    }
-
-    connectedCallback() {
-        if (this.sobject) {
-            store.dispatch(describeSObjectIfNeeded(this.sobject));
-        }
     }
 
     deselectSObject() {
