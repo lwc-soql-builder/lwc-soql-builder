@@ -1,4 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
+import { getFlattenedFields } from 'soql-parser-js';
 import {
     connectStore,
     store,
@@ -40,7 +41,7 @@ export default class FieldsPanel extends LightningElement {
             console.error(sobject.error);
         }
 
-        this._updateFields(ui);
+        this._updateFields(ui.query);
     }
 
     get isFieldsActive() {
@@ -87,24 +88,21 @@ export default class FieldsPanel extends LightningElement {
         this._filterFields();
     }
 
-    _updateFields(ui) {
+    _updateFields(query) {
         if (!this.sobjectMeta) return;
+        const selectedFields = query && getFlattenedFields(query);
+        console.log(selectedFields);
         this._rawFields = this.sobjectMeta.fields.map(field => {
             return {
                 ...field,
-                isActive:
-                    ui.selectedFields && ui.selectedFields.includes(field.name)
+                isActive: selectedFields.includes(field.name)
             };
         });
         this._rawRelationships = this.sobjectMeta.childRelationships.map(
             relation => {
                 return {
                     ...relation,
-                    isActive:
-                        ui.selectedRelationships &&
-                        ui.selectedRelationships.includes(
-                            relation.relationshipName
-                        )
+                    isActive: selectedFields.includes(relation.relationshipName)
                 };
             }
         );

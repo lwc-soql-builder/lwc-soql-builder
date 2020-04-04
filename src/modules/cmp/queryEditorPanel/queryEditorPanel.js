@@ -9,7 +9,7 @@ export default class QueryEditorPanel extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ ui }) {
-        this._updateQuery(ui);
+        this._query = ui.query;
     }
 
     get queryText() {
@@ -25,32 +25,5 @@ export default class QueryEditorPanel extends LightningElement {
         console.log(query);
         if (!query) return;
         store.dispatch(executeQuery(query));
-    }
-
-    _updateQuery(ui) {
-        if (!ui.selectedSObject) return;
-
-        let query = {
-            fields: [],
-            sObject: ui.selectedSObject
-        };
-        if (ui.selectedFields) {
-            query.fields = ui.selectedFields.map(fieldName => {
-                return getField(fieldName);
-            });
-        }
-        if (ui.selectedRelationships) {
-            const subqueries = ui.selectedRelationships.map(
-                relationshipName => {
-                    const subquery = {
-                        fields: [getField('Id')],
-                        relationshipName
-                    };
-                    return getField({ subquery });
-                }
-            );
-            query.fields = [...query.fields, ...subqueries];
-        }
-        this._query = query;
     }
 }

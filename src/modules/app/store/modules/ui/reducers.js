@@ -1,3 +1,4 @@
+import { getField, getFlattenedFields } from 'soql-parser-js';
 import {
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
@@ -5,20 +6,47 @@ import {
     TOGGLE_RELATIONSHIP
 } from './constants';
 
-function toggleField(state = [], action) {
+const INITIAL_QUERY = {
+    fields: [getField('Id')],
+    sObject: undefined
+};
+
+function toggleField(state = INITIAL_QUERY, action) {
     const { fieldName } = action.payload;
-    if (state.includes(fieldName)) {
-        return state.filter(el => el !== fieldName);
+    const fieldNames = getFlattenedFields(state);
+    if (fieldNames.includes(fieldName)) {
+        return {
+            ...state,
+            fields: state.fields.filter(field => field.field !== fieldName)
+        };
     }
-    return [...state, fieldName];
+    return {
+        ...state,
+        fields: [...state.fields, getField(fieldName)]
+    };
 }
 
 function toggleRelationship(state = [], action) {
     const { relationshipName } = action.payload;
-    if (state.includes(relationshipName)) {
-        return state.filter(el => el !== relationshipName);
+    const fieldNames = getFlattenedFields(state);
+    if (fieldNames.includes(relationshipName)) {
+        return {
+            ...state,
+            fields: state.fields.filter(
+                field =>
+                    field.subquery &&
+                    field.subquery.relationshipName !== relationshipName
+            )
+        };
     }
-    return [...state, relationshipName];
+    const subquery = {
+        fields: [getField('Id')],
+        relationshipName
+    };
+    return {
+        ...state,
+        fields: [...state.fields, getField({ subquery })]
+    };
 }
 
 export default function sobjects(state = {}, action) {
@@ -27,7 +55,10 @@ export default function sobjects(state = {}, action) {
             return {
                 ...state,
                 selectedSObject: action.payload.sObjectName,
-                selectedFields: ['Id']
+                query: {
+                    ...INITIAL_QUERY,
+                    sObject: action.payload.sObjectName
+                }
             };
 
         case DESELECT_SOBJECT:
@@ -39,16 +70,13 @@ export default function sobjects(state = {}, action) {
         case TOGGLE_FIELD:
             return {
                 ...state,
-                selectedFields: toggleField(state.selectedFields, action)
+                query: toggleField(state.query, action)
             };
 
         case TOGGLE_RELATIONSHIP:
             return {
                 ...state,
-                selectedRelationships: toggleRelationship(
-                    state.selectedRelationships,
-                    action
-                )
+                query: toggleRelationship(state.query, action)
             };
 
         default:
