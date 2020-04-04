@@ -15,8 +15,8 @@
       </div>
     </div>
     <div class="slds-nav-vertical__section slds-border_top">
-      <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={filteredSObjects}>
-        <template for:each={filteredSObjects} for:item="sobject">
+      <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={sobjects}>
+        <template for:each={sobjects} for:item="sobject">
           <li class="slds-nav-vertical__item slds-border_bottom" key={sobject.name} if:true={sobject.queryable}>
             <a href="javascript:void(0);" class="slds-nav-vertical__action" onclick={selectSObject} data-name={sobject.name}>{sobject.name} / {sobject.label}</a>
           </li>

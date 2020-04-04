@@ -24,7 +24,10 @@ export default class FieldsPanel extends LightningElement {
     ];
     fields = [];
     relationships = [];
+    _rawFields = [];
+    _rawRelationships = [];
     _sobjectMeta;
+    _keyword;
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
@@ -78,16 +81,21 @@ export default class FieldsPanel extends LightningElement {
         store.dispatch(toggleRelationship(relationshipName));
     }
 
+    filterFields(event) {
+        this._keyword = event.target.value;
+        this._filterFields();
+    }
+
     _updateFields(ui) {
         if (!this._sobjectMeta) return;
-        this.fields = this._sobjectMeta.fields.map(field => {
+        this._rawFields = this._sobjectMeta.fields.map(field => {
             return {
                 ...field,
                 isActive:
                     ui.selectedFields && ui.selectedFields.includes(field.name)
             };
         });
-        this.relationships = this._sobjectMeta.childRelationships.map(
+        this._rawRelationships = this._sobjectMeta.childRelationships.map(
             relation => {
                 return {
                     ...relation,
@@ -99,5 +107,22 @@ export default class FieldsPanel extends LightningElement {
                 };
             }
         );
+        this._filterFields();
+    }
+
+    _filterFields() {
+        if (this._keyword) {
+            this.fields = this._rawFields.filter(field => {
+                return `${field.name} ${field.label}`.includes(this._keyword);
+            });
+            this.relationships = this._rawRelationships.filter(relation => {
+                return `${relation.relationshipName} ${relation.childSObject}`.includes(
+                    this._keyword
+                );
+            });
+        } else {
+            this.fields = this._rawFields;
+            this.relationships = this._rawRelationships;
+        }
     }
 }

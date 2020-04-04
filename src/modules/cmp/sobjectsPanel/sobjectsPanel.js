@@ -5,13 +5,13 @@ import { fetchSObjectsIfNeeded, selectSObject } from '../../app/store/store';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;
-    filteredSObjects;
+    _rawSObjects;
 
     @wire(connectStore, { store })
     storeChange({ sobjects }) {
         if (sobjects.data) {
-            this.sobjects = sobjects.data.sobjects;
-            this.filteredSObjects = this.sobjects;
+            this._rawSObjects = sobjects.data.sobjects;
+            this.sobjects = this._rawSObjects;
         } else if (sobjects.error) {
             console.error(sobjects.error);
             salesforce.logout();
@@ -26,11 +26,11 @@ export default class SobjectsPanel extends LightningElement {
     filterSObjects(event) {
         const keyword = event.target.value;
         if (keyword) {
-            this.filteredSObjects = this.sobjects.filter(sobject => {
+            this.sobjects = this._rawSObjects.filter(sobject => {
                 return `${sobject.name} ${sobject.label}`.includes(keyword);
             });
         } else {
-            this.filteredSObjects = this.sobjects;
+            this.sobjects = this._rawSObjects;
         }
     }
 
