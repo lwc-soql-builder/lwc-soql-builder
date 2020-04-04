@@ -1,11 +1,12 @@
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import getCaretCoordinates from 'textarea-caret';
 import salesforce from '../../service/salesforce';
 import {
     connectStore,
     store,
     executeQuery,
-    updateSoql
+    updateSoql,
+    formatSoql
 } from '../../app/store/store';
 
 export default class QueryEditorPanel extends LightningElement {
@@ -51,6 +52,10 @@ export default class QueryEditorPanel extends LightningElement {
         store.dispatch(executeQuery(query));
     }
 
+    formatQuery() {
+        store.dispatch(formatSoql());
+    }
+
     handleChangeSoql(event) {
         const { value } = event.target;
         if (this._soql !== value)
@@ -67,12 +72,12 @@ export default class QueryEditorPanel extends LightningElement {
     }
 
     _openCompletion(event) {
-        const { key, ctrlKey, target } = event;
+        const { key, altKey, ctrlKey, metaKey, target } = event;
         this._selectionStart = target.selectionStart;
         this._keyword = '';
         if (ctrlKey && key === ' ') {
             this._searchCompletionFields(event);
-        } else if (key !== ' ') {
+        } else if (key !== ' ' && !altKey && !ctrlKey && !metaKey) {
             this._addKeyword(event);
         }
     }
@@ -112,12 +117,15 @@ export default class QueryEditorPanel extends LightningElement {
 
     _escapeRegExp(str) {
         if (!str) return '';
-        return str.replace(/[-\/\\^$*+?.()|\[\]{}]/g, '\\$&');
+        return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
     }
 
     _handleCompletion(event) {
         if (event.isComposing) return;
-        const { key } = event;
+        const { key, altKey, ctrlKey, metaKey } = event;
+        if (altKey || ctrlKey || metaKey) {
+            this._closeCompletion();
+        }
         switch (key) {
             case '.':
             case ',':

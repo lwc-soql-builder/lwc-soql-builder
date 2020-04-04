@@ -3,7 +3,8 @@ import {
     DESELECT_SOBJECT,
     TOGGLE_FIELD,
     TOGGLE_RELATIONSHIP,
-    UPDATE_SOQL
+    UPDATE_SOQL,
+    FORMAT_SOQL
 } from './constants';
 
 export function selectSObject(sObjectName) {
@@ -37,5 +38,11 @@ export function updateSoql(soql) {
     return {
         type: UPDATE_SOQL,
         payload: { soql }
+    };
+}
+
+export function formatSoql() {
+    return {
+        type: FORMAT_SOQL
     };
 }

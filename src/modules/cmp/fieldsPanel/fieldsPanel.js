@@ -1,4 +1,4 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { getFlattenedFields } from 'soql-parser-js';
 import {
     connectStore,

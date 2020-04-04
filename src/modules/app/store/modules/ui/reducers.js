@@ -10,7 +10,8 @@ import {
     DESELECT_SOBJECT,
     TOGGLE_FIELD,
     TOGGLE_RELATIONSHIP,
-    UPDATE_SOQL
+    UPDATE_SOQL,
+    FORMAT_SOQL
 } from './constants';
 
 const INITIAL_QUERY = {
@@ -100,9 +101,16 @@ export default function sobjects(state = {}, action) {
             const query = isQueryValid(soql) ? parseQuery(soql) : state.query;
             return {
                 ...state,
-                selectedSObject: query.sObject,
+                selectedSObject: query ? query.sObject : undefined,
                 query,
                 soql
+            };
+        }
+
+        case FORMAT_SOQL: {
+            return {
+                ...state,
+                soql: composeQuery(state.query, { format: true })
             };
         }
 
