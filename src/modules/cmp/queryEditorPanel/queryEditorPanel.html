@@ -6,7 +6,7 @@
   </div>
   <div class="soql-editor slds-m-horizontal_small slds-m-bottom_small">
     <textarea class="slds-textarea soql-input" placeholder="Input SOQL"
-      onkeydown={handleKeydownSoql} onkeyup={handleKeyupSoql}></textarea>
+      onkeydown={handleKeydownSoql} onkeyup={handleKeyupSoql} onblur={handleBlurSoql}></textarea>
     <div class="completion-popover slds-popover" style={completionStyle} if:true={isCompletionVisible}>
       <ul class="slds-listbox slds-listbox_vertical" role="presentation">
         <template for:each={completionFields} for:item="field">

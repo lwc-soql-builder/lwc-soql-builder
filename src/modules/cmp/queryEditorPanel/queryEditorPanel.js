@@ -93,6 +93,10 @@ export default class QueryEditorPanel extends LightningElement {
         }
     }
 
+    handleBlurSoql() {
+        this._closeCompletion();
+    }
+
     _openCompletion(event) {
         const { target } = event;
         this._selectionStart =
