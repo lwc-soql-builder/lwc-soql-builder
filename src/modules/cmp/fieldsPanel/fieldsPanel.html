@@ -39,11 +39,17 @@
         <div class="slds-tabs_default__content" role="tabpanel" if:true={isFieldsActive}>
           <ul class="left-panel-scrollable" aria-describedby="entity-header">
             <template for:each={fields} for:item="field">
-              <li class="slds-nav-vertical__item slds-border_bottom slds-is-active" key={field.name} if:true={field.isActive}>
-                <a class="slds-nav-vertical__action" onclick={selectField} data-name={field.name}>{field.name} / {field.label}</a>
+              <li class="slds-nav-vertical__item slds-is-active" key={field.name} if:true={field.isActive}>
+                <a class="slds-nav-vertical__action slds-truncate" title={field.name}
+                  onclick={selectField} data-name={field.name}>
+                  {field.name} / {field.label}
+                </a>
               </li>
-              <li class="slds-nav-vertical__item slds-border_bottom" key={field.name} if:false={field.isActive}>
-                <a class="slds-nav-vertical__action" onclick={selectField} data-name={field.name}>{field.name} / {field.label}</a>
+              <li class="slds-nav-vertical__item" key={field.name} if:false={field.isActive}>
+                <a class="slds-nav-vertical__action slds-truncate" title={field.name}
+                  onclick={selectField} data-name={field.name}>
+                  {field.name} / {field.label}
+                </a>
               </li>
             </template>
           </ul>
@@ -52,11 +58,17 @@
           <ul class="left-panel-scrollable" aria-describedby="entity-header">
             <template for:each={relationships} for:item="relation">
               <template if:true={relation.relationshipName}>
-                <li class="slds-nav-vertical__item slds-border_bottom slds-is-active" key={relation.relationshipName} if:true={relation.isActive}>
-                  <a class="slds-nav-vertical__action" onclick={selectRelationship} data-name={relation.relationshipName}>{relation.relationshipName} / {relation.childSObject}</a>
+                <li class="slds-nav-vertical__item slds-is-active" key={relation.relationshipName} if:true={relation.isActive}>
+                  <a class="slds-nav-vertical__action slds-truncate" title={relation.relationshipName}
+                    onclick={selectRelationship} data-name={relation.relationshipName}>
+                    {relation.relationshipName} / {relation.childSObject}
+                  </a>
                 </li>
-                <li class="slds-nav-vertical__item slds-border_bottom" key={relation.relationshipName} if:false={relation.isActive}>
-                  <a class="slds-nav-vertical__action" onclick={selectRelationship} data-name={relation.relationshipName}>{relation.relationshipName} / {relation.childSObject}</a>
+                <li class="slds-nav-vertical__item" key={relation.relationshipName} if:false={relation.isActive}>
+                  <a class="slds-nav-vertical__action slds-truncate" title={relation.relationshipName}
+                    onclick={selectRelationship} data-name={relation.relationshipName}>
+                    {relation.relationshipName} / {relation.childSObject}
+                  </a>
                 </li>
               </template>
             </template>
