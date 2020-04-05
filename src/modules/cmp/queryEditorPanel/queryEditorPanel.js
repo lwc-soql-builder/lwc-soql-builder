@@ -58,7 +58,7 @@ export default class QueryEditorPanel extends LightningElement {
     handleKeyupSoql(event) {
         const { value } = event.target;
         if (this._soql !== value) {
-            store.dispatch(updateSoql(event.target.value));
+            store.dispatch(updateSoql(value));
         }
 
         if (!this._sobjectMeta) return;
@@ -255,6 +255,7 @@ export default class QueryEditorPanel extends LightningElement {
             const insertedIndex =
                 this._selectionStart + selectedField.name.length;
             target.setSelectionRange(insertedIndex, insertedIndex);
+            store.dispatch(updateSoql(this.soql));
         }
         this._closeCompletion();
     }
