@@ -1,0 +1,6 @@
+.slds-tree__item button[aria-hidden=true] {
+  visibility: hidden;
+}
+.slds-tree__item .slds-text-color_error {
+  padding-left: 2rem;
+}

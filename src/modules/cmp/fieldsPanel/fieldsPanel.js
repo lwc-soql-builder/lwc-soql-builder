@@ -1,12 +1,9 @@
 import { LightningElement, wire } from 'lwc';
-import { getFlattenedFields } from 'soql-parser-js';
 import {
     connectStore,
     store,
     describeSObjectIfNeeded,
-    deselectSObject,
-    toggleField,
-    toggleRelationship
+    deselectSObject
 } from '../../app/store/store';
 
 export default class FieldsPanel extends LightningElement {
@@ -23,12 +20,8 @@ export default class FieldsPanel extends LightningElement {
         }
     ];
     sobjectMeta;
-    fields = [];
-    relationships = [];
+    keyword;
     _selectedSObject;
-    _rawFields = [];
-    _rawRelationships = [];
-    _keyword;
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
@@ -47,8 +40,6 @@ export default class FieldsPanel extends LightningElement {
         } else if (sobjectState.error) {
             console.error(sobject.error);
         }
-
-        this._updateFields(ui.query);
     }
 
     get isFieldsActive() {
@@ -72,58 +63,7 @@ export default class FieldsPanel extends LightningElement {
         });
     }
 
-    selectField(event) {
-        const fieldName = event.target.dataset.name;
-        console.log(fieldName);
-        store.dispatch(toggleField(fieldName));
-    }
-
-    selectRelationship(event) {
-        const relationshipName = event.target.dataset.name;
-        console.log(relationshipName);
-        store.dispatch(toggleRelationship(relationshipName));
-    }
-
-    filterFields(event) {
-        this._keyword = event.target.value;
-        this._filterFields();
-    }
-
-    _updateFields(query) {
-        if (!this.sobjectMeta) return;
-        const selectedFields = query && getFlattenedFields(query);
-        console.log(selectedFields);
-        this._rawFields = this.sobjectMeta.fields.map(field => {
-            return {
-                ...field,
-                isNotReference: field.type !== 'reference',
-                isActive: selectedFields.includes(field.name)
-            };
-        });
-        this._rawRelationships = this.sobjectMeta.childRelationships.map(
-            relation => {
-                return {
-                    ...relation,
-                    isActive: selectedFields.includes(relation.relationshipName)
-                };
-            }
-        );
-        this._filterFields();
-    }
-
-    _filterFields() {
-        if (this._keyword) {
-            this.fields = this._rawFields.filter(field => {
-                return `${field.name} ${field.label}`.includes(this._keyword);
-            });
-            this.relationships = this._rawRelationships.filter(relation => {
-                return `${relation.relationshipName} ${relation.childSObject}`.includes(
-                    this._keyword
-                );
-            });
-        } else {
-            this.fields = this._rawFields;
-            this.relationships = this._rawRelationships;
-        }
+    setKeyword(event) {
+        this.keyword = event.target.value;
     }
 }

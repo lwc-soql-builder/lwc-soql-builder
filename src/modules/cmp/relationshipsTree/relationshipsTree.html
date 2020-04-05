@@ -1,0 +1,29 @@
+<template>
+  <ul class="slds-tree">
+    <template for:each={relationships} for:item="relation">
+      <template if:true={relation.relationshipName}>
+        <li aria-level="1" aria-selected={relation.isActive} role="treeitem" key={relation.relationshipName}>
+          <div class="slds-tree__item">
+            <button class="slds-button slds-button_icon slds-m-right_x-small" aria-hidden="false"
+              tabindex="-1" title="Expand Child Relationship"
+              data-name={relation.relationshipName} onclick={toggleChildRelationship}>
+              <svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
+                <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+              </svg>
+              <span class="slds-assistive-text">Expand Child Relationship</span>
+            </button>
+            <span class="slds-has-flexi-truncate">
+              <a class="slds-tree__item-label slds-truncate" title={relation.relationshipName}
+                onclick={selectRelationship} data-name={relation.relationshipName}>
+                {relation.relationshipName} / {relation.childSObject}
+              </a>
+            </span>
+          </div>
+          <template if:true={relation.isExpanded}>
+            <cmp-fields-tree sobject={relation.childSObject} childrelation={relation.relationshipName} rootlevel="2"></cmp-fields-tree>
+          </template>
+        </li>
+      </template>
+    </template>
+  </ul>
+</template>

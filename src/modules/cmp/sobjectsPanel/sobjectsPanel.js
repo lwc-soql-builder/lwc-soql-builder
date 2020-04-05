@@ -40,7 +40,6 @@ export default class SobjectsPanel extends LightningElement {
 
     selectSObject(event) {
         const sObjectName = event.target.dataset.name;
-        console.log(sObjectName);
         store.dispatch(selectSObject(sObjectName));
     }
 }

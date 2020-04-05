@@ -12,9 +12,6 @@
   font-size: 1rem;
   font-weight: 700;
 }
-.slds-tree__item button[aria-hidden=true] {
-  visibility: hidden;
-}
 .slds-tabs_default {
   display: flex;
   flex-direction: column;

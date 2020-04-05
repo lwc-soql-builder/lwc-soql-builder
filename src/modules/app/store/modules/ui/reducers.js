@@ -19,19 +19,100 @@ const INITIAL_QUERY = {
     sObject: undefined
 };
 
-function toggleField(state = INITIAL_QUERY, action) {
-    const { fieldName } = action.payload;
-    const fieldNames = getFlattenedFields(state);
-    if (fieldNames.includes(fieldName)) {
+function _getRawFieldName(fieldName, relationships) {
+    if (relationships) {
+        return `${relationships}.${fieldName}`;
+    }
+    return fieldName;
+}
+
+function _toggleField(query, fieldName, relationships) {
+    const fieldNames = getFlattenedFields(query);
+    const rawFieldName = _getRawFieldName(fieldName, relationships);
+    if (fieldNames.includes(rawFieldName)) {
         return {
-            ...state,
-            fields: state.fields.filter(field => field.field !== fieldName)
+            ...query,
+            fields: query.fields.filter(field => field.field !== rawFieldName)
+        };
+    }
+    if (relationships) {
+        return {
+            ...query,
+            fields: [
+                ...query.fields,
+                getField({
+                    field: fieldName,
+                    relationships: relationships.split('.')
+                })
+            ]
         };
     }
     return {
-        ...state,
-        fields: [...state.fields, getField(fieldName)]
+        ...query,
+        fields: [...query.fields, getField(fieldName)]
     };
+}
+
+function _toggleChildRelationshipField(
+    state,
+    fieldName,
+    relationships,
+    childRelationship
+) {
+    const childField = state.fields.find(
+        field =>
+            field.subquery &&
+            field.subquery.relationshipName === childRelationship
+    );
+    if (!childField) {
+        return {
+            ...state,
+            fields: [
+                ...state.fields,
+                getField({
+                    subquery: {
+                        fields: [getField(fieldName)],
+                        relationshipName: childRelationship
+                    }
+                })
+            ]
+        };
+    }
+    const newSubquery = _toggleField(
+        childField.subquery,
+        fieldName,
+        relationships
+    );
+    const newFields = state.fields.map(field => {
+        if (
+            field.subquery &&
+            field.subquery.relationshipName === childRelationship
+        ) {
+            return {
+                ...field,
+                subquery: newSubquery
+            };
+        }
+        return field;
+    });
+    return {
+        ...state,
+        fields: newFields
+    };
+}
+
+function toggleField(state = INITIAL_QUERY, action) {
+    console.log(action.payload);
+    const { fieldName, relationships, childRelationship } = action.payload;
+    if (childRelationship) {
+        return _toggleChildRelationshipField(
+            state,
+            fieldName,
+            relationships,
+            childRelationship
+        );
+    }
+    return _toggleField(state, fieldName, relationships);
 }
 
 function toggleRelationship(state = [], action) {

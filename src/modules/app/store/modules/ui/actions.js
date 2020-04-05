@@ -20,10 +20,10 @@ export function deselectSObject() {
     };
 }
 
-export function toggleField(fieldName) {
+export function toggleField(fieldName, relationships, childRelationship) {
     return {
         type: TOGGLE_FIELD,
-        payload: { fieldName }
+        payload: { fieldName, relationships, childRelationship }
     };
 }
 

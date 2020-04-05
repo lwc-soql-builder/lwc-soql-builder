@@ -1,0 +1,42 @@
+<template>
+  <ul class="slds-tree">
+    <template for:each={fields} for:item="field">
+      <li aria-level={level} aria-selected={field.isActive} aria-expanded={field.isExpanded} role="treeitem" key={field.name}>
+        <div class="slds-tree__item">
+          <button class="slds-button slds-button_icon slds-m-right_x-small" aria-hidden={field.isNotReference}
+            tabindex="-1" title="Expand Reference Field"
+            data-field={field.name} onclick={toggleReferenceField}>
+            <svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
+              <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            </svg>
+            <span class="slds-assistive-text">Expand Reference Field</span>
+          </button>
+          <span class="slds-has-flexi-truncate">
+            <a class="slds-tree__item-label slds-truncate" title={field.name}
+              onclick={selectField} data-name={field.name}>
+              {field.name} / {field.label}
+            </a>
+          </span>
+        </div>
+        <template if:true={field.isExpanded}>
+          <template if:true={isMaxLevel}>
+            <ul class="slds-tree">
+              <li aria-level={level}>
+                <div class="slds-tree__item">
+                  <div class="slds-text-color_error">
+                    No more than five levels can be specified in a child-to-parent relationship.
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </template>
+          <template if:false={isMaxLevel}>
+            <cmp-fields-tree sobject={field.relationshipSObjectName} relationship={field.relationshipPath}
+              rootlevel={rootlevel} childrelation={childrelation}
+              if:true={field.relationshipPath}></cmp-fields-tree>
+          </template>
+        </template>
+      </li>
+    </template>
+  </ul>
+</template>
