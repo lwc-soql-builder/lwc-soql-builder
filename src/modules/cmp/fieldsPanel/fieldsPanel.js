@@ -96,6 +96,7 @@ export default class FieldsPanel extends LightningElement {
         this._rawFields = this.sobjectMeta.fields.map(field => {
             return {
                 ...field,
+                isNotReference: field.type !== 'reference',
                 isActive: selectedFields.includes(field.name)
             };
         });

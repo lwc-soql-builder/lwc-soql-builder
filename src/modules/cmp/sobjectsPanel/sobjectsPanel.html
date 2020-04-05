@@ -1,7 +1,7 @@
 <template>
-  <nav class="slds-nav-vertical" aria-label="Sub page">
+  <div class="slds-tree_container">
     <div>
-      <h2 class="slds-nav-vertical__title">SObjects</h2>
+      <h2 class="slds-tree__group-header slds-truncate">SObjects</h2>
     </div>
     <div class="slds-form-element slds-p-horizontal_large">
       <label class="slds-form-element__label slds-assistive-text">Filter sObjects</label>
@@ -14,17 +14,21 @@
         <input type="search" placeholder="Quick Find" class="slds-input" onkeyup={filterSObjects} />
       </div>
     </div>
-    <div class="slds-nav-vertical__section slds-border_top">
-      <ul class="left-panel-scrollable" aria-describedby="entity-header" if:true={sobjects}>
+    <div class="sobjects-list slds-border_top">
+      <ul class="slds-tree left-panel-scrollable" aria-describedby="entity-header" if:true={sobjects}>
         <template for:each={sobjects} for:item="sobject">
-          <li class="slds-nav-vertical__item" key={sobject.name} if:true={sobject.queryable}>
-            <a class="slds-nav-vertical__action slds-truncate"
-              title={sobject.name} onclick={selectSObject} data-name={sobject.name}>
-              {sobject.name} / {sobject.label}
-            </a>
+          <li aria-level="1" role="treeitem" key={sobject.name} if:true={sobject.queryable}>
+            <div class="slds-tree__item">
+              <span class="slds-has-flexi-truncate">
+                <a class="slds-tree__item-label slds-truncate"
+                  title={sobject.name} onclick={selectSObject} data-name={sobject.name}>
+                  {sobject.name} / {sobject.label}
+                </a>
+              </span>
+            </div>
           </li>
         </template>
       </ul>
     </div>
-  </nav>
+  </div>
 </template>

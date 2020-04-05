@@ -1,5 +1,5 @@
 <template>
-  <nav class="slds-nav-vertical" aria-label="Sub page">
+  <div class="slds-tree_container">
     <div class="slds-p-left_small">
       <div class="slds-grid">
         <button class="slds-button slds-button_icon" title="Back" onclick={deselectSObject}>
@@ -8,7 +8,7 @@
           </svg>
           <span class="slds-assistive-text">Back</span>
         </button>
-        <h2 class="slds-nav-vertical__title slds-p-left_x-small slds-truncate" if:true={sobjectMeta}>
+        <h2 class="slds-tree__group-header slds-truncate" if:true={sobjectMeta}>
           {sobjectMeta.name} / {sobjectMeta.label}
         </h2>
       </div>
@@ -24,57 +24,64 @@
         <input type="search" placeholder="Quick Find" class="slds-input" onkeyup={filterFields} />
       </div>
     </div>
-    <div class="slds-nav-vertical__section">
-      <div class="slds-tabs_default sobject-tabs">
-        <ul class="slds-tabs_default__nav" role="tablist">
-          <template for:each={tabs} for:item="tab">
-            <li class="slds-tabs_default__item slds-is-active" title={tab.label} key={tab.id} if:true={tab.isActive}>
-              <a class="slds-tabs_default__link" role="tab" tabindex="-1" onclick={selectTab} data-id={tab.id}>{tab.label}</a>
-            </li>
-            <li class="slds-tabs_default__item" title={tab.label} key={tab.id} if:false={tab.isActive}>
-              <a class="slds-tabs_default__link" role="tab" tabindex="-1" onclick={selectTab} data-id={tab.id}>{tab.label}</a>
+    <div class="slds-tabs_default">
+      <ul class="slds-tabs_default__nav" role="tablist">
+        <template for:each={tabs} for:item="tab">
+          <li class="slds-tabs_default__item" aria-selected={tab.isActive} title={tab.label} key={tab.id}>
+            <a class="slds-tabs_default__link" role="tab" tabindex="-1" onclick={selectTab} data-id={tab.id}>{tab.label}</a>
+          </li>
+        </template>
+      </ul>
+      <div class="slds-tabs_default__content" role="tabpanel" if:true={isFieldsActive}>
+        <ul class="slds-tree left-panel-scrollable">
+          <template for:each={fields} for:item="field">
+            <li aria-level="1" aria-selected={field.isActive} role="treeitem" key={field.name}>
+              <div class="slds-tree__item">
+                <button class="slds-button slds-button_icon slds-m-right_x-small" aria-hidden={field.isNotReference}
+                  tabindex="-1" title="Expand Reference Field"
+                  onclick={expandReferenceField}>
+                  <svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
+                    <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Expand Reference Field</span>
+                </button>
+                <span class="slds-has-flexi-truncate">
+                  <a class="slds-tree__item-label slds-truncate" title={field.name}
+                    onclick={selectField} data-name={field.name}>
+                    {field.name} / {field.label}
+                  </a>
+                </span>
+              </div>
             </li>
           </template>
         </ul>
-        <div class="slds-tabs_default__content" role="tabpanel" if:true={isFieldsActive}>
-          <ul class="left-panel-scrollable" aria-describedby="entity-header">
-            <template for:each={fields} for:item="field">
-              <li class="slds-nav-vertical__item slds-is-active" key={field.name} if:true={field.isActive}>
-                <a class="slds-nav-vertical__action slds-truncate" title={field.name}
-                  onclick={selectField} data-name={field.name}>
-                  {field.name} / {field.label}
-                </a>
-              </li>
-              <li class="slds-nav-vertical__item" key={field.name} if:false={field.isActive}>
-                <a class="slds-nav-vertical__action slds-truncate" title={field.name}
-                  onclick={selectField} data-name={field.name}>
-                  {field.name} / {field.label}
-                </a>
+      </div>
+      <div class="slds-tabs_default__content" role="tabpanel" if:true={isRelationshipsActive}>
+        <ul class="slds-tree left-panel-scrollable">
+          <template for:each={relationships} for:item="relation">
+            <template if:true={relation.relationshipName}>
+              <li aria-level="1" aria-selected={relation.isActive} role="treeitem" key={relation.relationshipName}>
+                <div class="slds-tree__item">
+                  <button class="slds-button slds-button_icon slds-m-right_x-small" aria-hidden="false"
+                    tabindex="-1" title="Expand Child Relationship"
+                    onclick={expandChildRelationship}>
+                    <svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
+                      <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Expand Child Relationship</span>
+                  </button>
+                  <span class="slds-has-flexi-truncate">
+                    <a class="slds-tree__item-label slds-truncate" title={relation.relationshipName}
+                      onclick={selectRelationship} data-name={relation.relationshipName}>
+                      {relation.relationshipName} / {relation.childSObject}
+                    </a>
+                  </span>
+                </div>
               </li>
             </template>
-          </ul>
-        </div>
-        <div class="slds-tabs_default__content" role="tabpanel" if:true={isRelationshipsActive}>
-          <ul class="left-panel-scrollable" aria-describedby="entity-header">
-            <template for:each={relationships} for:item="relation">
-              <template if:true={relation.relationshipName}>
-                <li class="slds-nav-vertical__item slds-is-active" key={relation.relationshipName} if:true={relation.isActive}>
-                  <a class="slds-nav-vertical__action slds-truncate" title={relation.relationshipName}
-                    onclick={selectRelationship} data-name={relation.relationshipName}>
-                    {relation.relationshipName} / {relation.childSObject}
-                  </a>
-                </li>
-                <li class="slds-nav-vertical__item" key={relation.relationshipName} if:false={relation.isActive}>
-                  <a class="slds-nav-vertical__action slds-truncate" title={relation.relationshipName}
-                    onclick={selectRelationship} data-name={relation.relationshipName}>
-                    {relation.relationshipName} / {relation.childSObject}
-                  </a>
-                </li>
-              </template>
-            </template>
-          </ul>
-        </div>
+          </template>
+        </ul>
       </div>
     </div>
-  </nav>
+  </div>
 </template>

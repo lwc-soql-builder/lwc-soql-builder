@@ -2,19 +2,33 @@
   width: 100%;
   display: flex;
 }
-.slds-nav-vertical {
+.slds-tree_container {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
-.slds-nav-vertical__section {
-  flex: 1;
-  position: relative;
+.slds-tree__group-header {
+  padding: .5rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.slds-tree__item button[aria-hidden=true] {
+  visibility: hidden;
 }
 .slds-tabs_default {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+.slds-tabs_default__item[aria-selected=true] {
+  color: #080707;
+}
+.slds-tabs_default__item[aria-selected=true] .slds-tabs_default__link {
+  font-weight: 700;
+}
+.slds-tabs_default__item[aria-selected=true]:after {
+  background-color: #1589ee;
+  height: .1875rem;
 }
 .slds-tabs_default__content {
   flex: 1;
