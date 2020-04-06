@@ -29,8 +29,10 @@ class ColumnCollector {
                     parentRelation.set(name, new Map());
                 }
                 const data = record[name];
-                if (data && data.attributes) {
-                    this._collectColumnMap(data, [...relationships, name]);
+                if (data instanceof Object) {
+                    if (!data.totalSize) {
+                        this._collectColumnMap(data, [...relationships, name]);
+                    }
                 }
             }
         });
