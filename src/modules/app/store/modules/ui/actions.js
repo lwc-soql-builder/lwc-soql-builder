@@ -1,4 +1,5 @@
 import {
+    LOAD_RECENT_QUERIES,
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
     TOGGLE_FIELD,
@@ -6,6 +7,12 @@ import {
     UPDATE_SOQL,
     FORMAT_SOQL
 } from './constants';
+
+export function loadRecentQueries() {
+    return {
+        type: LOAD_RECENT_QUERIES
+    };
+}
 
 export function selectSObject(sObjectName) {
     return {

@@ -12,10 +12,10 @@ function requestQuery() {
     };
 }
 
-function receiveQuerySuccess(data) {
+function receiveQuerySuccess(data, soql) {
     return {
         type: RECEIVE_QUERY_SUCCESS,
-        payload: { data }
+        payload: { data, soql }
     };
 }
 
@@ -26,16 +26,16 @@ function receiveQueryError(error) {
     };
 }
 
-export function executeQuery(query) {
+export function executeQuery(soql) {
     return async dispatch => {
         if (salesforce.isLoggedIn()) {
             dispatch(requestQuery());
 
             salesforce.connection
-                .query(query)
+                .query(soql)
                 .then(res => {
                     console.log(res);
-                    dispatch(receiveQuerySuccess(res));
+                    dispatch(receiveQuerySuccess(res, soql));
                 })
                 .catch(err => {
                     console.error(err);

@@ -87,7 +87,7 @@ export default class OutputPanel extends LightningElement {
                 const rawData = this._getFieldValue(column, record);
                 let data = rawData;
                 if (data && data.totalSize) {
-                    data = `${column}(${data.totalSize})`;
+                    data = `${data.totalSize} rows`;
                 }
                 row.values.push({
                     key: `${rowIdx}-${valueIdx}`,

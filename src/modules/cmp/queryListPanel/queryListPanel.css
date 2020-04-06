@@ -1,0 +1,27 @@
+:host {
+  width: 100%;
+}
+.slds-tabs_default {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.slds-tabs_default__content {
+  padding: 0;
+  flex: 1;
+}
+.slds-scrollable {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.recent-query-item {
+  /* max-height: 30px; */
+  overflow: hidden;
+}
+.recent-query-item:hover {
+  background: #f3f2f2;
+  cursor: pointer;
+}

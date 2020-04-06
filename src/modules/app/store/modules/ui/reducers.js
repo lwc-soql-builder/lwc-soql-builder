@@ -11,8 +11,13 @@ import {
     TOGGLE_FIELD,
     TOGGLE_RELATIONSHIP,
     UPDATE_SOQL,
-    FORMAT_SOQL
+    FORMAT_SOQL,
+    LOAD_RECENT_QUERIES
 } from './constants';
+import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
+
+const RECENT_QUERIES_KEY = 'lsb.recentQueries';
+const MAX_RECENT_QUERIES = 10;
 
 const INITIAL_QUERY = {
     fields: [getField('Id')],
@@ -101,6 +106,35 @@ function _toggleChildRelationshipField(
     };
 }
 
+function recentQueries(state = [], action) {
+    const { soql } = action.payload;
+    if (state.length && state[0] === soql) return state;
+
+    const recentQueriesState = [
+        soql,
+        ...state.slice(0, MAX_RECENT_QUERIES - 1)
+    ];
+    try {
+        localStorage.setItem(
+            RECENT_QUERIES_KEY,
+            JSON.stringify(recentQueriesState)
+        );
+    } catch (e) {
+        console.warn('Failed to save recent queries from localStorage', e);
+    }
+    return recentQueriesState;
+}
+
+function loadRecentQueries() {
+    try {
+        const recentQueriesText = localStorage.getItem(RECENT_QUERIES_KEY);
+        if (recentQueriesText) return JSON.parse(recentQueriesText);
+    } catch (e) {
+        console.warn('Failed to load recent queries from localStorage', e);
+    }
+    return [];
+}
+
 function toggleField(state = INITIAL_QUERY, action) {
     console.log(action.payload);
     const { fieldName, relationships, childRelationship } = action.payload;
@@ -140,6 +174,18 @@ function toggleRelationship(state = [], action) {
 
 export default function sobjects(state = {}, action) {
     switch (action.type) {
+        case RECEIVE_QUERY_SUCCESS:
+            return {
+                ...state,
+                recentQueries: recentQueries(state.recentQueries, action)
+            };
+
+        case LOAD_RECENT_QUERIES:
+            return {
+                ...state,
+                recentQueries: loadRecentQueries()
+            };
+
         case SELECT_SOBJECT: {
             const query = {
                 ...INITIAL_QUERY,
