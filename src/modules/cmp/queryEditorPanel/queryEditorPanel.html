@@ -1,7 +1,6 @@
 <template>
   <div class="slds-p-around_small">
     <button class="slds-button slds-button_brand" onclick={runQuery}>Execute SOQL</button>
-    <button class="slds-button slds-button_neutral">Save SOQL</button>
     <button class="slds-button slds-button_neutral" onclick={formatQuery}>Format SOQL</button>
   </div>
   <div class="soql-editor slds-m-horizontal_small slds-m-bottom_small">
@@ -11,14 +10,9 @@
       <ul class="slds-listbox slds-listbox_vertical" role="presentation">
         <template for:each={completionFields} for:item="field">
           <li role="presentation" class="slds-listbox__item" key={field.name}>
-            <div if:true={field.isActive} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small is-active" role="option">
+            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" aria-selected={field.isActive} role="option">
               <span class="slds-media__body">
-                <span class="slds-truncate" title={field.name}>{field.name} / {field.label}</span>
-              </span>
-            </div>
-            <div if:false={field.isActive} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
-              <span class="slds-media__body">
-                <span class="slds-truncate" title={field.name}>{field.name} / {field.label}</span>
+                <span class="slds-truncate" title={field.itemLabel}>{field.itemLabel}</span>
               </span>
             </div>
           </li>

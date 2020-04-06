@@ -154,6 +154,7 @@ export default class QueryEditorPanel extends LightningElement {
             .map((field, index) => {
                 return {
                     ...field,
+                    itemLabel: `${field.name} / ${field.label}`,
                     isActive: index === 0
                 };
             });
