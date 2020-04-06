@@ -14,7 +14,12 @@ export default class SobjectsPanel extends LightningElement {
     @wire(connectStore, { store })
     storeChange({ sobjects }) {
         if (sobjects.data) {
-            this._rawSObjects = sobjects.data.sobjects;
+            this._rawSObjects = sobjects.data.sobjects.map(sobject => {
+                return {
+                    ...sobject,
+                    itemLabel: `${sobject.name} / ${sobject.label}`
+                };
+            });
             this.sobjects = this._rawSObjects;
         } else if (sobjects.error) {
             console.error(sobjects.error);

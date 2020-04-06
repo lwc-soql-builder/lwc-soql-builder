@@ -84,6 +84,7 @@ export default class FieldsTree extends LightningElement {
         this._rawFields = this.sobjectMeta.fields.map(field => {
             return {
                 ...field,
+                itemLabel: `${field.name} / ${field.label}`,
                 isNotReference: field.type !== 'reference',
                 isActive: selectedFields.includes(this._getRawFieldName(field)),
                 isExpanded: false,

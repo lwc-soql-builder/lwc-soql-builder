@@ -54,6 +54,7 @@ export default class RelationshipsTree extends LightningElement {
             relation => {
                 return {
                     ...relation,
+                    itemLabel: `${relation.relationshipName} / ${relation.childSObject}`,
                     isActive: selectedFields.includes(
                         relation.relationshipName
                     ),
