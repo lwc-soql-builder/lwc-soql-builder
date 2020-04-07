@@ -27,3 +27,8 @@ Thumbs.db
 ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
+
+# Firebase Hosting
+firebase.json
+.firebaserc
+/.firebase
