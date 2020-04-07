@@ -7,10 +7,26 @@
   position: relative;
   flex: 1;
 }
-.output-panel-scrollable {
+.slds-table--header-fixed_container {
   position: absolute;
   height: 100%;
   left: 0;
-  right: 0;
-  overflow: auto;
+  border-top: 1px solid #dddbda;
+  border-right: 1px solid #dddbda;
+}
+th, td, .slds-cell-fixed {
+  max-width: 400px;
+  min-width: 50px;
+}
+.slds-cell-fixed {
+  padding-left: .5rem;
+  transform: translate(-.25rem);
+  line-height: 2rem;
+}
+.slds-cell-fixed::before {
+  content: '';
+  border-left: 1px solid #dddbda;
+  position: absolute;
+  height: 2rem;
+  left: calc(.25rem - 1px);
 }
