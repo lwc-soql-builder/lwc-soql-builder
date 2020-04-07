@@ -21,6 +21,10 @@ class Salseforce {
             localStorage.setItem(INSTANCE_URL_KEY, connection.instanceUrl);
             this.connection = connection;
         });
+        jsforce.browser.on('disconnect', () => {
+            localStorage.removeItem(ACCESS_TOKEN_KEY);
+            localStorage.removeItem(INSTANCE_URL_KEY);
+        });
 
         const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
         const instanceUrl = localStorage.getItem(INSTANCE_URL_KEY);
@@ -36,7 +40,7 @@ class Salseforce {
 
     logout() {
         this.connection = null;
-        localStorage.clear();
+        jsforce.browser.logout();
     }
 
     login(loginUrl) {
