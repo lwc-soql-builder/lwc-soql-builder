@@ -98,6 +98,27 @@ export default class OutputPanel extends LightningElement {
         return this._response;
     }
 
+    @api
+    generateCsv() {
+        const convertToCsvValue = value => {
+            if (/[\n",]/.test(value)) {
+                return `"${value.replace(/"/g, '""')}"`;
+            }
+            return value;
+        };
+        const header = this.columns.map(convertToCsvValue).join(',');
+        const data = this.rows
+            .map(row => {
+                return row.values
+                    .map(cell => {
+                        return convertToCsvValue(cell.data);
+                    })
+                    .join(',');
+            })
+            .join('\n');
+        return `${header}\n${data}`;
+    }
+
     _getFieldValue(column, record) {
         let value = record;
         column.split('.').forEach(name => {

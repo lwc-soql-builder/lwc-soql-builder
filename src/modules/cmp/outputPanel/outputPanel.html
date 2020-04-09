@@ -1,10 +1,10 @@
 <template>
   <template if:true={response}>
     <div class="slds-p-around_small slds-grid">
-      <button class="slds-button slds-button_neutral">Export CSV</button>
+      <button class="slds-button slds-button_neutral" onclick={exportCsv}>Export CSV</button>
       <div class="slds-p-around_x-small slds-col_bump-left">Total: {response.totalSize}</div>
     </div>
-    <cmp-output-table response={response}></cmp-output-table>
+    <cmp-output-table class="main-output" response={response}></cmp-output-table>
     <div class="child-relationsihp-panel" if:true={childResponse}>
       <button class="slds-button slds-button_icon slds-button_icon" title="Close Child Relationship"
         onclick={closeChildRelationship}>
