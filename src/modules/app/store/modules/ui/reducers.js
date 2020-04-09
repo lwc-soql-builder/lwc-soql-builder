@@ -110,11 +110,9 @@ function _toggleChildRelationshipField(
 
 function recentQueries(state = [], action) {
     const { soql } = action.payload;
-    if (state.length && state[0] === soql) return state;
-
     const recentQueriesState = [
         soql,
-        ...state.slice(0, MAX_RECENT_QUERIES - 1)
+        ...state.filter(q => q !== soql).slice(0, MAX_RECENT_QUERIES - 1)
     ];
     try {
         localStorage.setItem(
