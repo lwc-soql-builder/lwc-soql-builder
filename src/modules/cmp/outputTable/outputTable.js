@@ -85,7 +85,8 @@ export default class OutputPanel extends LightningElement {
                 row.values.push({
                     key: `${rowIdx}-${valueIdx}`,
                     data,
-                    rawData
+                    rawData,
+                    column
                 });
             });
             rows.push(row);
