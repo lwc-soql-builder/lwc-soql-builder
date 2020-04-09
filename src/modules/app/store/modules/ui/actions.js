@@ -5,7 +5,9 @@ import {
     TOGGLE_FIELD,
     TOGGLE_RELATIONSHIP,
     UPDATE_SOQL,
-    FORMAT_SOQL
+    FORMAT_SOQL,
+    SELECT_CHILD_RELATIONSHIP,
+    DESELECT_CHILD_RELATIONSHIP
 } from './constants';
 
 export function loadRecentQueries() {
@@ -51,5 +53,18 @@ export function updateSoql(soql) {
 export function formatSoql() {
     return {
         type: FORMAT_SOQL
+    };
+}
+
+export function selectChildRelationship(childRelationship) {
+    return {
+        type: SELECT_CHILD_RELATIONSHIP,
+        payload: { childRelationship }
+    };
+}
+
+export function deselectChildRelationship() {
+    return {
+        type: DESELECT_CHILD_RELATIONSHIP
     };
 }

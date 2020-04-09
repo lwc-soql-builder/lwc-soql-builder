@@ -1,0 +1,11 @@
+<template>
+  <button class="slds-button slds-button_icon slds-m-right_xx-small" title="Show Child Relationship"
+    if:true={isChildRelationship}
+    onclick={handleClick}>
+    <svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
+      <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#record_lookup"></use>
+    </svg>
+    <span class="slds-assistive-text">Show Child Relationship</span>
+  </button>
+  <div class="slds-truncate" title={value.data}>{value.data}</div>
+</template>

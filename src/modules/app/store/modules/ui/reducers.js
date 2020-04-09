@@ -12,7 +12,9 @@ import {
     TOGGLE_RELATIONSHIP,
     UPDATE_SOQL,
     FORMAT_SOQL,
-    LOAD_RECENT_QUERIES
+    LOAD_RECENT_QUERIES,
+    SELECT_CHILD_RELATIONSHIP,
+    DESELECT_CHILD_RELATIONSHIP
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
 
@@ -136,7 +138,6 @@ function loadRecentQueries() {
 }
 
 function toggleField(state = INITIAL_QUERY, action) {
-    console.log(action.payload);
     const { fieldName, relationships, childRelationship } = action.payload;
     if (childRelationship) {
         return _toggleChildRelationshipField(
@@ -177,7 +178,8 @@ export default function sobjects(state = {}, action) {
         case RECEIVE_QUERY_SUCCESS:
             return {
                 ...state,
-                recentQueries: recentQueries(state.recentQueries, action)
+                recentQueries: recentQueries(state.recentQueries, action),
+                childRelationship: undefined
             };
 
         case LOAD_RECENT_QUERIES:
@@ -238,6 +240,20 @@ export default function sobjects(state = {}, action) {
             return {
                 ...state,
                 soql: composeQuery(state.query, { format: true })
+            };
+        }
+
+        case SELECT_CHILD_RELATIONSHIP: {
+            return {
+                ...state,
+                childRelationship: action.payload.childRelationship
+            };
+        }
+
+        case DESELECT_CHILD_RELATIONSHIP: {
+            return {
+                ...state,
+                childRelationship: undefined
             };
         }
 

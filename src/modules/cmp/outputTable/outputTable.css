@@ -1,0 +1,33 @@
+:host {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+}
+.output-panel { 
+  position: relative;
+  flex: 1;
+}
+.slds-table--header-fixed_container {
+  position: absolute;
+  min-width: 100%;
+  height: 100%;
+  left: 0;
+  border-top: 1px solid #dddbda;
+  border-right: 1px solid #dddbda;
+}
+th, td, .slds-cell-fixed {
+  max-width: 400px;
+  min-width: 50px;
+}
+.slds-cell-fixed {
+  padding-left: .5rem;
+  transform: translate(-.25rem);
+  line-height: 2rem;
+}
+.slds-cell-fixed::before {
+  content: '';
+  border-left: 1px solid #dddbda;
+  position: absolute;
+  height: 2rem;
+  left: calc(.25rem - 1px);
+}

@@ -1,36 +1,19 @@
 <template>
-  <template if:true={output}>
+  <template if:true={response}>
     <div class="slds-p-around_small slds-grid">
       <button class="slds-button slds-button_neutral">Export CSV</button>
-      <div class="slds-p-around_x-small slds-col_bump-left">Total: {output.totalSize}</div>
+      <div class="slds-p-around_x-small slds-col_bump-left">Total: {response.totalSize}</div>
     </div>
-    <div class="output-panel slds-scrollable_x">
-      <div class="slds-table--header-fixed_container">
-        <div class="slds-scrollable_y">
-          <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_striped slds-table--header-fixed">
-            <thead>
-              <tr class="slds-line-height_reset">
-                <template for:each={output.columns} for:item="column">
-                  <th class="" scope="col" key={column}>
-                    <div class="slds-cell-fixed slds-truncate" title={column}>{column}</div>
-                  </th>
-                </template>
-              </tr>
-            </thead>
-            <tbody>
-              <template for:each={output.rows} for:item="row">
-                <tr class="slds-hint-parent" key={row.key}>
-                  <template for:each={row.values} for:item="value">
-                    <td key={value.key}>
-                      <div class="slds-truncate" title={value.data}>{value.data}</div>
-                    </td>
-                  </template>
-                </tr>
-              </template>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <cmp-output-table response={response}></cmp-output-table>
+    <div class="child-relationsihp-panel" if:true={childResponse}>
+      <button class="slds-button slds-button_icon slds-button_icon" title="Close Child Relationship"
+        onclick={closeChildRelationship}>
+        <svg class="slds-button__icon" aria-hidden="true">
+          <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+        </svg>
+        <span class="slds-assistive-text">Close Child Relationship</span>
+      </button>
+      <cmp-output-table response={childResponse}></cmp-output-table>
     </div>
   </template>
 </template>
