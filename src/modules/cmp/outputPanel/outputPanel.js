@@ -5,16 +5,18 @@ import {
     deselectChildRelationship,
     clearQueryError
 } from '../../store/store';
-import { showToast } from '../../base/toastManager/toastManager';
+import { showToast } from '../../base/toast/toast-manager';
 
 export default class OutputPanel extends LightningElement {
     response;
     childResponse;
+    isLoading;
 
     _sObject;
 
     @wire(connectStore, { store })
     storeChange({ query, ui }) {
+        this.isLoading = query.isFetching;
         if (query.data) {
             if (this.response !== query.data) {
                 this.response = query.data;

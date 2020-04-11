@@ -2,6 +2,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .child-relationsihp-panel {
   position: relative;

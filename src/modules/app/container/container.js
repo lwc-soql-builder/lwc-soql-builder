@@ -1,6 +1,7 @@
 import { LightningElement, wire } from 'lwc';
 import salesforce from '../../service/salesforce';
 import { connectStore, store } from '../../store/store';
+import { registerToastListener } from '../../base/toast/toast-manager';
 
 export default class Container extends LightningElement {
     selectedSObject;
@@ -22,7 +23,9 @@ export default class Container extends LightningElement {
         return window.location.origin;
     }
 
-    connectedCallback() {
+    constructor() {
+        super();
         salesforce.init();
+        registerToastListener();
     }
 }

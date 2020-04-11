@@ -6,7 +6,7 @@ import {
     deselectSObject,
     clearSObjectError
 } from '../../store/store';
-import { showToast } from '../../base/toastManager/toastManager';
+import { showToast } from '../../base/toast/toast-manager';
 
 export default class FieldsPanel extends LightningElement {
     tabs = [
@@ -23,6 +23,8 @@ export default class FieldsPanel extends LightningElement {
     ];
     sobjectMeta;
     keyword;
+    isLoading;
+
     _selectedSObject;
 
     @wire(connectStore, { store })
@@ -36,6 +38,7 @@ export default class FieldsPanel extends LightningElement {
 
         const sobjectState = sobject[ui.selectedSObject];
         if (!sobjectState) return;
+        this.isLoading = sobjectState.isFetching;
         if (sobjectState.data) {
             this.sobjectMeta = sobjectState.data;
         } else if (sobjectState.error) {

@@ -6,14 +6,17 @@ import {
     selectSObject,
     clearSObjectsError
 } from '../../store/store';
-import { showToast } from '../../base/toastManager/toastManager';
+import { showToast } from '../../base/toast/toast-manager';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;
+    isLoading;
+
     _rawSObjects;
 
     @wire(connectStore, { store })
     storeChange({ sobjects }) {
+        this.isLoading = sobjects.isFetching;
         if (sobjects.data) {
             this._rawSObjects = sobjects.data.sobjects.map(sobject => {
                 return {

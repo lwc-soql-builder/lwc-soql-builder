@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
-
-import Toast from 'base/toast';
+import Toast from './toast';
 
 export function registerToastListener() {
     window.addEventListener('show-toast', evt => {
