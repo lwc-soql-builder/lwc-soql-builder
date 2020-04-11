@@ -8,6 +8,7 @@ import {
     updateSoql,
     formatSoql
 } from '../../store/store';
+import { escapeRegExp } from '../../base/utils/regexp-utils';
 
 export default class QueryEditorPanel extends LightningElement {
     isCompletionVisible;
@@ -143,7 +144,7 @@ export default class QueryEditorPanel extends LightningElement {
             this._selectionStart,
             target.selectionEnd
         );
-        const escapedKeyword = this._escapeRegExp(keyword);
+        const escapedKeyword = escapeRegExp(keyword);
         const keywordPattern = new RegExp(escapedKeyword, 'i');
         this.completionFields = this._sobjectMeta.fields
             .filter(field =>
@@ -162,11 +163,6 @@ export default class QueryEditorPanel extends LightningElement {
         } else {
             this.isCompletionVisible = false;
         }
-    }
-
-    _escapeRegExp(str) {
-        if (!str) return '';
-        return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
     }
 
     _handleCompletion(event) {

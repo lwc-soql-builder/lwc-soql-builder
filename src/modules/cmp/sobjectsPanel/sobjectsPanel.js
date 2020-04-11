@@ -7,6 +7,7 @@ import {
     clearSObjectsError
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
+import { escapeRegExp } from '../../base/utils/regexp-utils';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;
@@ -43,8 +44,10 @@ export default class SobjectsPanel extends LightningElement {
     filterSObjects(event) {
         const keyword = event.target.value;
         if (keyword) {
+            const escapedKeyword = escapeRegExp(keyword);
+            const keywordPattern = new RegExp(escapedKeyword, 'i');
             this.sobjects = this._rawSObjects.filter(sobject => {
-                return `${sobject.name} ${sobject.label}`.includes(keyword);
+                return keywordPattern.test(`${sobject.name} ${sobject.label}`);
             });
         } else {
             this.sobjects = this._rawSObjects;

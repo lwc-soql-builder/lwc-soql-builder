@@ -6,6 +6,7 @@ import {
     describeSObjectIfNeeded,
     toggleField
 } from '../../store/store';
+import { escapeRegExp } from '../../base/utils/regexp-utils';
 
 export default class FieldsTree extends LightningElement {
     // sObject Name
@@ -133,8 +134,10 @@ export default class FieldsTree extends LightningElement {
     _filterFields() {
         let fields;
         if (this.level === 1 && this.keyword) {
+            const escapedKeyword = escapeRegExp(this.keyword);
+            const keywordPattern = new RegExp(escapedKeyword, 'i');
             fields = this._rawFields.filter(field => {
-                return `${field.name} ${field.label}`.includes(this.keyword);
+                return keywordPattern.test(`${field.name} ${field.label}`);
             });
         } else {
             fields = this._rawFields;

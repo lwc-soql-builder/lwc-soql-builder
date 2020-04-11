@@ -1,6 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
 import { getFlattenedFields } from 'soql-parser-js';
 import { connectStore, store, toggleRelationship } from '../../store/store';
+import { escapeRegExp } from '../../base/utils/regexp-utils';
 
 export default class RelationshipsTree extends LightningElement {
     // sObject Name
@@ -66,9 +67,11 @@ export default class RelationshipsTree extends LightningElement {
     _filterRelationships() {
         let relationships;
         if (this.keyword) {
+            const escapedKeyword = escapeRegExp(this.keyword);
+            const keywordPattern = new RegExp(escapedKeyword, 'i');
             relationships = this._rawRelationships.filter(relation => {
-                return `${relation.relationshipName} ${relation.childSObject}`.includes(
-                    this.keyword
+                return keywordPattern.test(
+                    `${relation.relationshipName} ${relation.childSObject}`
                 );
             });
         } else {
