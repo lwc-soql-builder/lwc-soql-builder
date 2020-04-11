@@ -23,7 +23,6 @@ export default class QueryListPanel extends LightningElement {
 
     selectQuery(event) {
         const { key } = event.target.dataset;
-        console.log(key);
         const selectedQuery = this.recentQueries.find(
             query => query.key === key
         );

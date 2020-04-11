@@ -3,7 +3,8 @@ import salesforce from '../../../../service/salesforce';
 import {
     REQUEST_SOBJECT,
     RECEIVE_SOBJECT_SUCCESS,
-    RECEIVE_SOBJECT_ERROR
+    RECEIVE_SOBJECT_ERROR,
+    CLEAR_SOBJECT_ERROR
 } from './constants';
 
 function requestSObject(sObjectName) {
@@ -41,11 +42,9 @@ function describeSObject(sObjectName) {
                     `/services/data/v48.0/sobjects/${sObjectName}/describe`
                 )
                 .then(res => {
-                    console.log(res);
                     dispatch(receiveSObjectSuccess(sObjectName, res));
                 })
                 .catch(err => {
-                    console.error(err);
                     dispatch(receiveSObjectError(sObjectName, err));
                 });
         }
@@ -57,5 +56,12 @@ export function describeSObjectIfNeeded(sObjectName) {
         if (shouldFetchSObject(getState(), sObjectName)) {
             dispatch(describeSObject(sObjectName));
         }
+    };
+}
+
+export function clearSObjectError(sObjectName) {
+    return {
+        type: CLEAR_SOBJECT_ERROR,
+        payload: { sObjectName }
     };
 }

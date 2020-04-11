@@ -3,7 +3,8 @@ import salesforce from '../../../../service/salesforce';
 import {
     REQUEST_QUERY,
     RECEIVE_QUERY_SUCCESS,
-    RECEIVE_QUERY_ERROR
+    RECEIVE_QUERY_ERROR,
+    CLEAR_QUERY_ERROR
 } from './constants';
 
 function requestQuery() {
@@ -34,13 +35,17 @@ export function executeQuery(soql) {
             salesforce.connection
                 .query(soql)
                 .then(res => {
-                    console.log(res);
                     dispatch(receiveQuerySuccess(res, soql));
                 })
                 .catch(err => {
-                    console.error(err);
                     dispatch(receiveQueryError(err));
                 });
         }
+    };
+}
+
+export function clearQueryError() {
+    return {
+        type: CLEAR_QUERY_ERROR
     };
 }

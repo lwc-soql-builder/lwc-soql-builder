@@ -28,8 +28,6 @@ export default class RelationshipsTree extends LightningElement {
         if (!sobjectState) return;
         if (sobjectState.data) {
             this.sobjectMeta = sobjectState.data;
-        } else if (sobjectState.error) {
-            console.error(sobject.error);
         }
 
         this._updateRelationships(ui.query);

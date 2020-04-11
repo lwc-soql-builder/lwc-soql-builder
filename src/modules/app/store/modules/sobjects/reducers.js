@@ -1,7 +1,8 @@
 import {
     REQUEST_SOBJECTS,
     RECEIVE_SOBJECTS_SUCCESS,
-    RECEIVE_SOBJECTS_ERROR
+    RECEIVE_SOBJECTS_ERROR,
+    CLEAR_SOBJECTS_ERROR
 } from './constants';
 
 export default function sobjects(
@@ -31,7 +32,14 @@ export default function sobjects(
             return {
                 ...state,
                 isFetching: false,
+                data: undefined,
                 error: action.payload.error
+            };
+
+        case CLEAR_SOBJECTS_ERROR:
+            return {
+                ...state,
+                error: undefined
             };
 
         default:

@@ -2,8 +2,10 @@ import { LightningElement, wire } from 'lwc';
 import {
     connectStore,
     store,
-    deselectChildRelationship
+    deselectChildRelationship,
+    clearQueryError
 } from '../../app/store/store';
+import { showToast } from '../../base/toastManager/toastManager';
 
 export default class OutputPanel extends LightningElement {
     response;
@@ -20,6 +22,11 @@ export default class OutputPanel extends LightningElement {
             }
         } else if (query.error) {
             console.error(query.error);
+            showToast({
+                message: 'Failed to execute SOQL',
+                errors: query.error
+            });
+            store.dispatch(clearQueryError());
         }
         this.childResponse = ui.childRelationship;
     }

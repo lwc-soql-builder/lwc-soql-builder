@@ -1,11 +1,12 @@
 import { LightningElement, wire } from 'lwc';
-import salesforce from '../../service/salesforce';
 import {
     connectStore,
     store,
     fetchSObjectsIfNeeded,
-    selectSObject
+    selectSObject,
+    clearSObjectsError
 } from '../../app/store/store';
+import { showToast } from '../../base/toastManager/toastManager';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;
@@ -23,8 +24,12 @@ export default class SobjectsPanel extends LightningElement {
             this.sobjects = this._rawSObjects;
         } else if (sobjects.error) {
             console.error(sobjects.error);
-            salesforce.logout();
-            window.location.reload();
+            showToast({
+                message:
+                    'Failed to get sObjects. Perhaps your token is expired. Please login again.',
+                errors: sobjects.error
+            });
+            store.dispatch(clearSObjectsError());
         }
     }
 

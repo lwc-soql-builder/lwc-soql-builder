@@ -3,8 +3,10 @@ import {
     connectStore,
     store,
     describeSObjectIfNeeded,
-    deselectSObject
+    deselectSObject,
+    clearSObjectError
 } from '../../app/store/store';
+import { showToast } from '../../base/toastManager/toastManager';
 
 export default class FieldsPanel extends LightningElement {
     tabs = [
@@ -36,9 +38,13 @@ export default class FieldsPanel extends LightningElement {
         if (!sobjectState) return;
         if (sobjectState.data) {
             this.sobjectMeta = sobjectState.data;
-            console.log(this.sobjectMeta);
         } else if (sobjectState.error) {
-            console.error(sobject.error);
+            console.error(sobjectState.error);
+            showToast({
+                message: 'Failed to describe sObject',
+                errors: sobjectState.error
+            });
+            store.dispatch(clearSObjectError(ui.selectedSObject));
         }
     }
 

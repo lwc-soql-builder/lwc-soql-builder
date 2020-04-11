@@ -52,8 +52,6 @@ export default class FieldsTree extends LightningElement {
         if (!sobjectState) return;
         if (sobjectState.data) {
             this.sobjectMeta = sobjectState.data;
-        } else if (sobjectState.error) {
-            console.error(sobject.error);
         }
 
         this._updateFields(ui.query);

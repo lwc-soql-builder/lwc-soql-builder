@@ -22,7 +22,6 @@ export default class QueryEditorPanel extends LightningElement {
     }
 
     set soql(value) {
-        console.log(value);
         this._soql = value;
         const inputEl = this.template.querySelector('.soql-input');
         if (inputEl) inputEl.value = value;
@@ -46,7 +45,6 @@ export default class QueryEditorPanel extends LightningElement {
         const input = this.template.querySelector('.soql-input');
         if (!input) return;
         const query = input.value;
-        console.log(query);
         if (!query) return;
         store.dispatch(executeQuery(query));
     }

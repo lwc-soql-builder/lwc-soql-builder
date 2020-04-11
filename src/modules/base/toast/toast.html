@@ -1,0 +1,44 @@
+<template>
+  <div class="slds-notify_container">
+    <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+      <span class="slds-assistive-text">error</span>
+      <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top">
+        <svg class="slds-icon slds-icon_small" aria-hidden="true">
+          <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#error"></use>
+        </svg>
+      </span>
+      <div class="slds-notify__content">
+        <h2 class="slds-text-heading_small">{message}</h2>
+        <template if:true={errorMessages.length}>
+          <ul class="slds-list_dotted slds-p-top_small">
+            <li for:each={errorMessages} for:item="errorMessage" key={errorMessage}>{errorMessage}</li>
+          </ul>
+        </template>
+        <div class="slds-p-vertical_x-small">
+          <div class="slds-form-element">
+            <div class="slds-form-element__control">
+              <div class="slds-checkbox">
+                <input type="checkbox" name="options" id="checkbox-view-details" value="true" checked={viewDetails} onchange={handleCheckboxChange}/>
+                <label class="slds-checkbox__label" for="checkbox-view-details" >
+                  <span class="slds-checkbox_faux"></span>
+                  <span class="slds-form-element__label">詳細を表示</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <template if:true={viewDetails}>
+          <pre class="error-details slds-box slds-box_x-small slds-theme_default">{errorDetails}</pre>
+        </template>
+      </div>
+      <div class="slds-notify__close">
+        <button class="slds-button slds-button_icon slds-button_icon-inverse" title="Close" onclick={handleClose}>
+          <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+            <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+          </svg>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>

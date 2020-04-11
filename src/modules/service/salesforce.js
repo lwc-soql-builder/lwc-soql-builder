@@ -16,7 +16,6 @@ class Salseforce {
             redirectUri: `${this.locationOrigin}/`
         });
         jsforce.browser.on('connect', connection => {
-            console.log(connection);
             localStorage.setItem(ACCESS_TOKEN_KEY, connection.accessToken);
             localStorage.setItem(INSTANCE_URL_KEY, connection.instanceUrl);
             this.connection = connection;

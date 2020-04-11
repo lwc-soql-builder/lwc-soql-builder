@@ -1,7 +1,8 @@
 import {
     REQUEST_QUERY,
     RECEIVE_QUERY_SUCCESS,
-    RECEIVE_QUERY_ERROR
+    RECEIVE_QUERY_ERROR,
+    CLEAR_QUERY_ERROR
 } from './constants';
 
 export default function sobject(
@@ -31,7 +32,14 @@ export default function sobject(
             return {
                 ...state,
                 isFetching: false,
+                data: undefined,
                 error: action.payload.error
+            };
+
+        case CLEAR_QUERY_ERROR:
+            return {
+                ...state,
+                error: undefined
             };
 
         default:

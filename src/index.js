@@ -1,6 +1,7 @@
 import '@lwc/synthetic-shadow';
 import { buildCustomElementConstructor, register } from 'lwc';
 import { registerWireService } from '@lwc/wire-service';
+import { registerToastListener } from 'base/toastManager';
 import AppContainer from 'app/container';
 
 const availableFeature = detectFeatures();
@@ -12,6 +13,7 @@ if (isCompatibleBrowser) {
     unsupportedErrorMessage(availableFeature);
 } else {
     registerWireService(register);
+    registerToastListener();
 
     customElements.define(
         'app-container',

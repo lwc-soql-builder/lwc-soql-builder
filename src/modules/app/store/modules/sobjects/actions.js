@@ -3,7 +3,8 @@ import salesforce from '../../../../service/salesforce';
 import {
     REQUEST_SOBJECTS,
     RECEIVE_SOBJECTS_SUCCESS,
-    RECEIVE_SOBJECTS_ERROR
+    RECEIVE_SOBJECTS_ERROR,
+    CLEAR_SOBJECTS_ERROR
 } from './constants';
 
 function requestSObjects() {
@@ -38,11 +39,9 @@ function fetchSObjects() {
             salesforce.connection
                 .request('/services/data/v48.0/sobjects')
                 .then(res => {
-                    console.log(res);
                     dispatch(receiveSObjectsSuccess(res));
                 })
                 .catch(err => {
-                    console.error(err);
                     dispatch(receiveSObjectsError(err));
                 });
         }
@@ -54,5 +53,11 @@ export function fetchSObjectsIfNeeded() {
         if (shouldFetchSObjects(getState())) {
             dispatch(fetchSObjects());
         }
+    };
+}
+
+export function clearSObjectsError() {
+    return {
+        type: CLEAR_SOBJECTS_ERROR
     };
 }

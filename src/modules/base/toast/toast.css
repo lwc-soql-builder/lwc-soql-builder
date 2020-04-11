@@ -1,0 +1,10 @@
+.slds-notify__content {
+  width: 500px;
+  max-width: 100%;
+}
+.error-details {
+  max-height: 300px;
+}
+.slds-form-element__label {
+  color: #fff;
+}
