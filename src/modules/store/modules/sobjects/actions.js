@@ -1,4 +1,4 @@
-import salesforce from '../../../../service/salesforce';
+import salesforce from '../../../service/salesforce';
 
 import {
     REQUEST_SOBJECTS,

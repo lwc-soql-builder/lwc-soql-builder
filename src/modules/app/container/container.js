@@ -1,6 +1,6 @@
 import { LightningElement, wire } from 'lwc';
 import salesforce from '../../service/salesforce';
-import { connectStore, store } from '../../app/store/store';
+import { connectStore, store } from '../../store/store';
 
 export default class Container extends LightningElement {
     selectedSObject;

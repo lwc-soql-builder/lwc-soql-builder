@@ -1,6 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { store } from '../../app/store/redux';
-import { selectChildRelationship } from '../../app/store/store';
+import { store, selectChildRelationship } from '../../store/store';
 import salesforce from '../../service/salesforce';
 
 export default class OutputPanel extends LightningElement {

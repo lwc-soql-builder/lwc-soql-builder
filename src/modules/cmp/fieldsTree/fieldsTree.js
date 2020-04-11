@@ -5,7 +5,7 @@ import {
     store,
     describeSObjectIfNeeded,
     toggleField
-} from '../../app/store/store';
+} from '../../store/store';
 
 export default class FieldsTree extends LightningElement {
     // sObject Name

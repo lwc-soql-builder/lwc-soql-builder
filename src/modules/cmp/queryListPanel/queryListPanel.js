@@ -4,7 +4,7 @@ import {
     store,
     loadRecentQueries,
     updateSoql
-} from '../../app/store/store';
+} from '../../store/store';
 export default class QueryListPanel extends LightningElement {
     recentQueries;
 

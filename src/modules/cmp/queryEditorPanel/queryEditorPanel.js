@@ -7,7 +7,7 @@ import {
     executeQuery,
     updateSoql,
     formatSoql
-} from '../../app/store/store';
+} from '../../store/store';
 
 export default class QueryEditorPanel extends LightningElement {
     isCompletionVisible;

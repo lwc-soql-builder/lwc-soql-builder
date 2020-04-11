@@ -1,6 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
 import { getFlattenedFields } from 'soql-parser-js';
-import { connectStore, store, toggleRelationship } from '../../app/store/store';
+import { connectStore, store, toggleRelationship } from '../../store/store';
 
 export default class RelationshipsTree extends LightningElement {
     // sObject Name

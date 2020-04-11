@@ -5,7 +5,7 @@ import {
     describeSObjectIfNeeded,
     deselectSObject,
     clearSObjectError
-} from '../../app/store/store';
+} from '../../store/store';
 import { showToast } from '../../base/toastManager/toastManager';
 
 export default class FieldsPanel extends LightningElement {

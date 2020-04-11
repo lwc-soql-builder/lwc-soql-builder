@@ -4,7 +4,7 @@ import {
     store,
     deselectChildRelationship,
     clearQueryError
-} from '../../app/store/store';
+} from '../../store/store';
 import { showToast } from '../../base/toastManager/toastManager';
 
 export default class OutputPanel extends LightningElement {
