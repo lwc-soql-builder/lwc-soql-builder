@@ -2,10 +2,6 @@ import { LightningElement } from 'lwc';
 import salesforce from '../../service/salesforce';
 
 export default class WelcomeModal extends LightningElement {
-    get locationOrigin() {
-        return salesforce.locationOrigin;
-    }
-
     loginProduction() {
         salesforce.login('https://login.salesforce.com');
     }

@@ -2,6 +2,7 @@ import jsforce from 'jsforce';
 
 const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
+const PROXY_URL = 'https://lwc-soql-builder-proxy.herokuapp.com/';
 const ACCESS_TOKEN_KEY = 'lsb.accessToken';
 const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 
@@ -13,7 +14,8 @@ class Salseforce {
     init() {
         jsforce.browser.init({
             clientId: CLIENT_ID,
-            redirectUri: `${this.locationOrigin}/`
+            redirectUri: `${this.locationOrigin}/`,
+            proxyUrl: `${PROXY_URL}proxy/`
         });
         jsforce.browser.on('connect', connection => {
             localStorage.setItem(ACCESS_TOKEN_KEY, connection.accessToken);
@@ -32,7 +34,8 @@ class Salseforce {
             this.connection = new jsforce.Connection({
                 accessToken,
                 instanceUrl,
-                version: '48.0'
+                version: '48.0',
+                proxyUrl: `${PROXY_URL}proxy/`
             });
         }
     }
