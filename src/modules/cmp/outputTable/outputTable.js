@@ -48,10 +48,13 @@ class ColumnCollector {
     }
 }
 
+const PAGE_SIZE = 200;
+
 export default class OutputPanel extends LightningElement {
     columns;
     rows;
     _response;
+    _allRows;
 
     /**
      * Covert query response to the follwoing format.
@@ -92,7 +95,8 @@ export default class OutputPanel extends LightningElement {
             rows.push(row);
         });
         this.columns = columns;
-        this.rows = rows;
+        this._allRows = rows;
+        this.rows = rows.slice(0, PAGE_SIZE);
     }
     get response() {
         return this._response;
@@ -107,7 +111,7 @@ export default class OutputPanel extends LightningElement {
             return value;
         };
         const header = this.columns.map(convertToCsvValue).join(',');
-        const data = this.rows
+        const data = this._allRows
             .map(row => {
                 return row.values
                     .map(cell => {
@@ -117,6 +121,19 @@ export default class OutputPanel extends LightningElement {
             })
             .join('\n');
         return `${header}\n${data}`;
+    }
+
+    handleScroll(event) {
+        const { target } = event;
+        if (target.scrollTop + target.clientHeight >= target.scrollHeight) {
+            const index = this.rows.length;
+            if (index < this._allRows.length) {
+                this.rows = [
+                    ...this.rows,
+                    ...this._allRows.slice(index, index + PAGE_SIZE)
+                ];
+            }
+        }
     }
 
     _getFieldValue(column, record) {

@@ -17,7 +17,9 @@ export default function sobject(
         case REQUEST_QUERY:
             return {
                 ...state,
-                isFetching: true
+                isFetching: true,
+                data: undefined,
+                error: undefined
             };
 
         case RECEIVE_QUERY_SUCCESS:
@@ -25,7 +27,7 @@ export default function sobject(
                 ...state,
                 isFetching: false,
                 data: action.payload.data,
-                error: null
+                error: undefined
             };
 
         case RECEIVE_QUERY_ERROR:

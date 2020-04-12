@@ -22,7 +22,10 @@ export default class OutputPanel extends LightningElement {
                 this.response = query.data;
                 this._sObject = ui.query.sObject;
             }
-        } else if (query.error) {
+        } else {
+            this.response = undefined;
+        }
+        if (query.error) {
             console.error(query.error);
             showToast({
                 message: 'Failed to execute SOQL',
