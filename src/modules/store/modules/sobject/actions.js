@@ -38,7 +38,7 @@ function describeSObject(sObjectName) {
             dispatch(requestSObject(sObjectName));
 
             salesforce.connection
-                .request(`/sobjects/${sObjectName}/describe`)
+                .describe(sObjectName)
                 .then(res => {
                     dispatch(receiveSObjectSuccess(sObjectName, res));
                 })

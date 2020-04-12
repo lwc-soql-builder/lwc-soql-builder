@@ -37,7 +37,7 @@ function fetchSObjects() {
             dispatch(requestSObjects());
 
             salesforce.connection
-                .request('/sobjects')
+                .describeGlobal()
                 .then(res => {
                     dispatch(receiveSObjectsSuccess(res));
                 })
