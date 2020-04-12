@@ -10,7 +10,7 @@ export default class OutputPanel extends LightningElement {
     }
 
     get url() {
-        if (this.value.column !== 'Id') return null;
+        if (!/^[0-9A-Za-z]{18}$/.test(this.value.data)) return null;
         return `${salesforce.connection.instanceUrl}/${this.value.data}`;
     }
 
