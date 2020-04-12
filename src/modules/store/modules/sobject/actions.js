@@ -1,4 +1,4 @@
-import salesforce from '../../../service/salesforce';
+import * as salesforce from '../../../service/salesforce';
 
 import {
     REQUEST_SOBJECT,
@@ -38,9 +38,7 @@ function describeSObject(sObjectName) {
             dispatch(requestSObject(sObjectName));
 
             salesforce.connection
-                .request(
-                    `/services/data/v48.0/sobjects/${sObjectName}/describe`
-                )
+                .request(`/sobjects/${sObjectName}/describe`)
                 .then(res => {
                     dispatch(receiveSObjectSuccess(sObjectName, res));
                 })

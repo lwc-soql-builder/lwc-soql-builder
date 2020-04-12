@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { store, selectChildRelationship } from '../../store/store';
-import salesforce from '../../service/salesforce';
+import * as salesforce from '../../service/salesforce';
 
 export default class OutputPanel extends LightningElement {
     @api value;

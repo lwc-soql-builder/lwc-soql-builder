@@ -1,6 +1,6 @@
 import { LightningElement, wire } from 'lwc';
 import getCaretCoordinates from 'textarea-caret';
-import salesforce from '../../service/salesforce';
+import * as salesforce from '../../service/salesforce';
 import {
     connectStore,
     store,

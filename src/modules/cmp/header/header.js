@@ -1,6 +1,5 @@
 import { LightningElement } from 'lwc';
-import salesforce from '../../service/salesforce';
-
+import * as salesforce from '../../service/salesforce';
 export default class Header extends LightningElement {
     get isLoggedIn() {
         return salesforce.isLoggedIn();
