@@ -1,12 +1,15 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire } from 'lwc';
+import { connectStore, store } from '../../store/store';
 import * as salesforce from '../../service/salesforce';
 export default class Header extends LightningElement {
-    get isLoggedIn() {
-        return salesforce.isLoggedIn();
+    isLoggedIn;
+
+    @wire(connectStore, { store })
+    storeChange({ ui }) {
+        this.isLoggedIn = ui.isLoggedIn;
     }
 
     logout() {
         salesforce.logout();
-        window.location.reload();
     }
 }

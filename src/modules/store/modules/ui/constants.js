@@ -1,3 +1,5 @@
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const LOAD_RECENT_QUERIES = 'LOAD_RECENT_QUERIES';
 export const SELECT_SOBJECT = 'SELECT_SOBJECT';
 export const DESELECT_SOBJECT = 'DESELECT_SOBJECT';

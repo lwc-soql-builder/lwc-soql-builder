@@ -5,7 +5,7 @@ import {
     CLEAR_QUERY_ERROR
 } from './constants';
 
-export default function sobject(
+export default function query(
     state = {
         isFetching: false,
         data: null,

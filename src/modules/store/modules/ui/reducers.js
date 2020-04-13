@@ -6,6 +6,8 @@ import {
     isQueryValid
 } from 'soql-parser-js';
 import {
+    LOGIN,
+    LOGOUT,
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
     TOGGLE_FIELD,
@@ -171,8 +173,20 @@ function toggleRelationship(state = [], action) {
     };
 }
 
-export default function sobjects(state = {}, action) {
+export default function ui(state = {}, action) {
     switch (action.type) {
+        case LOGIN:
+            return {
+                ...state,
+                isLoggedIn: true
+            };
+
+        case LOGOUT:
+            return {
+                ...state,
+                isLoggedIn: false
+            };
+
         case RECEIVE_QUERY_SUCCESS:
             return {
                 ...state,

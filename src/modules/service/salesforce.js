@@ -1,4 +1,9 @@
 import jsforce from 'jsforce';
+import {
+    store,
+    login as loginAction,
+    logout as logoutAction
+} from '../store/store';
 
 const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
@@ -22,6 +27,7 @@ export function init() {
         localStorage.setItem(ACCESS_TOKEN_KEY, conn.accessToken);
         localStorage.setItem(INSTANCE_URL_KEY, conn.instanceUrl);
         connection = conn;
+        store.dispatch(loginAction());
     });
     jsforce.browser.on('disconnect', () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
@@ -38,12 +44,14 @@ export function init() {
             version: API_VERSION,
             proxyUrl: `${PROXY_URL}proxy/`
         });
+        store.dispatch(loginAction());
     }
 }
 
 export function logout() {
     connection = null;
     jsforce.browser.logout();
+    store.dispatch(logoutAction());
 }
 
 export function login(loginUrl) {

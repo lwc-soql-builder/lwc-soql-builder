@@ -1,4 +1,6 @@
 import {
+    LOGIN,
+    LOGOUT,
     LOAD_RECENT_QUERIES,
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
@@ -9,6 +11,18 @@ import {
     SELECT_CHILD_RELATIONSHIP,
     DESELECT_CHILD_RELATIONSHIP
 } from './constants';
+
+export function login() {
+    return {
+        type: LOGIN
+    };
+}
+
+export function logout() {
+    return {
+        type: LOGOUT
+    };
+}
 
 export function loadRecentQueries() {
     return {
