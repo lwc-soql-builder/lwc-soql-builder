@@ -1,6 +1,6 @@
 <template>
   <base-spinner if:true={isLoading}></base-spinner>
-  <div class="slds-tree_container">
+  <div class="slds-tree_container" if:true={sobjectMeta}>
     <div class="slds-p-left_small">
       <div class="slds-grid">
         <button class="slds-button slds-button_icon" title="Back" onclick={deselectSObject}>
@@ -9,7 +9,7 @@
           </svg>
           <span class="slds-assistive-text">Back</span>
         </button>
-        <h2 class="slds-tree__group-header slds-truncate" if:true={sobjectMeta}>
+        <h2 class="slds-tree__group-header slds-truncate">
           {sobjectMeta.name} / {sobjectMeta.label}
         </h2>
       </div>

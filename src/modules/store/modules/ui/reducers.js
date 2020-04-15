@@ -239,6 +239,14 @@ export default function ui(state = {}, action) {
 
         case UPDATE_SOQL: {
             const { soql } = action.payload;
+            if (!soql.trim()) {
+                return {
+                    ...state,
+                    selectedSObject: undefined,
+                    query: undefined,
+                    soql
+                };
+            }
             const query = isQueryValid(soql) ? parseQuery(soql) : state.query;
             return {
                 ...state,
