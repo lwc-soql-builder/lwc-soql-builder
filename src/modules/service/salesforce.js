@@ -2,7 +2,8 @@ import jsforce from 'jsforce';
 import {
     store,
     login as loginAction,
-    logout as logoutAction
+    logout as logoutAction,
+    fetchUser
 } from '../store/store';
 
 const CLIENT_ID =
@@ -28,6 +29,7 @@ export function init() {
         localStorage.setItem(INSTANCE_URL_KEY, conn.instanceUrl);
         connection = conn;
         store.dispatch(loginAction());
+        store.dispatch(fetchUser());
     });
     jsforce.browser.on('disconnect', () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
@@ -45,6 +47,7 @@ export function init() {
             proxyUrl: `${PROXY_URL}proxy/`
         });
         store.dispatch(loginAction());
+        store.dispatch(fetchUser());
     }
 }
 

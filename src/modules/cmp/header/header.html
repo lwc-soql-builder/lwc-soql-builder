@@ -6,6 +6,9 @@
       </div>
     </div>
     <div class="slds-builder-header__item slds-builder-header__utilities">
+      <div class="slds-builder-header__utilities-item" if:true={userLabel}>
+        <h1 class="slds-builder-header__item-label">{userLabel}</h1>
+      </div>
       <div class="slds-builder-header__utilities-item" if:true={isLoggedIn}>
         <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={logout}>
           <div class="slds-media__figure">
@@ -16,18 +19,6 @@
             </span>
           </div>
           <div class="slds-media__body">Logout</div>
-        </a>
-      </div>
-      <div class="slds-builder-header__utilities-item">
-        <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center">
-          <div class="slds-media__figure">
-            <span class="slds-icon_container slds-icon-utility-help slds-current-color">
-              <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#help"></use>
-              </svg>
-            </span>
-          </div>
-          <div class="slds-media__body">Help</div>
         </a>
       </div>
       <div class="slds-builder-header__utilities-item">

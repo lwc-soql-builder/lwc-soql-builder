@@ -8,7 +8,6 @@ import {
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
-import { logout } from '../../service/salesforce';
 
 export default class SobjectsPanel extends LightningElement {
     sobjects;
@@ -29,23 +28,11 @@ export default class SobjectsPanel extends LightningElement {
             this.sobjects = this._rawSObjects;
         } else if (sobjects.error) {
             console.error(sobjects.error);
-            const { error } = sobjects;
-            store.dispatch(clearSObjectsError());
-            let message;
-            if (
-                sobjects.error &&
-                sobjects.error.errorCode === 'INVALID_SESSION_ID'
-            ) {
-                logout();
-                message =
-                    'Failed to get sObjects. Your token is expired. Please login again.';
-            } else {
-                message = 'Failed to get sObjects.';
-            }
             showToast({
-                message,
-                errors: error
+                message: 'Failed to fetch sObjects.',
+                errors: sobjects.error
             });
+            store.dispatch(clearSObjectsError());
         }
     }
 
