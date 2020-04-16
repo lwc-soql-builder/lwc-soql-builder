@@ -28,7 +28,10 @@ export default class Header extends LightningElement {
         console.error(error);
         store.dispatch(clearUserError());
         let message;
-        if (error.errorCode === 'INVALID_SESSION_ID') {
+        if (
+            error.errorCode === 'INVALID_SESSION_ID' ||
+            error.errorCode === 'ERROR_HTTP_403'
+        ) {
             salesforce.logout();
             message =
                 'Failed to fetch login user.. Your token is expired. Please login again.';
