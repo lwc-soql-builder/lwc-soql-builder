@@ -8,7 +8,8 @@ import {
 
 const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
-const PROXY_URL = 'https://lwc-soql-builder-proxy.herokuapp.com/';
+const PROXY_URL =
+    'https://asia-northeast1-lwc-soql-builder-dev.cloudfunctions.net/';
 const API_VERSION = '48.0';
 const ACCESS_TOKEN_KEY = 'lsb.accessToken';
 const INSTANCE_URL_KEY = 'lsb.instanceUrl';
