@@ -1,6 +1,7 @@
 import {
     LOGIN,
     LOGOUT,
+    UPDATE_API_LIMIT,
     LOAD_RECENT_QUERIES,
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
@@ -21,6 +22,12 @@ export function login() {
 export function logout() {
     return {
         type: LOGOUT
+    };
+}
+
+export function updateApiLimit() {
+    return {
+        type: UPDATE_API_LIMIT
     };
 }
 

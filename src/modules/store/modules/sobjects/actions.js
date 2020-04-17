@@ -6,6 +6,7 @@ import {
     RECEIVE_SOBJECTS_ERROR,
     CLEAR_SOBJECTS_ERROR
 } from './constants';
+import { updateApiLimit } from '../ui/actions';
 
 function requestSObjects() {
     return {
@@ -40,6 +41,7 @@ function fetchSObjects() {
                 .describeGlobal()
                 .then(res => {
                     dispatch(receiveSObjectsSuccess(res));
+                    dispatch(updateApiLimit());
                 })
                 .catch(err => {
                     dispatch(receiveSObjectsError(err));

@@ -6,6 +6,9 @@
       </div>
     </div>
     <div class="slds-builder-header__item slds-builder-header__utilities">
+      <div class="slds-builder-header__utilities-item" if:true={apiUsage}>
+        <h1 class="slds-builder-header__item-label">API Usage: {apiUsage}</h1>
+      </div>
       <div class="slds-builder-header__utilities-item" if:true={userLabel}>
         <h1 class="slds-builder-header__item-label">{userLabel}</h1>
       </div>

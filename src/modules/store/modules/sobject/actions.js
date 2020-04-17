@@ -6,6 +6,7 @@ import {
     RECEIVE_SOBJECT_ERROR,
     CLEAR_SOBJECT_ERROR
 } from './constants';
+import { updateApiLimit } from '../ui/actions';
 
 function requestSObject(sObjectName) {
     return {
@@ -41,6 +42,7 @@ function describeSObject(sObjectName) {
                 .describe(sObjectName)
                 .then(res => {
                     dispatch(receiveSObjectSuccess(sObjectName, res));
+                    dispatch(updateApiLimit());
                 })
                 .catch(err => {
                     dispatch(receiveSObjectError(sObjectName, err));

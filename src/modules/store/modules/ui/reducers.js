@@ -8,6 +8,7 @@ import {
 import {
     LOGIN,
     LOGOUT,
+    UPDATE_API_LIMIT,
     SELECT_SOBJECT,
     DESELECT_SOBJECT,
     TOGGLE_FIELD,
@@ -19,6 +20,7 @@ import {
     DESELECT_CHILD_RELATIONSHIP
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
+import { connection } from '../../../service/salesforce';
 
 const RECENT_QUERIES_KEY = 'lsb.recentQueries';
 const MAX_RECENT_QUERIES = 10;
@@ -186,6 +188,14 @@ export default function ui(state = {}, action) {
                 ...state,
                 isLoggedIn: false
             };
+
+        case UPDATE_API_LIMIT: {
+            const { limitInfo } = connection;
+            return {
+                ...state,
+                apiUsage: limitInfo ? limitInfo.apiUsage : undefined
+            };
+        }
 
         case RECEIVE_QUERY_SUCCESS:
             return {

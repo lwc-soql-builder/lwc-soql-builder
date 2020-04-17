@@ -6,6 +6,7 @@ import {
     RECEIVE_QUERY_ERROR,
     CLEAR_QUERY_ERROR
 } from './constants';
+import { updateApiLimit } from '../ui/actions';
 
 function requestQuery() {
     return {
@@ -36,6 +37,7 @@ export function executeQuery(soql) {
                 .query(soql)
                 .then(res => {
                     dispatch(receiveQuerySuccess(res, soql));
+                    dispatch(updateApiLimit());
                 })
                 .catch(err => {
                     dispatch(receiveQueryError(err));

@@ -3,12 +3,18 @@ import { connectStore, store, clearUserError } from '../../store/store';
 import * as salesforce from '../../service/salesforce';
 import { showToast } from '../../base/toast/toast-manager';
 export default class Header extends LightningElement {
-    _user;
     isLoggedIn;
+    _user;
+    _apiUsage;
 
     get userLabel() {
         if (!this._user) return '';
         return `${this._user.name}(${this._user.preferred_username})`;
+    }
+
+    get apiUsage() {
+        if (!this._apiUsage) return '';
+        return `${this._apiUsage.used}/${this._apiUsage.limit}`;
     }
 
     @wire(connectStore, { store })
@@ -18,6 +24,7 @@ export default class Header extends LightningElement {
         if (user.error) {
             this._handleError(user.error);
         }
+        this._apiUsage = ui.apiUsage;
     }
 
     logout() {
