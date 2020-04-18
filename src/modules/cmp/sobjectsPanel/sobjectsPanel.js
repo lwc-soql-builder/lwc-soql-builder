@@ -2,7 +2,6 @@ import { LightningElement, wire } from 'lwc';
 import {
     connectStore,
     store,
-    fetchSObjectsIfNeeded,
     selectSObject,
     clearSObjectsError
 } from '../../store/store';
@@ -34,10 +33,6 @@ export default class SobjectsPanel extends LightningElement {
             });
             store.dispatch(clearSObjectsError());
         }
-    }
-
-    connectedCallback() {
-        store.dispatch(fetchSObjectsIfNeeded());
     }
 
     filterSObjects(event) {

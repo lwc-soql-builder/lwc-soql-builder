@@ -3,7 +3,8 @@ import {
     store,
     login as loginAction,
     logout as logoutAction,
-    fetchUser
+    fetchUser,
+    fetchSObjectsIfNeeded
 } from '../store/store';
 
 const CLIENT_ID =
@@ -16,26 +17,36 @@ const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 
 const locationOrigin = window.location.origin;
 
+const jsforceOptions = {
+    clientId: CLIENT_ID,
+    redirectUri: `${locationOrigin}/`,
+    version: API_VERSION,
+    proxyUrl: `${PROXY_URL}proxy/`
+};
+
 export let connection;
 
+function dispatchLogin() {
+    store.dispatch(loginAction());
+    store.dispatch(fetchUser());
+    store.dispatch(fetchSObjectsIfNeeded());
+}
+
 export function init() {
-    jsforce.browser.init({
-        clientId: CLIENT_ID,
-        redirectUri: `${locationOrigin}/`,
-        version: API_VERSION,
-        proxyUrl: `${PROXY_URL}proxy/`
-    });
+    jsforce.browser.init(jsforceOptions);
     jsforce.browser.on('connect', conn => {
+        console.log('conn!', conn);
         localStorage.setItem(ACCESS_TOKEN_KEY, conn.accessToken);
         localStorage.setItem(INSTANCE_URL_KEY, conn.instanceUrl);
         connection = conn;
-        store.dispatch(loginAction());
-        store.dispatch(fetchUser());
+        dispatchLogin();
     });
     jsforce.browser.on('disconnect', () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(INSTANCE_URL_KEY);
     });
+    // force emit connect event when receiving callback response
+    jsforce.browser.init(jsforceOptions);
 
     const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
     const instanceUrl = localStorage.getItem(INSTANCE_URL_KEY);
@@ -47,8 +58,7 @@ export function init() {
             version: API_VERSION,
             proxyUrl: `${PROXY_URL}proxy/`
         });
-        store.dispatch(loginAction());
-        store.dispatch(fetchUser());
+        dispatchLogin();
     }
 }
 
@@ -59,9 +69,9 @@ export function logout() {
 }
 
 export function login(loginUrl) {
-    jsforce.browser.login({ loginUrl }, () => {
-        window.location.reload();
-    });
+    // Force redirect instead of popup
+    window.open = () => null;
+    jsforce.browser.login({ loginUrl });
 }
 
 export function isLoggedIn() {
