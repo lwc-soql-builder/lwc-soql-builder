@@ -10,7 +10,11 @@ import sobject from './modules/sobject/reducers';
 import query from './modules/query/reducers';
 import ui from './modules/ui/reducers';
 
-let middlewares = [thunk, logger];
+let middlewares = [thunk];
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV !== 'production') {
+    middlewares = [...middlewares, logger];
+}
 
 export const store = createStore(
     combineReducers({

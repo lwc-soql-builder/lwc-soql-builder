@@ -19,7 +19,7 @@
         "eslint-plugin-prettier": "^3.1.2",
         "husky": "^4.2.3",
         "lint-staged": "^10.0.8",
-        "lwc-services": "^2.0.0",
+        "lwc-services": "^2.0.5",
         "prettier": "^1.19.1",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0"
@@ -49,7 +49,7 @@
     },
     "repository": "atskimura/lwc-soql-builder",
     "scripts": {
-        "build": "lwc-services build -m production -w scripts/webpack.config.js",
+        "build": "NODE_ENV=production lwc-services build -m production -w scripts/webpack.config.js",
         "build:development": "lwc-services build -w scripts/webpack.config.js",
         "lint": "eslint ./src/**/*.js",
         "prettier": "prettier --write \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
