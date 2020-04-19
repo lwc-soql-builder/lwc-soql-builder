@@ -29,11 +29,17 @@ export default class FieldsPanel extends LightningElement {
     _selectedSObject;
 
     @wire(connectStore, { store })
-    storeChange({ sobject, ui }) {
+    storeChange({ sobjects, sobject, ui }) {
         const { namespace, selectedSObject } = ui;
         if (!selectedSObject) return;
 
         const fullSObjectName = fullApiName(namespace, selectedSObject);
+        if (
+            sobjects &&
+            !sobjects.data.sobjects.find(o => o.name === fullSObjectName)
+        ) {
+            return;
+        }
         if (fullSObjectName !== this._selectedSObject) {
             this._selectedSObject = fullSObjectName;
             store.dispatch(describeSObjectIfNeeded(this._selectedSObject));
