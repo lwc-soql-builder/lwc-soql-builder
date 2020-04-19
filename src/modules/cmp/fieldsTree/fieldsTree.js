@@ -1,5 +1,4 @@
 import { LightningElement, api, wire } from 'lwc';
-import { getFlattenedFields } from 'soql-parser-js';
 import {
     connectStore,
     store,
@@ -7,6 +6,8 @@ import {
     toggleField
 } from '../../store/store';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
+import { fullApiName, isSame } from '../../base/utils/namespace-utils';
+import { getFlattenedFields } from 'soql-parser-js';
 
 export default class FieldsTree extends LightningElement {
     // sObject Name
@@ -19,6 +20,7 @@ export default class FieldsTree extends LightningElement {
 
     sobjectMeta;
     fields = [];
+    _namespace;
     _keyword;
     _rawFields = [];
     _expandedFieldNames = {};
@@ -49,6 +51,8 @@ export default class FieldsTree extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
+        this._namespace = ui.namespace;
+
         const sobjectState = sobject[this.sobject];
         if (!sobjectState) return;
         if (sobjectState.data) {
@@ -99,19 +103,26 @@ export default class FieldsTree extends LightningElement {
             const subquery = query.fields.find(
                 field =>
                     field.type === 'FieldSubquery' &&
-                    field.subquery.relationshipName === this.childrelation
+                    isSame(
+                        this._namespace,
+                        field.subquery.relationshipName,
+                        this.childrelation
+                    )
             );
             if (!subquery) return [];
-            return getFlattenedFields(subquery);
+            return this._getFlattenedFields(subquery);
         }
-        return getFlattenedFields(query);
+        return this._getFlattenedFields(query);
     }
 
     _getRawFieldName(field) {
+        let rawFieldName;
         if (this.relationship) {
-            return `${this.relationship}.${field.name}`;
+            rawFieldName = `${this.relationship}.${field.name}`;
+        } else {
+            rawFieldName = field.name;
         }
-        return field.name;
+        return this._fullApiName(rawFieldName);
     }
 
     _getRelationshipPath(field) {
@@ -148,5 +159,13 @@ export default class FieldsTree extends LightningElement {
                 isExpanded: !!this._expandedFieldNames[field.name]
             };
         });
+    }
+
+    _getFlattenedFields(query) {
+        return getFlattenedFields(query).map(field => this._fullApiName(field));
+    }
+
+    _fullApiName(apiName) {
+        return fullApiName(this._namespace, apiName);
     }
 }

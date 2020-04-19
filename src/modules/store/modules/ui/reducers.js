@@ -21,6 +21,8 @@ import {
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
 import { connection } from '../../../service/salesforce';
+import { RECEIVE_METADATA_SUCCESS } from '../metadata/constants';
+import { stripNamespace } from '../../../base/utils/namespace-utils';
 
 const RECENT_QUERIES_KEY = 'lsb.recentQueries';
 const MAX_RECENT_QUERIES = 10;
@@ -37,13 +39,29 @@ function _getRawFieldName(fieldName, relationships) {
     return fieldName;
 }
 
-function _toggleField(query, fieldName, relationships) {
-    const fieldNames = getFlattenedFields(query);
-    const rawFieldName = _getRawFieldName(fieldName, relationships);
+function _getStripNamespaceFunc(namespace) {
+    return apiName => {
+        return stripNamespace(namespace, apiName);
+    };
+}
+
+function _toggleField(query, namespace, fieldName, relationships) {
+    const stripNamespaceFunc = _getStripNamespaceFunc(namespace);
+    fieldName = stripNamespaceFunc(fieldName);
+    relationships = stripNamespaceFunc(relationships);
+    const fieldNames = stripNamespaceFunc(getFlattenedFields(query));
+    const rawFieldName = stripNamespaceFunc(
+        _getRawFieldName(fieldName, relationships)
+    );
     if (fieldNames.includes(rawFieldName)) {
         return {
             ...query,
-            fields: query.fields.filter(field => field.field !== rawFieldName)
+            fields: query.fields.filter(
+                field =>
+                    stripNamespaceFunc(
+                        _getRawFieldName(field.field, field.relationships)
+                    ) !== rawFieldName
+            )
         };
     }
     if (relationships) {
@@ -66,14 +84,19 @@ function _toggleField(query, fieldName, relationships) {
 
 function _toggleChildRelationshipField(
     state,
+    namespace,
     fieldName,
     relationships,
     childRelationship
 ) {
+    const stripNamespaceFunc = _getStripNamespaceFunc(namespace);
+    fieldName = stripNamespaceFunc(fieldName);
+    childRelationship = stripNamespaceFunc(childRelationship);
     const childField = state.fields.find(
         field =>
             field.subquery &&
-            field.subquery.relationshipName === childRelationship
+            stripNamespaceFunc(field.subquery.relationshipName) ===
+                childRelationship
     );
     if (!childField) {
         return {
@@ -89,15 +112,18 @@ function _toggleChildRelationshipField(
             ]
         };
     }
+    relationships = stripNamespaceFunc(relationships);
     const newSubquery = _toggleField(
         childField.subquery,
+        namespace,
         fieldName,
         relationships
     );
     const newFields = state.fields.map(field => {
         if (
             field.subquery &&
-            field.subquery.relationshipName === childRelationship
+            stripNamespaceFunc(field.subquery.relationshipName) ===
+                childRelationship
         ) {
             return {
                 ...field,
@@ -139,35 +165,39 @@ function loadRecentQueries() {
     return [];
 }
 
-function toggleField(state = INITIAL_QUERY, action) {
+function toggleField(state = INITIAL_QUERY, namespace, action) {
     const { fieldName, relationships, childRelationship } = action.payload;
     if (childRelationship) {
         return _toggleChildRelationshipField(
             state,
+            namespace,
             fieldName,
             relationships,
             childRelationship
         );
     }
-    return _toggleField(state, fieldName, relationships);
+    return _toggleField(state, namespace, fieldName, relationships);
 }
 
-function toggleRelationship(state = [], action) {
+function toggleRelationship(state = [], namespace, action) {
     const { relationshipName } = action.payload;
-    const fieldNames = getFlattenedFields(state);
-    if (fieldNames.includes(relationshipName)) {
+    const stripNamespaceFunc = _getStripNamespaceFunc(namespace);
+    const relationship = stripNamespaceFunc(relationshipName);
+    const fieldNames = stripNamespaceFunc(getFlattenedFields(state));
+    if (fieldNames.includes(relationship)) {
         return {
             ...state,
             fields: state.fields.filter(
                 field =>
-                    field.subquery &&
-                    field.subquery.relationshipName !== relationshipName
+                    !field.subquery ||
+                    stripNamespaceFunc(field.subquery.relationshipName) !==
+                        relationship
             )
         };
     }
     const subquery = {
         fields: [getField('Id')],
-        relationshipName
+        relationshipName: relationship
     };
     return {
         ...state,
@@ -204,6 +234,12 @@ export default function ui(state = {}, action) {
                 childRelationship: undefined
             };
 
+        case RECEIVE_METADATA_SUCCESS:
+            return {
+                ...state,
+                namespace: action.payload.data.organizationNamespace
+            };
+
         case LOAD_RECENT_QUERIES:
             return {
                 ...state,
@@ -211,13 +247,14 @@ export default function ui(state = {}, action) {
             };
 
         case SELECT_SOBJECT: {
+            const { sObjectName } = action.payload;
             const query = {
                 ...INITIAL_QUERY,
-                sObject: action.payload.sObjectName
+                sObject: stripNamespace(state.namespace, sObjectName)
             };
             return {
                 ...state,
-                selectedSObject: action.payload.sObjectName,
+                selectedSObject: sObjectName,
                 query,
                 soql: composeQuery(query, { format: true })
             };
@@ -230,7 +267,7 @@ export default function ui(state = {}, action) {
             };
 
         case TOGGLE_FIELD: {
-            const query = toggleField(state.query, action);
+            const query = toggleField(state.query, state.namespace, action);
             return {
                 ...state,
                 query,
@@ -239,7 +276,11 @@ export default function ui(state = {}, action) {
         }
 
         case TOGGLE_RELATIONSHIP: {
-            const query = toggleRelationship(state.query, action);
+            const query = toggleRelationship(
+                state.query,
+                state.namespace,
+                action
+            );
             return {
                 ...state,
                 query,

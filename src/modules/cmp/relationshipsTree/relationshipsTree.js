@@ -2,12 +2,14 @@ import { LightningElement, api, wire } from 'lwc';
 import { getFlattenedFields } from 'soql-parser-js';
 import { connectStore, store, toggleRelationship } from '../../store/store';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
+import { fullApiName } from '../../base/utils/namespace-utils';
 
 export default class RelationshipsTree extends LightningElement {
     // sObject Name
     @api sobject;
     sobjectMeta;
     relationships = [];
+    _namespace;
     _keyword;
     _rawRelationships = [];
     _expandedRelationshipNames = {};
@@ -25,6 +27,8 @@ export default class RelationshipsTree extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
+        this._namespace = ui.namespace;
+
         const sobjectState = sobject[this.sobject];
         if (!sobjectState) return;
         if (sobjectState.data) {
@@ -48,14 +52,14 @@ export default class RelationshipsTree extends LightningElement {
 
     _updateRelationships(query) {
         if (!this.sobjectMeta) return;
-        const selectedFields = query ? getFlattenedFields(query) : [];
+        const selectedFields = query ? this._getFlattenedFields(query) : [];
         this._rawRelationships = this.sobjectMeta.childRelationships.map(
             relation => {
                 return {
                     ...relation,
                     itemLabel: `${relation.relationshipName} / ${relation.childSObject}`,
                     isActive: selectedFields.includes(
-                        relation.relationshipName
+                        fullApiName(this._namespace, relation.relationshipName)
                     ),
                     isExpanded: false
                 };
@@ -86,5 +90,11 @@ export default class RelationshipsTree extends LightningElement {
                 ]
             };
         });
+    }
+
+    _getFlattenedFields(query) {
+        return getFlattenedFields(query).map(field =>
+            fullApiName(this._namespace, field)
+        );
     }
 }

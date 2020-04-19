@@ -53,7 +53,11 @@ export function deselectSObject() {
 export function toggleField(fieldName, relationships, childRelationship) {
     return {
         type: TOGGLE_FIELD,
-        payload: { fieldName, relationships, childRelationship }
+        payload: {
+            fieldName,
+            relationships,
+            childRelationship
+        }
     };
 }
 

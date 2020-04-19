@@ -4,6 +4,7 @@ import {
     login as loginAction,
     logout as logoutAction,
     fetchUser,
+    fetchMetadataIfNeeded,
     fetchSObjectsIfNeeded
 } from '../store/store';
 
@@ -11,9 +12,10 @@ const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
 const PROXY_URL =
     'https://asia-northeast1-lwc-soql-builder-dev.cloudfunctions.net/';
-const API_VERSION = '48.0';
 const ACCESS_TOKEN_KEY = 'lsb.accessToken';
 const INSTANCE_URL_KEY = 'lsb.instanceUrl';
+
+export const API_VERSION = '48.0';
 
 const locationOrigin = window.location.origin;
 
@@ -29,24 +31,16 @@ export let connection;
 function dispatchLogin() {
     store.dispatch(loginAction());
     store.dispatch(fetchUser());
+    store.dispatch(fetchMetadataIfNeeded());
     store.dispatch(fetchSObjectsIfNeeded());
 }
 
 export function init() {
     jsforce.browser.init(jsforceOptions);
-    jsforce.browser.on('connect', conn => {
-        console.log('conn!', conn);
-        localStorage.setItem(ACCESS_TOKEN_KEY, conn.accessToken);
-        localStorage.setItem(INSTANCE_URL_KEY, conn.instanceUrl);
-        connection = conn;
-        dispatchLogin();
-    });
     jsforce.browser.on('disconnect', () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(INSTANCE_URL_KEY);
     });
-    // force emit connect event when receiving callback response
-    jsforce.browser.init(jsforceOptions);
 
     const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
     const instanceUrl = localStorage.getItem(INSTANCE_URL_KEY);
@@ -59,7 +53,17 @@ export function init() {
             proxyUrl: `${PROXY_URL}proxy/`
         });
         dispatchLogin();
+        return;
     }
+
+    jsforce.browser.on('connect', conn => {
+        localStorage.setItem(ACCESS_TOKEN_KEY, conn.accessToken);
+        localStorage.setItem(INSTANCE_URL_KEY, conn.instanceUrl);
+        connection = conn;
+        dispatchLogin();
+    });
+    // force emit connect event when receiving callback response
+    jsforce.browser.init(jsforceOptions);
 }
 
 export function logout() {

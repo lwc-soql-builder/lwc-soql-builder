@@ -7,6 +7,7 @@ import {
     clearSObjectError
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
+import { fullApiName } from '../../base/utils/namespace-utils';
 
 export default class FieldsPanel extends LightningElement {
     tabs = [
@@ -29,14 +30,16 @@ export default class FieldsPanel extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
-        if (!ui.selectedSObject) return;
+        const { namespace, selectedSObject } = ui;
+        if (!selectedSObject) return;
 
-        if (ui.selectedSObject !== this._selectedSObject) {
-            this._selectedSObject = ui.selectedSObject;
-            store.dispatch(describeSObjectIfNeeded(ui.selectedSObject));
+        const fullSObjectName = fullApiName(namespace, selectedSObject);
+        if (fullSObjectName !== this._selectedSObject) {
+            this._selectedSObject = fullSObjectName;
+            store.dispatch(describeSObjectIfNeeded(this._selectedSObject));
         }
 
-        const sobjectState = sobject[ui.selectedSObject];
+        const sobjectState = sobject[this._selectedSObject];
         if (!sobjectState) return;
         this.isLoading = sobjectState.isFetching;
         if (sobjectState.data) {
@@ -47,7 +50,7 @@ export default class FieldsPanel extends LightningElement {
                 message: 'Failed to describe sObject',
                 errors: sobjectState.error
             });
-            store.dispatch(clearSObjectError(ui.selectedSObject));
+            store.dispatch(clearSObjectError(this._selectedSObject));
         }
     }
 

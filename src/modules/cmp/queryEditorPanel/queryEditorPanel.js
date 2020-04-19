@@ -14,6 +14,7 @@ export default class QueryEditorPanel extends LightningElement {
     isCompletionVisible;
     completionStyle;
     completionFields;
+    _namespace;
     _sobjectMeta;
     _selectionStart;
     _soql;
@@ -30,6 +31,7 @@ export default class QueryEditorPanel extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
+        this._namespace = ui.namespace;
         if (sobject && ui.query) {
             const sobjectState = sobject[ui.query.sObject];
             if (sobjectState) {
@@ -47,7 +49,7 @@ export default class QueryEditorPanel extends LightningElement {
         if (!input) return;
         const query = input.value;
         if (!query) return;
-        store.dispatch(executeQuery(query));
+        store.dispatch(executeQuery(query, this._namespace));
     }
 
     formatQuery() {

@@ -1,19 +1,30 @@
 import { LightningElement, wire } from 'lwc';
 import * as salesforce from '../../service/salesforce';
-import { connectStore, store } from '../../store/store';
-import { registerToastListener } from '../../base/toast/toast-manager';
+import { connectStore, store, clearMetadataError } from '../../store/store';
+import {
+    registerToastListener,
+    showToast
+} from '../../base/toast/toast-manager';
 
 export default class Container extends LightningElement {
     isLoggedIn;
     selectedSObject;
 
     @wire(connectStore, { store })
-    storeChange({ ui }) {
+    storeChange({ metadata, ui }) {
         this.isLoggedIn = ui.isLoggedIn;
         if (ui.selectedSObject) {
             this.selectedSObject = ui.selectedSObject;
         } else {
             this.selectedSObject = null;
+        }
+        if (metadata.error) {
+            console.error(metadata.error);
+            showToast({
+                message: 'Failed to fetch Metadata.',
+                errors: metadata.error
+            });
+            store.dispatch(clearMetadataError());
         }
     }
 

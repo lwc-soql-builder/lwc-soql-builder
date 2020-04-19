@@ -28,13 +28,23 @@ function receiveQueryError(error) {
     };
 }
 
-export function executeQuery(soql) {
+export function executeQuery(soql, namespace) {
     return async dispatch => {
         if (salesforce.isLoggedIn()) {
             dispatch(requestQuery());
 
+            let headers = {};
+            if (namespace) {
+                headers[
+                    'Sforce-Call-Options'
+                ] = `defaultNamespace=${namespace}`;
+            }
             salesforce.connection
-                .query(soql)
+                .request({
+                    method: 'GET',
+                    url: `/query?q=${encodeURIComponent(soql)}`,
+                    headers
+                })
                 .then(res => {
                     dispatch(receiveQuerySuccess(res, soql));
                     dispatch(updateApiLimit());
