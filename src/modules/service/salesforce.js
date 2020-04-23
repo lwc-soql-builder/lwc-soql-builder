@@ -1,12 +1,5 @@
 import jsforce from 'jsforce';
-import {
-    store,
-    login as loginAction,
-    logout as logoutAction,
-    fetchUser,
-    fetchMetadataIfNeeded,
-    fetchSObjectsIfNeeded
-} from '../store/store';
+import { store, logout as logoutAction } from '../store/store';
 
 const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
@@ -28,14 +21,21 @@ const jsforceOptions = {
 
 export let connection;
 
-function dispatchLogin() {
-    store.dispatch(loginAction());
-    store.dispatch(fetchUser());
-    store.dispatch(fetchMetadataIfNeeded());
-    store.dispatch(fetchSObjectsIfNeeded());
+function postConnect(callback) {
+    connection
+        .request('/services/oauth2/userinfo')
+        .then(user => {
+            if (callback) callback(null, user);
+        })
+        .catch(e => {
+            if (callback) callback(e);
+            logout();
+        });
 }
 
-export function init() {
+export function init(callback) {
+    const isAuthCallback = window.location.hash;
+
     jsforce.browser.init(jsforceOptions);
     jsforce.browser.on('disconnect', () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
@@ -52,7 +52,7 @@ export function init() {
             version: API_VERSION,
             proxyUrl: `${PROXY_URL}proxy/`
         });
-        dispatchLogin();
+        postConnect(callback);
         return;
     }
 
@@ -60,10 +60,12 @@ export function init() {
         localStorage.setItem(ACCESS_TOKEN_KEY, conn.accessToken);
         localStorage.setItem(INSTANCE_URL_KEY, conn.instanceUrl);
         connection = conn;
-        dispatchLogin();
+        postConnect(callback);
     });
     // force emit connect event when receiving callback response
-    jsforce.browser.init(jsforceOptions);
+    if (isAuthCallback) jsforce.browser.init(jsforceOptions);
+
+    if (!isAuthCallback && callback) callback();
 }
 
 export function logout() {

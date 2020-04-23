@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 
 import logger from './middlewares/logger';
 
-import user from './modules/user/reducers';
 import metadata from './modules/metadata/reducers';
 import sobjects from './modules/sobjects/reducers';
 import sobject from './modules/sobject/reducers';
@@ -18,7 +17,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const store = createStore(
     combineReducers({
-        user,
         metadata,
         sobjects,
         sobject,

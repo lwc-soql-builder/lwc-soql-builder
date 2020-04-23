@@ -210,7 +210,8 @@ export default function ui(state = {}, action) {
         case LOGIN:
             return {
                 ...state,
-                isLoggedIn: true
+                isLoggedIn: true,
+                user: action.payload.user
             };
 
         case LOGOUT:
