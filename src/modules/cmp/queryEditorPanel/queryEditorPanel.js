@@ -58,6 +58,18 @@ export default class QueryEditorPanel extends LightningElement {
         store.dispatch(formatSoql());
     }
 
+    insertField(event) {
+        const name = event.target.dataset.name;
+        if (this._closeCompletionTimer) {
+            clearTimeout(this._closeCompletionTimer);
+        }
+        const selectedField = this.completionFields.find(
+            field => field.name === name
+        );
+        const inputEl = this.template.querySelector('.soql-input');
+        this._insertField(inputEl, selectedField);
+    }
+
     handleKeyupSoql(event) {
         const { value } = event.target;
         if (this._soql !== value) {
@@ -84,7 +96,7 @@ export default class QueryEditorPanel extends LightningElement {
                     this._selectAboveField(event);
                     break;
                 case 'Enter':
-                    this._insertField(event);
+                    this._insertFieldByKeyboard(event);
                     break;
                 default:
                     break;
@@ -97,7 +109,11 @@ export default class QueryEditorPanel extends LightningElement {
     }
 
     handleBlurSoql() {
-        this._closeCompletion();
+        // eslint-disable-next-line @lwc/lwc/no-async-operation
+        this._closeCompletionTimer = setTimeout(
+            () => this._closeCompletion(),
+            100
+        );
     }
 
     _openCompletion(event) {
@@ -240,16 +256,20 @@ export default class QueryEditorPanel extends LightningElement {
         return this.completionFields.findIndex(field => field.isActive);
     }
 
-    _insertField(event) {
+    _insertFieldByKeyboard(event) {
         event.preventDefault();
         const selectedField = this.completionFields.find(
             field => field.isActive
         );
+        const { target } = event;
+        this._insertField(target, selectedField);
+    }
+
+    _insertField(textarea, selectedField) {
         if (selectedField) {
-            const { target } = event;
-            const soql = target.value;
+            const soql = textarea.value;
             const preSoql = soql.substring(0, this._selectionStart);
-            const postSoql = soql.substring(target.selectionStart);
+            const postSoql = soql.substring(textarea.selectionStart);
             const strippedFieldName = stripNamespace(
                 this._namespace,
                 selectedField.name
@@ -257,7 +277,8 @@ export default class QueryEditorPanel extends LightningElement {
             this.soql = preSoql + strippedFieldName + postSoql;
             const insertedIndex =
                 this._selectionStart + strippedFieldName.length;
-            target.setSelectionRange(insertedIndex, insertedIndex);
+            textarea.focus();
+            textarea.setSelectionRange(insertedIndex, insertedIndex);
             store.dispatch(updateSoql(this.soql));
         }
         this._closeCompletion();
