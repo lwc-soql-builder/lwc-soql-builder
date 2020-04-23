@@ -33,9 +33,7 @@ export function fetchUser(sObjectName) {
             dispatch(requestUser(sObjectName));
 
             salesforce.connection
-                .request(
-                    'https://login.salesforce.com/services/oauth2/userinfo'
-                )
+                .request('/services/oauth2/userinfo')
                 .then(res => {
                     dispatch(receiveUserSuccess(res));
                 })
