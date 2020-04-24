@@ -36,10 +36,6 @@ export default class Container extends LightningElement {
         }
     }
 
-    get locationOrigin() {
-        return window.location.origin;
-    }
-
     constructor() {
         super();
         this.isLoading = true;

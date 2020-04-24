@@ -4,8 +4,8 @@
     "background_color": "#16325c",
     "display": "standalone",
     "short_name": "LSB",
-    "Scope": "/",
-    "start_url": "/",
+    "Scope": "/lwc-soql-builder/",
+    "start_url": "./index.html",
     "icons": [
         {
             "src": "resources/icons/icon-16x16.png",

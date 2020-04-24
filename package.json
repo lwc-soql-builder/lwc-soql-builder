@@ -17,6 +17,7 @@
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.10.0",
         "eslint-plugin-prettier": "^3.1.2",
+        "gh-pages": "^2.2.0",
         "husky": "^4.2.3",
         "lint-staged": "^10.0.8",
         "lwc-services": "^2.0.5",
@@ -59,6 +60,7 @@
         "test:unit:coverage": "lwc-services test:unit --coverage",
         "test:unit:debug": "lwc-services test:unit --debug",
         "test:unit:watch": "lwc-services test:unit --watch",
-        "watch": "lwc-services watch -w scripts/webpack.config.js"
+        "watch": "lwc-services watch -w scripts/webpack.config.js",
+        "deploy": "npm run build && gh-pages -d dist"
     }
 }

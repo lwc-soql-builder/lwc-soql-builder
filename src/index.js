@@ -22,7 +22,7 @@ if (isCompatibleBrowser) {
         // Register service worker after page load event to avoid delaying critical requests for the
         // initial page load.
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js');
+            navigator.serviceWorker.register('./sw.js');
             console.log('Service worker registered');
         });
     }

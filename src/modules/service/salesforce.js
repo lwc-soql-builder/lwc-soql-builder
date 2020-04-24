@@ -10,11 +10,9 @@ const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 
 export const API_VERSION = '48.0';
 
-const locationOrigin = window.location.origin;
-
 const jsforceOptions = {
     clientId: CLIENT_ID,
-    redirectUri: `${locationOrigin}/`,
+    redirectUri: `${window.location.origin}${window.location.pathname}`,
     version: API_VERSION,
     proxyUrl: `${PROXY_URL}proxy/`
 };

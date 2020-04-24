@@ -4,6 +4,9 @@ const webpack = require('webpack');
 const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = {
+    output: {
+        publicPath: './'
+    },
     plugins: [
         new webpack.EnvironmentPlugin(['NODE_ENV']),
         new GenerateSW({ swDest: 'sw.js', skipWaiting: true })
