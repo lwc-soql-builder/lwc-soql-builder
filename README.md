@@ -21,7 +21,7 @@ LWC SOQL Builder is a SOQL execution tool developed in LWC Open Source. LWC SOQL
 
 ## How to setup local machine for development
 
-1. Setup proxy. You must set `proxy.allowed_origin=http://localhost:3001`  
+1. Setup proxy. You must set `proxy.allowed_origin=http://localhost:3001`.  
 For more information, see [lwc-soql-builder/jsforce-ajax-proxy-cloud-functions](https://github.com/lwc-soql-builder/jsforce-ajax-proxy-cloud-functions)
 
 2. Start by running `FIREBASE_ALIAS=<Firebase project alias> npm run watch`.  
@@ -29,10 +29,10 @@ This will start the project with a local development server on `http://localhost
 
 ## How to deploy
 
-1. Setup proxy. You must set `proxy.allowed_origin=http://localhost:3001`  
+1. Setup proxy. You must set `proxy.allowed_origin=http://<username>.github.io/lwc-soql-builder`.  
 For more information, see [lwc-soql-builder/jsforce-ajax-proxy-cloud-functions](https://github.com/lwc-soql-builder/jsforce-ajax-proxy-cloud-functions)
 
-2. Build and Deploy by running `FIREBASE_ALIAS=<Firebase project alias> npm run deploy`. This will publish files in `dist/` to a gh-pages branch on GitHub
+2. Build and Deploy by running `FIREBASE_ALIAS=<Firebase project alias> npm run deploy`.  This will publish files in `dist/` to a gh-pages branch on GitHub.
 
 3. You can access LWC SOQL Builder with the following URL.  
 `http://<username>.github.io/lwc-soql-builder/`
