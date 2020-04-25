@@ -56,12 +56,15 @@ function _toggleField(query, namespace, fieldName, relationships) {
     if (fieldNames.includes(rawFieldName)) {
         return {
             ...query,
-            fields: query.fields.filter(
-                field =>
+            fields: query.fields.filter(field => {
+                const relationshipPath =
+                    field.relationships && field.relationships.join('.');
+                return (
                     stripNamespaceFunc(
-                        _getRawFieldName(field.field, field.relationships)
+                        _getRawFieldName(field.field, relationshipPath)
                     ) !== rawFieldName
-            )
+                );
+            })
         };
     }
     if (relationships) {
