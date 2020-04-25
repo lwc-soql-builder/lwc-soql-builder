@@ -19,6 +19,20 @@ LWC SOQL Builder is a SOQL execution tool developed in LWC Open Source. LWC SOQL
 * Support for ignoring default namespace
   * You can run a SOQL without the namespace prefix of a managed package. So, you can copy and paste the SOQL into your Apex code as-is.
 
-## How to start?
+## How to setup local machine for development
 
-Start simple by running `npm run watch`. This will start the project with a local development server.
+1. Setup proxy. You must set `proxy.allowed_origin=http://localhost:3001`  
+For more information, see [lwc-soql-builder/jsforce-ajax-proxy-cloud-functions](https://github.com/lwc-soql-builder/jsforce-ajax-proxy-cloud-functions)
+
+2. Start by running `FIREBASE_ALIAS=<Firebase project alias> npm run watch`.  
+This will start the project with a local development server on `http://localhost:3001`.
+
+## How to deploy
+
+1. Setup proxy. You must set `proxy.allowed_origin=http://localhost:3001`  
+For more information, see [lwc-soql-builder/jsforce-ajax-proxy-cloud-functions](https://github.com/lwc-soql-builder/jsforce-ajax-proxy-cloud-functions)
+
+2. Build and Deploy by running `FIREBASE_ALIAS=<Firebase project alias> npm run deploy`. This will publish files in `dist/` to a gh-pages branch on GitHub
+
+3. You can access LWC SOQL Builder with the following URL.  
+`http://<username>.github.io/lwc-soql-builder/`

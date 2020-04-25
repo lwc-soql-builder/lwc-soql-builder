@@ -3,18 +3,26 @@ import { store, logout as logoutAction } from '../store/store';
 
 const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
-const PROXY_URL =
-    'https://asia-northeast1-lwc-soql-builder-dev.cloudfunctions.net/';
 const ACCESS_TOKEN_KEY = 'lsb.accessToken';
 const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 
+// eslint-disable-next-line no-undef
+const FIREBASE_ALIAS = process.env.FIREBASE_ALIAS;
+
 export const API_VERSION = '48.0';
+
+function getProxyUrl() {
+    if (navigator.language === 'ja') {
+        return `https://asia-northeast1-${FIREBASE_ALIAS}.cloudfunctions.net/asia_northeast1/proxy/`;
+    }
+    return `https://us-central1-${FIREBASE_ALIAS}.cloudfunctions.net/us_central1/proxy/`;
+}
 
 const jsforceOptions = {
     clientId: CLIENT_ID,
     redirectUri: `${window.location.origin}${window.location.pathname}`,
     version: API_VERSION,
-    proxyUrl: `${PROXY_URL}proxy/`
+    proxyUrl: getProxyUrl()
 };
 
 export let connection;
@@ -48,7 +56,7 @@ export function init(callback) {
             accessToken,
             instanceUrl,
             version: API_VERSION,
-            proxyUrl: `${PROXY_URL}proxy/`
+            proxyUrl: getProxyUrl()
         });
         postConnect(callback);
         return;

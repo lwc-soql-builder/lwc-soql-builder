@@ -8,7 +8,7 @@ module.exports = {
         publicPath: './'
     },
     plugins: [
-        new webpack.EnvironmentPlugin(['NODE_ENV']),
+        new webpack.EnvironmentPlugin(['NODE_ENV', 'FIREBASE_ALIAS']),
         new GenerateSW({ swDest: 'sw.js', skipWaiting: true })
     ]
 };
