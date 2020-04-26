@@ -3,9 +3,7 @@ import * as salesforce from '../../service/salesforce';
 import {
     connectStore,
     store,
-    clearMetadataError,
     login,
-    fetchMetadataIfNeeded,
     fetchSObjectsIfNeeded
 } from '../../store/store';
 import {
@@ -19,20 +17,12 @@ export default class Container extends LightningElement {
     selectedSObject;
 
     @wire(connectStore, { store })
-    storeChange({ metadata, ui }) {
+    storeChange({ ui }) {
         this.isLoggedIn = ui.isLoggedIn;
         if (ui.selectedSObject) {
             this.selectedSObject = ui.selectedSObject;
         } else {
             this.selectedSObject = null;
-        }
-        if (metadata.error) {
-            console.error(metadata.error);
-            showToast({
-                message: 'Failed to fetch Metadata.',
-                errors: metadata.error
-            });
-            store.dispatch(clearMetadataError());
         }
     }
 
@@ -56,7 +46,6 @@ export default class Container extends LightningElement {
         }
         if (user) {
             store.dispatch(login(user));
-            store.dispatch(fetchMetadataIfNeeded());
             store.dispatch(fetchSObjectsIfNeeded());
         }
     }

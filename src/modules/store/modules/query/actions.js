@@ -28,23 +28,16 @@ function receiveQueryError(error) {
     };
 }
 
-export function executeQuery(soql, namespace) {
+export function executeQuery(soql) {
     return async dispatch => {
         if (salesforce.isLoggedIn()) {
             dispatch(requestQuery());
 
-            let headers = {};
-            if (namespace) {
-                headers = {
-                    ...headers,
-                    'Sforce-Call-Options': `defaultNamespace=${namespace}`
-                };
-            }
             salesforce.connection
                 .request({
                     method: 'GET',
                     url: `/query?q=${encodeURIComponent(soql)}`,
-                    headers
+                    headers: salesforce.getQueryHeaders()
                 })
                 .then(res => {
                     dispatch(receiveQuerySuccess(res, soql));

@@ -1,15 +1,25 @@
 import jsforce from 'jsforce';
 import { store, logout as logoutAction } from '../store/store';
+import { escapeRegExp } from '../base/utils/regexp-utils';
 
 const CLIENT_ID =
     '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
 const ACCESS_TOKEN_KEY = 'lsb.accessToken';
 const INSTANCE_URL_KEY = 'lsb.instanceUrl';
+const API_VERSION_KEY = 'lsb.apiVersion';
 
 // eslint-disable-next-line no-undef
 const FIREBASE_ALIAS = process.env.FIREBASE_ALIAS;
 
-export const API_VERSION = '48.0';
+const MANAGED_NAME_PATTERN = new RegExp(
+    '^([a-z_]?[a-z])+(?:__[cr]|__Share|__latitude__s|__longitude__s)$',
+    'i'
+);
+
+export let connection;
+export let namespace;
+
+let apiVersion;
 
 function getProxyUrl() {
     if (navigator.language === 'ja') {
@@ -18,31 +28,44 @@ function getProxyUrl() {
     return `https://us-central1-${FIREBASE_ALIAS}.cloudfunctions.net/us_central1/proxy/`;
 }
 
-const jsforceOptions = {
-    clientId: CLIENT_ID,
-    redirectUri: `${window.location.origin}${window.location.pathname}`,
-    version: API_VERSION,
-    proxyUrl: getProxyUrl()
-};
+function jsforceOptions() {
+    return {
+        clientId: CLIENT_ID,
+        redirectUri: `${window.location.origin}${window.location.pathname}`,
+        version: apiVersion,
+        proxyUrl: getProxyUrl()
+    };
+}
 
-export let connection;
+async function getApiVersion() {
+    apiVersion = sessionStorage.getItem(API_VERSION_KEY);
+    if (!apiVersion) {
+        const versions = await connection.request('/services/data/');
+        // Get latest version
+        apiVersion = versions[versions.length - 1].version;
+        connection.version = apiVersion;
+        sessionStorage.setItem(API_VERSION_KEY, apiVersion);
+    }
+}
 
-function postConnect(callback) {
-    connection
-        .request('/services/oauth2/userinfo')
-        .then(user => {
-            if (callback) callback(null, user);
-        })
-        .catch(e => {
-            if (callback) callback(e);
-            logout();
-        });
+async function postConnect(callback) {
+    callback = callback || (() => {});
+    try {
+        const user = await connection.request('/services/oauth2/userinfo');
+        await getApiVersion();
+        const metadata = await connection.metadata.describe(apiVersion);
+        namespace = metadata.organizationNamespace;
+        callback(null, user);
+    } catch (e) {
+        callback(e);
+        logout();
+    }
 }
 
 export function init(callback) {
     const isAuthCallback = window.location.hash;
 
-    jsforce.browser.init(jsforceOptions);
+    jsforce.browser.init(jsforceOptions());
     jsforce.browser.on('disconnect', () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(INSTANCE_URL_KEY);
@@ -55,7 +78,7 @@ export function init(callback) {
         connection = new jsforce.Connection({
             accessToken,
             instanceUrl,
-            version: API_VERSION,
+            version: apiVersion,
             proxyUrl: getProxyUrl()
         });
         postConnect(callback);
@@ -69,7 +92,7 @@ export function init(callback) {
         postConnect(callback);
     });
     // force emit connect event when receiving callback response
-    if (isAuthCallback) jsforce.browser.init(jsforceOptions);
+    if (isAuthCallback) jsforce.browser.init(jsforceOptions());
 
     if (!isAuthCallback && callback) callback();
 }
@@ -88,4 +111,62 @@ export function login(loginUrl) {
 
 export function isLoggedIn() {
     return !!(connection && connection.accessToken);
+}
+
+export function getQueryHeaders() {
+    if (namespace) {
+        return {
+            'Sforce-Call-Options': `defaultNamespace=${namespace}`
+        };
+    }
+    return {};
+}
+
+function _fullApiName(apiName) {
+    if (!apiName) return null;
+    if (!namespace) return apiName;
+    if (MANAGED_NAME_PATTERN.test(apiName)) {
+        return `${namespace}__${apiName}`;
+    }
+    return apiName;
+}
+
+export function fullApiName(apiName) {
+    if (!apiName) return null;
+    if (!namespace) return apiName;
+    if (Array.isArray(apiName)) {
+        return apiName.map(n => _fullApiName(n));
+    }
+    return apiName
+        .split('.')
+        .map(n => _fullApiName(n))
+        .join('.');
+}
+
+function _stripNamespace(apiName) {
+    if (!apiName) return null;
+    if (!namespace) return apiName;
+    const escapedNamespace = escapeRegExp(namespace);
+    const namespacePattern = new RegExp(`^${escapedNamespace}__(.*)$`, 'i');
+    const matcher = apiName.match(namespacePattern);
+    if (matcher) {
+        return matcher[1];
+    }
+    return apiName;
+}
+
+export function stripNamespace(apiName) {
+    if (!apiName) return null;
+    if (!namespace) return apiName;
+    if (Array.isArray(apiName)) {
+        return apiName.map(n => _stripNamespace(n));
+    }
+    return apiName
+        .split('.')
+        .map(n => _stripNamespace(n))
+        .join('.');
+}
+
+export function isSame(apiName1, apiName2) {
+    return fullApiName(apiName1) === fullApiName(apiName2);
 }

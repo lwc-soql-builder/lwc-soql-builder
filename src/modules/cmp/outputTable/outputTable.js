@@ -74,11 +74,6 @@ export default class OutputPanel extends LightningElement {
         return this._response;
     }
 
-    @wire(connectStore, { store })
-    storeChange({ ui }) {
-        this._namespace = ui.namespace;
-    }
-
     @api
     async generateCsv() {
         const convertToCsvValue = value => {
@@ -177,17 +172,10 @@ export default class OutputPanel extends LightningElement {
 
     async _fetchNextRecords(nextRecordsUrl) {
         if (!nextRecordsUrl) return;
-        let headers = {};
-        if (this._namespace) {
-            headers = {
-                ...headers,
-                'Sforce-Call-Options': `defaultNamespace=${this._namespace}`
-            };
-        }
         const res = await salesforce.connection.request({
             method: 'GET',
             url: nextRecordsUrl,
-            headers
+            headers: salesforce.getQueryHeaders()
         });
         this._nextRecordsUrl = res.nextRecordsUrl;
         this._allRows = [...this._allRows, ...this._convertQueryResponse(res)];

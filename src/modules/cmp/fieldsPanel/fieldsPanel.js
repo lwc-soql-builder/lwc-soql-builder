@@ -7,7 +7,7 @@ import {
     clearSObjectError
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
-import { fullApiName } from '../../base/utils/namespace-utils';
+import { fullApiName } from '../../service/salesforce';
 
 export default class FieldsPanel extends LightningElement {
     tabs = [
@@ -30,10 +30,10 @@ export default class FieldsPanel extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobjects, sobject, ui }) {
-        const { namespace, selectedSObject } = ui;
+        const { selectedSObject } = ui;
         if (!selectedSObject) return;
 
-        const fullSObjectName = fullApiName(namespace, selectedSObject);
+        const fullSObjectName = fullApiName(selectedSObject);
         if (
             sobjects &&
             !sobjects.data.sobjects.find(o => o.name === fullSObjectName)

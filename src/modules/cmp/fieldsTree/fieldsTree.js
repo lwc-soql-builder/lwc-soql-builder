@@ -6,7 +6,7 @@ import {
     toggleField
 } from '../../store/store';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
-import { fullApiName, isSame } from '../../base/utils/namespace-utils';
+import { fullApiName, isSame } from '../../service/salesforce';
 import { getFlattenedFields } from 'soql-parser-js';
 
 export default class FieldsTree extends LightningElement {
@@ -20,7 +20,6 @@ export default class FieldsTree extends LightningElement {
 
     sobjectMeta;
     fields = [];
-    _namespace;
     _keyword;
     _rawFields = [];
     _expandedFieldNames = {};
@@ -51,8 +50,6 @@ export default class FieldsTree extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
-        this._namespace = ui.namespace;
-
         const sobjectState = sobject[this.sobject];
         if (!sobjectState) return;
         if (sobjectState.data) {
@@ -103,11 +100,7 @@ export default class FieldsTree extends LightningElement {
             const subquery = query.fields.find(
                 field =>
                     field.type === 'FieldSubquery' &&
-                    isSame(
-                        this._namespace,
-                        field.subquery.relationshipName,
-                        this.childrelation
-                    )
+                    isSame(field.subquery.relationshipName, this.childrelation)
             );
             if (!subquery) return [];
             return this._getFlattenedFields(subquery);
@@ -122,7 +115,7 @@ export default class FieldsTree extends LightningElement {
         } else {
             rawFieldName = field.name;
         }
-        return this._fullApiName(rawFieldName);
+        return fullApiName(rawFieldName);
     }
 
     _getRelationshipPath(field) {
@@ -162,10 +155,6 @@ export default class FieldsTree extends LightningElement {
     }
 
     _getFlattenedFields(query) {
-        return getFlattenedFields(query).map(field => this._fullApiName(field));
-    }
-
-    _fullApiName(apiName) {
-        return fullApiName(this._namespace, apiName);
+        return getFlattenedFields(query).map(field => fullApiName(field));
     }
 }

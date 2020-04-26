@@ -9,13 +9,12 @@ import {
     formatSoql
 } from '../../store/store';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
-import { fullApiName, stripNamespace } from '../../base/utils/namespace-utils';
+import { fullApiName, stripNamespace } from '../../service/salesforce';
 
 export default class QueryEditorPanel extends LightningElement {
     isCompletionVisible;
     completionStyle;
     completionFields;
-    _namespace;
     _sobjectMeta;
     _selectionStart;
     _soql;
@@ -32,10 +31,9 @@ export default class QueryEditorPanel extends LightningElement {
 
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
-        const { namespace, query, soql } = ui;
-        this._namespace = namespace;
+        const { query, soql } = ui;
         if (sobject && query) {
-            const sobjectState = sobject[fullApiName(namespace, query.sObject)];
+            const sobjectState = sobject[fullApiName(query.sObject)];
             if (sobjectState) {
                 this._sobjectMeta = sobjectState.data;
             }
@@ -51,7 +49,7 @@ export default class QueryEditorPanel extends LightningElement {
         if (!input) return;
         const query = input.value;
         if (!query) return;
-        store.dispatch(executeQuery(query, this._namespace));
+        store.dispatch(executeQuery(query));
     }
 
     formatQuery() {
@@ -270,10 +268,7 @@ export default class QueryEditorPanel extends LightningElement {
             const soql = textarea.value;
             const preSoql = soql.substring(0, this._selectionStart);
             const postSoql = soql.substring(textarea.selectionStart);
-            const strippedFieldName = stripNamespace(
-                this._namespace,
-                selectedField.name
-            );
+            const strippedFieldName = stripNamespace(selectedField.name);
             this.soql = preSoql + strippedFieldName + postSoql;
             const insertedIndex =
                 this._selectionStart + strippedFieldName.length;
