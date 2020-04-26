@@ -23,7 +23,7 @@ import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
 import { connection, stripNamespace } from '../../../service/salesforce';
 
 const RECENT_QUERIES_KEY = 'lsb.recentQueries';
-const MAX_RECENT_QUERIES = 10;
+const MAX_RECENT_QUERIES = 20;
 
 const INITIAL_QUERY = {
     fields: [getField('Id')],

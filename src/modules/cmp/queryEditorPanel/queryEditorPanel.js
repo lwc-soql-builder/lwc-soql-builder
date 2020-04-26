@@ -1,6 +1,5 @@
 import { LightningElement, wire } from 'lwc';
 import getCaretCoordinates from 'textarea-caret';
-import * as salesforce from '../../service/salesforce';
 import {
     connectStore,
     store,
@@ -44,12 +43,11 @@ export default class QueryEditorPanel extends LightningElement {
     }
 
     runQuery() {
-        if (!salesforce.connection) return;
-        const input = this.template.querySelector('.soql-input');
-        if (!input) return;
-        const query = input.value;
-        if (!query) return;
-        store.dispatch(executeQuery(query));
+        this._runQuery();
+    }
+
+    runQueryAll() {
+        this._runQuery(true);
     }
 
     formatQuery() {
@@ -112,6 +110,14 @@ export default class QueryEditorPanel extends LightningElement {
             () => this._closeCompletion(),
             100
         );
+    }
+
+    _runQuery(isAllRows) {
+        const input = this.template.querySelector('.soql-input');
+        if (!input) return;
+        const query = input.value;
+        if (!query) return;
+        store.dispatch(executeQuery(query, isAllRows));
     }
 
     _openCompletion(event) {

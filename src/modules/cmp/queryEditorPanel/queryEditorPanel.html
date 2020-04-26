@@ -1,6 +1,7 @@
 <template>
   <div class="slds-p-around_small">
-    <button class="slds-button slds-button_brand" onclick={runQuery}>Execute SOQL</button>
+    <button class="slds-button slds-button_brand" onclick={runQuery}>Query</button>
+    <button class="slds-button slds-button_brand" onclick={runQueryAll} title="Query All will return records that have been deleted">Query All</button>
     <button class="slds-button slds-button_neutral" onclick={formatQuery}>Format SOQL</button>
   </div>
   <div class="soql-editor slds-m-horizontal_small slds-m-bottom_small">

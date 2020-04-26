@@ -28,7 +28,8 @@ function receiveQueryError(error) {
     };
 }
 
-export function executeQuery(soql) {
+export function executeQuery(soql, isAllRows) {
+    const apiPath = isAllRows ? '/queryAll' : '/query';
     return async dispatch => {
         if (salesforce.isLoggedIn()) {
             dispatch(requestQuery());
@@ -36,7 +37,7 @@ export function executeQuery(soql) {
             salesforce.connection
                 .request({
                     method: 'GET',
-                    url: `/query?q=${encodeURIComponent(soql)}`,
+                    url: `${apiPath}?q=${encodeURIComponent(soql)}`,
                     headers: salesforce.getQueryHeaders()
                 })
                 .then(res => {
