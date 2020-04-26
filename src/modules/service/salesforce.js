@@ -9,7 +9,7 @@ const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 const API_VERSION_KEY = 'lsb.apiVersion';
 
 // eslint-disable-next-line no-undef
-const FIREBASE_ALIAS = process.env.FIREBASE_ALIAS;
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
 
 const MANAGED_NAME_PATTERN = new RegExp(
     '^([a-z_]?[a-z])+(?:__[cr]|__Share|__latitude__s|__longitude__s)$',
@@ -23,9 +23,9 @@ let apiVersion;
 
 function getProxyUrl() {
     if (navigator.language === 'ja') {
-        return `https://asia-northeast1-${FIREBASE_ALIAS}.cloudfunctions.net/asia_northeast1/proxy/`;
+        return `https://asia-northeast1-${FIREBASE_PROJECT_ID}.cloudfunctions.net/asia_northeast1/proxy/`;
     }
-    return `https://us-central1-${FIREBASE_ALIAS}.cloudfunctions.net/us_central1/proxy/`;
+    return `https://us-central1-${FIREBASE_PROJECT_ID}.cloudfunctions.net/us_central1/proxy/`;
 }
 
 function jsforceOptions() {

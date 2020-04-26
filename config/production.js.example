@@ -1,0 +1,5 @@
+/* eslint-disable no-undef */
+module.exports = {
+    FIREBASE_PROJECT_ID: '<YOUR FIREBASE PROJECT ID>',
+    GOOGLE_ANALYTICS_ID: '<YOUR GOOGLE ANALYTICS TRACKING ID e.g. UA-99999999-9>'
+};

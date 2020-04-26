@@ -32,3 +32,6 @@ $RECYCLE.BIN/
 firebase.json
 .firebaserc
 /.firebase
+
+# App config file
+/config/*.js
