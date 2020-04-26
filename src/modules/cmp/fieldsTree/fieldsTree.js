@@ -20,6 +20,7 @@ export default class FieldsTree extends LightningElement {
 
     sobjectMeta;
     fields = [];
+    isLoading;
     _keyword;
     _rawFields = [];
     _expandedFieldNames = {};
@@ -48,10 +49,15 @@ export default class FieldsTree extends LightningElement {
         return parseInt(this.rootlevel, 10);
     }
 
+    get isNoFields() {
+        return !this.fields || !this.fields.length;
+    }
+
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
         const sobjectState = sobject[this.sobject];
         if (!sobjectState) return;
+        this.isLoading = sobjectState.isFetching;
         if (sobjectState.data) {
             this.sobjectMeta = sobjectState.data;
         }

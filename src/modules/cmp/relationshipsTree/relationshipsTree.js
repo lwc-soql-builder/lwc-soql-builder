@@ -24,6 +24,10 @@ export default class RelationshipsTree extends LightningElement {
         }
     }
 
+    get isNoRelationships() {
+        return !this.relationships || !this.relationships.length;
+    }
+
     @wire(connectStore, { store })
     storeChange({ sobject, ui }) {
         const sobjectState = sobject[this.sobject];

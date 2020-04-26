@@ -14,6 +14,10 @@ export default class SobjectsPanel extends LightningElement {
 
     _rawSObjects;
 
+    get isNoSObjects() {
+        return !this.isLoading && (!this.sobjects || !this.sobjects.length);
+    }
+
     @wire(connectStore, { store })
     storeChange({ sobjects }) {
         this.isLoading = sobjects.isFetching;

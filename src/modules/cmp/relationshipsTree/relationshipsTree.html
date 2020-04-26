@@ -1,5 +1,6 @@
 <template>
-  <ul class="slds-tree">
+  <div class="slds-p-around_small" if:true={isNoRelationships}>No matching child relationships found</div>
+  <ul class="slds-tree" if:false={isNoRelationships}>
     <template for:each={relationships} for:item="relation">
       <template if:true={relation.relationshipName}>
         <li aria-level="1" aria-selected={relation.isActive} role="treeitem" key={relation.relationshipName}>
