@@ -1,4 +1,7 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
+import { connectStore, store } from '../../store/store';
+import * as salesforce from '../../service/salesforce';
+import { showToast } from '../../base/toast/toast-manager';
 
 class ColumnCollector {
     columnMap = new Map();
@@ -54,47 +57,16 @@ export default class OutputPanel extends LightningElement {
     columns;
     rows;
     _response;
+    _nextRecordsUrl;
     _allRows;
 
-    /**
-     * Covert query response to the follwoing format.
-     * {
-     *   totalSize: 999,
-     *   columns: ['Field1', 'Field2', ...],
-     *   rows: [
-     *     [ { data:'Value1', rawData:'Value1' }, ...],
-     *     ...
-     *   ]
-     * }
-     * @param {*} res
-     */
     @api
     set response(res) {
         this._response = res;
-        let rows = [];
+        this._nextRecordsUrl = res.nextRecordsUrl;
         const collector = new ColumnCollector(res.records);
-        const columns = collector.collect();
-        res.records.forEach((record, rowIdx) => {
-            let row = {
-                key: rowIdx,
-                values: []
-            };
-            columns.forEach((column, valueIdx) => {
-                const rawData = this._getFieldValue(column, record);
-                let data = rawData;
-                if (data && data.totalSize) {
-                    data = `${data.totalSize} rows`;
-                }
-                row.values.push({
-                    key: `${rowIdx}-${valueIdx}`,
-                    data,
-                    rawData,
-                    column
-                });
-            });
-            rows.push(row);
-        });
-        this.columns = columns;
+        this.columns = collector.collect();
+        const rows = this._convertQueryResponse(res);
         this._allRows = rows;
         this.rows = rows.slice(0, PAGE_SIZE);
     }
@@ -102,14 +74,20 @@ export default class OutputPanel extends LightningElement {
         return this._response;
     }
 
+    @wire(connectStore, { store })
+    storeChange({ ui }) {
+        this._namespace = ui.namespace;
+    }
+
     @api
-    generateCsv() {
+    async generateCsv() {
         const convertToCsvValue = value => {
             if (/[\n",]/.test(value)) {
                 return `"${value.replace(/"/g, '""')}"`;
             }
             return value;
         };
+        await this._fetchSubsequentRecords(this._nextRecordsUrl);
         const header = this.columns.map(convertToCsvValue).join(',');
         const data = this._allRows
             .map(row => {
@@ -133,7 +111,60 @@ export default class OutputPanel extends LightningElement {
                     ...this._allRows.slice(index, index + PAGE_SIZE)
                 ];
             }
+            const { totalSize } = this._response;
+            if (
+                this._nextRecordsUrl &&
+                this._allRows.length < totalSize &&
+                index >= this._allRows.length - PAGE_SIZE * 2
+            ) {
+                this._fetchNextRecords(this._nextRecordsUrl).catch(e => {
+                    console.error(e);
+                    showToast({
+                        message: 'Failed to fetch next records',
+                        errors: e
+                    });
+                });
+                this._nextRecordsUrl = null;
+            }
         }
+    }
+
+    /**
+     * Covert query response to the follwoing format.
+     * {
+     *   totalSize: 999,
+     *   columns: ['Field1', 'Field2', ...],
+     *   rows: [
+     *     [ { data:'Value1', rawData:'Value1' }, ...],
+     *     ...
+     *   ]
+     * }
+     * @param {*} res
+     */
+    _convertQueryResponse(res) {
+        if (!res) return [];
+        const startIdx = this._allRows ? this._allRows.length : 0;
+        return res.records.map((record, rowIdx) => {
+            const acutualRowIdx = startIdx + rowIdx;
+            let row = {
+                key: acutualRowIdx,
+                values: []
+            };
+            this.columns.forEach((column, valueIdx) => {
+                const rawData = this._getFieldValue(column, record);
+                let data = rawData;
+                if (data && data.totalSize) {
+                    data = `${data.totalSize} rows`;
+                }
+                row.values.push({
+                    key: `${acutualRowIdx}-${valueIdx}`,
+                    data,
+                    rawData,
+                    column
+                });
+            });
+            return row;
+        });
     }
 
     _getFieldValue(column, record) {
@@ -142,5 +173,30 @@ export default class OutputPanel extends LightningElement {
             if (value) value = value[name];
         });
         return value;
+    }
+
+    async _fetchNextRecords(nextRecordsUrl) {
+        if (!nextRecordsUrl) return;
+        let headers = {};
+        if (this._namespace) {
+            headers = {
+                ...headers,
+                'Sforce-Call-Options': `defaultNamespace=${this._namespace}`
+            };
+        }
+        const res = await salesforce.connection.request({
+            method: 'GET',
+            url: nextRecordsUrl,
+            headers
+        });
+        this._nextRecordsUrl = res.nextRecordsUrl;
+        this._allRows = [...this._allRows, ...this._convertQueryResponse(res)];
+    }
+
+    async _fetchSubsequentRecords(nextRecordsUrl) {
+        await this._fetchNextRecords(nextRecordsUrl);
+        if (this._nextRecordsUrl) {
+            await this._fetchSubsequentRecords(this._nextRecordsUrl);
+        }
     }
 }

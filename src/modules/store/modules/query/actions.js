@@ -35,9 +35,10 @@ export function executeQuery(soql, namespace) {
 
             let headers = {};
             if (namespace) {
-                headers[
-                    'Sforce-Call-Options'
-                ] = `defaultNamespace=${namespace}`;
+                headers = {
+                    ...headers,
+                    'Sforce-Call-Options': `defaultNamespace=${namespace}`
+                };
             }
             salesforce.connection
                 .request({

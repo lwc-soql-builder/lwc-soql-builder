@@ -29,7 +29,7 @@ This will start the project with a local development server on `http://localhost
 
 ## How to deploy
 
-1. Setup proxy. You must set `proxy.allowed_origin=http://<username>.github.io/lwc-soql-builder`.  
+1. Setup proxy. You must set `proxy.allowed_origin=http://<username>.github.io`.  
 For more information, see [lwc-soql-builder/jsforce-ajax-proxy-cloud-functions](https://github.com/lwc-soql-builder/jsforce-ajax-proxy-cloud-functions)
 
 2. Build and Deploy by running `FIREBASE_ALIAS=<Firebase project alias> npm run deploy`.  This will publish files in `dist/` to a gh-pages branch on GitHub.

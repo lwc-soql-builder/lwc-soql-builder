@@ -40,17 +40,27 @@ export default class OutputPanel extends LightningElement {
         store.dispatch(deselectChildRelationship());
     }
 
-    exportCsv() {
-        const data = this.template
-            .querySelector('cmp-output-table.main-output')
-            .generateCsv();
-        const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
-        const blob = new Blob([bom, data], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const download = document.createElement('a');
-        download.href = window.URL.createObjectURL(blob);
-        download.download = `${this._sObject}.csv`;
-        download.click();
-        URL.revokeObjectURL(url);
+    async exportCsv() {
+        this.isLoading = true;
+        try {
+            const data = await this.template
+                .querySelector('cmp-output-table.main-output')
+                .generateCsv();
+            const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
+            const blob = new Blob([bom, data], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const download = document.createElement('a');
+            download.href = window.URL.createObjectURL(blob);
+            download.download = `${this._sObject}.csv`;
+            download.click();
+            URL.revokeObjectURL(url);
+        } catch (e) {
+            console.error(e);
+            showToast({
+                message: 'Failed to export CSV',
+                errors: e
+            });
+        }
+        this.isLoading = false;
     }
 }
