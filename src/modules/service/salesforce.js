@@ -2,8 +2,8 @@ import jsforce from 'jsforce';
 import { store, logout as logoutAction } from '../store/store';
 import { escapeRegExp } from '../base/utils/regexp-utils';
 
-const CLIENT_ID =
-    '3MVG9n_HvETGhr3Bp2TP0lUhBaOTAOuCH9OKmjFKsspVG.z8WOx0Vb94skZ8d4wHTVuMf5DArbdwCb05yIAT5';
+// eslint-disable-next-line no-undef
+const CLIENT_ID = process.env.CLIENT_ID;
 const ACCESS_TOKEN_KEY = 'lsb.accessToken';
 const INSTANCE_URL_KEY = 'lsb.instanceUrl';
 const API_VERSION_KEY = 'lsb.apiVersion';
