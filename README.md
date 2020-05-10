@@ -2,6 +2,8 @@
 
 LWC SOQL Builder is a SOQL execution tool developed in LWC Open Source. LWC SOQL Builder makes building and running SOQL in Salesforce incredibly easy.
 
+For more information, visit https://lwc-soql-builder.github.io/
+
 ![](https://lwc-soql-builder.github.io/images/lwc-soql-builder-animation.gif)
 
 ## Features
