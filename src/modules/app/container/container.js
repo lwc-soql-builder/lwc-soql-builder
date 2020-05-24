@@ -16,6 +16,10 @@ export default class Container extends LightningElement {
     isLoggedIn;
     selectedSObject;
 
+    get sobjectsPanelClass() {
+        return this.selectedSObject ? 'slds-hide' : '';
+    }
+
     @wire(connectStore, { store })
     storeChange({ ui }) {
         this.isLoggedIn = ui.isLoggedIn;

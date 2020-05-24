@@ -6,9 +6,7 @@
     </div>
     <div class="body">
       <div class="left-panel">
-        <template if:false={selectedSObject}>
-          <cmp-sobjects-panel></cmp-sobjects-panel>
-        </template>
+        <cmp-sobjects-panel class={sobjectsPanelClass}></cmp-sobjects-panel>
         <template if:true={selectedSObject}>
           <cmp-fields-panel></cmp-fields-panel>
         </template>
