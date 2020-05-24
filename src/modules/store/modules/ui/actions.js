@@ -12,7 +12,7 @@ import {
     SELECT_CHILD_RELATIONSHIP,
     DESELECT_CHILD_RELATIONSHIP,
     SELECT_ALL_FIELDS,
-    UNSELECT_ALL_FIELDS
+    CLEAR_ALL_FIELDS
 } from './constants';
 
 export function login(user) {
@@ -104,8 +104,8 @@ export function selectAllFields(sObjectMeta) {
     };
 }
 
-export function unselectAllFields() {
+export function clearAllFields() {
     return {
-        type: UNSELECT_ALL_FIELDS
+        type: CLEAR_ALL_FIELDS
     };
 }

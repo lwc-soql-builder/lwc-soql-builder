@@ -19,7 +19,7 @@ import {
     SELECT_CHILD_RELATIONSHIP,
     DESELECT_CHILD_RELATIONSHIP,
     SELECT_ALL_FIELDS,
-    UNSELECT_ALL_FIELDS
+    CLEAR_ALL_FIELDS
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
 import { connection, stripNamespace } from '../../../service/salesforce';
@@ -206,7 +206,7 @@ function selectAllFields(query = INITIAL_QUERY, action) {
     };
 }
 
-function unselectAllFields(query = INITIAL_QUERY) {
+function clearAllFields(query = INITIAL_QUERY) {
     return {
         ...query,
         fields: [getField('Id')]
@@ -336,8 +336,8 @@ export default function ui(state = {}, action) {
             };
         }
 
-        case UNSELECT_ALL_FIELDS: {
-            const query = unselectAllFields(state.query);
+        case CLEAR_ALL_FIELDS: {
+            const query = clearAllFields(state.query);
             return {
                 ...state,
                 query,
