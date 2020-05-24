@@ -12,6 +12,7 @@ export default class RelationshipsTree extends LightningElement {
     _keyword;
     _rawRelationships = [];
     _expandedRelationshipNames = {};
+    _sobjectLabelMap;
 
     @api
     get keyword() {
@@ -29,7 +30,10 @@ export default class RelationshipsTree extends LightningElement {
     }
 
     @wire(connectStore, { store })
-    storeChange({ sobject, ui }) {
+    storeChange({ sobjects, sobject, ui }) {
+        if (!this._sobjectLabelMap && sobjects.data) {
+            this._sobjectLabelMap = this._getSObjectLabelMap(sobjects.data);
+        }
         const sobjectState = sobject[this.sobject];
         if (!sobjectState) return;
         if (sobjectState.data) {
@@ -40,7 +44,7 @@ export default class RelationshipsTree extends LightningElement {
     }
 
     selectRelationship(event) {
-        const relationshipName = event.target.dataset.name;
+        const relationshipName = event.currentTarget.dataset.name;
         store.dispatch(toggleRelationship(relationshipName));
     }
 
@@ -51,6 +55,15 @@ export default class RelationshipsTree extends LightningElement {
         this._filterRelationships();
     }
 
+    _getSObjectLabelMap(sobjectsData) {
+        return sobjectsData.sobjects.reduce((result, sobj) => {
+            return {
+                ...result,
+                [sobj.name]: sobj.label
+            };
+        }, {});
+    }
+
     _updateRelationships(query) {
         if (!this.sobjectMeta) return;
         const selectedFields = query ? this._getFlattenedFields(query) : [];
@@ -59,6 +72,7 @@ export default class RelationshipsTree extends LightningElement {
                 return {
                     ...relation,
                     itemLabel: `${relation.relationshipName} / ${relation.childSObject}`,
+                    details: this._getRelationDetails(relation),
                     isActive: selectedFields.includes(
                         fullApiName(relation.relationshipName)
                     ),
@@ -67,6 +81,12 @@ export default class RelationshipsTree extends LightningElement {
             }
         );
         this._filterRelationships();
+    }
+
+    _getRelationDetails(relation) {
+        return `${relation.childSObject} / ${
+            this._sobjectLabelMap[relation.childSObject]
+        }`;
     }
 
     _filterRelationships() {

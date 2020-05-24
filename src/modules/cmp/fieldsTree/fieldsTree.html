@@ -16,11 +16,11 @@
               </svg>
               <span class="slds-assistive-text">Expand Reference Field</span>
             </button>
-            <span class="slds-has-flexi-truncate">
-              <a class="slds-tree__item-label slds-truncate" title={field.itemLabel}
-                onclick={selectField} data-name={field.name}>
-                {field.itemLabel}
+            <span class="slds-has-flexi-truncate" onclick={selectField} data-name={field.name}>
+              <a class="slds-tree__item-label slds-truncate" title={field.name}>
+                {field.name}
               </a>
+              <div class="field-details" title={field.details}>{field.details}</div>
             </span>
           </div>
           <template if:true={field.isExpanded}>

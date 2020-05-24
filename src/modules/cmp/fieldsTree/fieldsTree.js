@@ -70,7 +70,7 @@ export default class FieldsTree extends LightningElement {
     }
 
     selectField(event) {
-        const fieldName = event.target.dataset.name;
+        const fieldName = event.currentTarget.dataset.name;
         store.dispatch(
             toggleField(fieldName, this.relationship, this.childrelation)
         );
@@ -90,7 +90,7 @@ export default class FieldsTree extends LightningElement {
         this._rawFields = this.sobjectMeta.fields.map(field => {
             return {
                 ...field,
-                itemLabel: `${field.name} / ${field.label}`,
+                details: `${field.type} / ${field.label}`,
                 isNotReference: field.type !== 'reference',
                 isActive: selectedFields.includes(this._getRawFieldName(field)),
                 isExpanded: false,

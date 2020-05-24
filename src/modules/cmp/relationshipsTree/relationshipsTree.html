@@ -13,11 +13,11 @@
               </svg>
               <span class="slds-assistive-text">Expand Child Relationship</span>
             </button>
-            <span class="slds-has-flexi-truncate">
-              <a class="slds-tree__item-label slds-truncate" title={relation.itemLabel}
-                onclick={selectRelationship} data-name={relation.relationshipName}>
-                {relation.itemLabel}
+            <span class="slds-has-flexi-truncate" onclick={selectRelationship} data-name={relation.relationshipName}>
+              <a class="slds-tree__item-label slds-truncate" title={relation.relationshipName}>
+                {relation.relationshipName}
               </a>
+              <div class="relationship-details" title={relation.details}>{relation.details}</div>
             </span>
           </div>
           <template if:true={relation.isExpanded}>
