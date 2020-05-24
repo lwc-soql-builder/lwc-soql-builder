@@ -4,7 +4,9 @@ import {
     store,
     describeSObjectIfNeeded,
     deselectSObject,
-    clearSObjectError
+    clearSObjectError,
+    selectAllFields,
+    unselectAllFields
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
 import { fullApiName } from '../../service/salesforce';
@@ -83,5 +85,18 @@ export default class FieldsPanel extends LightningElement {
 
     setKeyword(event) {
         this.keyword = event.target.value;
+    }
+
+    handleMenuSelect(event) {
+        switch (event.detail.value) {
+            case 'select_all':
+                store.dispatch(selectAllFields(this.sobjectMeta));
+                break;
+            case 'unselect_all':
+                store.dispatch(unselectAllFields());
+                break;
+            default:
+                break;
+        }
     }
 }

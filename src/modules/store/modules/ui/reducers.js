@@ -17,7 +17,9 @@ import {
     FORMAT_SOQL,
     LOAD_RECENT_QUERIES,
     SELECT_CHILD_RELATIONSHIP,
-    DESELECT_CHILD_RELATIONSHIP
+    DESELECT_CHILD_RELATIONSHIP,
+    SELECT_ALL_FIELDS,
+    UNSELECT_ALL_FIELDS
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
 import { connection, stripNamespace } from '../../../service/salesforce';
@@ -194,6 +196,23 @@ function toggleRelationship(state = [], action) {
     };
 }
 
+function selectAllFields(query = INITIAL_QUERY, action) {
+    const { sObjectMeta } = action.payload;
+    return {
+        ...query,
+        fields: sObjectMeta.fields.map(field =>
+            getField(stripNamespace(field.name))
+        )
+    };
+}
+
+function unselectAllFields(query = INITIAL_QUERY) {
+    return {
+        ...query,
+        fields: [getField('Id')]
+    };
+}
+
 export default function ui(state = {}, action) {
     switch (action.type) {
         case LOGIN:
@@ -305,6 +324,24 @@ export default function ui(state = {}, action) {
             return {
                 ...state,
                 childRelationship: undefined
+            };
+        }
+
+        case SELECT_ALL_FIELDS: {
+            const query = selectAllFields(state.query, action);
+            return {
+                ...state,
+                query,
+                soql: composeQuery(query, { format: true })
+            };
+        }
+
+        case UNSELECT_ALL_FIELDS: {
+            const query = unselectAllFields(state.query);
+            return {
+                ...state,
+                query,
+                soql: composeQuery(query, { format: true })
             };
         }
 

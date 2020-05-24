@@ -10,7 +10,9 @@ import {
     UPDATE_SOQL,
     FORMAT_SOQL,
     SELECT_CHILD_RELATIONSHIP,
-    DESELECT_CHILD_RELATIONSHIP
+    DESELECT_CHILD_RELATIONSHIP,
+    SELECT_ALL_FIELDS,
+    UNSELECT_ALL_FIELDS
 } from './constants';
 
 export function login(user) {
@@ -92,5 +94,18 @@ export function selectChildRelationship(childRelationship) {
 export function deselectChildRelationship() {
     return {
         type: DESELECT_CHILD_RELATIONSHIP
+    };
+}
+
+export function selectAllFields(sObjectMeta) {
+    return {
+        type: SELECT_ALL_FIELDS,
+        payload: { sObjectMeta }
+    };
+}
+
+export function unselectAllFields() {
+    return {
+        type: UNSELECT_ALL_FIELDS
     };
 }

@@ -50,3 +50,11 @@
   line-height: 2.5rem;
   height: 2.5rem;
 }
+.dropdown-menu {
+  position: absolute;
+  top: 0px;
+  right: 7px;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+}
