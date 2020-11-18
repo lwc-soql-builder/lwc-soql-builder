@@ -1,5 +1,4 @@
-import { LightningElement, api, wire } from 'lwc';
-import { connectStore, store } from '../../store/store';
+import { LightningElement, api } from 'lwc';
 import * as salesforce from '../../service/salesforce';
 import { showToast } from '../../base/toast/toast-manager';
 

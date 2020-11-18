@@ -2,6 +2,7 @@
     "trailingComma": "none",
     "singleQuote": true,
     "tabWidth": 4,
+    "arrowParens": "avoid",
     "overrides": [
         {
             "files": "**/*.html",

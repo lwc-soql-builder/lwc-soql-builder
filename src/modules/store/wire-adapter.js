@@ -1,30 +1,44 @@
-import { register, ValueChangedEvent } from '@lwc/wire-service';
+export class connectStore {
+    dataCallback;
+    store;
+    subscription;
+    connected = false;
 
-export function connectStore(store) {
-    return store.getState();
-}
+    constructor(dataCallback) {
+        this.dataCallback = dataCallback;
+    }
 
-register(connectStore, eventTarget => {
-    let store;
-    let subscription;
+    connect() {
+        this.connected = true;
+        this.subscribeToStore();
+    }
 
-    const notifyStateChange = () => {
-        const state = store.getState();
-        eventTarget.dispatchEvent(new ValueChangedEvent(state));
-    };
+    disconnect() {
+        this.unsubscribeFromStore();
+        this.connected = false;
+    }
 
-    eventTarget.addEventListener('connect', () => {
-        subscription = store.subscribe(notifyStateChange);
-        notifyStateChange();
-    });
+    update(config) {
+        this.unsubscribeFromStore();
+        this.store = config.store;
+        this.subscribeToStore();
+    }
 
-    eventTarget.addEventListener('disconnect', () => {
-        if (subscription) {
-            subscription();
+    subscribeToStore() {
+        if (this.connected && this.store) {
+            const notifyStateChange = () => {
+                const state = this.store.getState();
+                this.dataCallback(state);
+            };
+            this.subscription = this.store.subscribe(notifyStateChange);
+            notifyStateChange();
         }
-    });
+    }
 
-    eventTarget.addEventListener('config', config => {
-        store = config.store;
-    });
-});
+    unsubscribeFromStore() {
+        if (this.subscription) {
+            this.subscription();
+            this.subscription = undefined;
+        }
+    }
+}
