@@ -45,6 +45,8 @@ async function getApiVersion() {
         apiVersion = versions[versions.length - 1].version;
         connection.version = apiVersion;
         sessionStorage.setItem(API_VERSION_KEY, apiVersion);
+    } else {
+        connection.version = apiVersion;
     }
 }
 
