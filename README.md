@@ -40,6 +40,8 @@ $ npm run watch
 
 This will start the project with a local development server on `http://localhost:3001`.
 
+To ensure that you can view your changes, in Chrome DevTools, go to Application tab, click 'Service Workers' and select 'Bypass for network'.
+
 ## How to deploy
 
 1. Setup proxy. You must set `proxy.allowed_origin=http://<username>.github.io`.  
