@@ -1,6 +1,12 @@
-/*! Lightning Design System 2.11.6 */
+/*! Lightning Design System 2.13.7 */
 @charset "UTF-8";
 @media (pointer: coarse) and (hover: none){
+    body{
+        font-size: 1rem
+    }
+    .slds-button.slds-accordion__summary-action{
+        line-height: 1.875rem
+    }
     .slds-button{
         line-height: 2.625rem;
         font-weight: 700
@@ -249,6 +255,9 @@
     .slds-has-inline-listbox [role=listbox]{
         padding: 0 0.375rem
     }
+    .slds-th__action{
+        padding-right: 1.25rem
+    }
     .slds-form-element__label{
         display: -webkit-inline-box;
         display: -ms-inline-flexbox;
@@ -261,8 +270,11 @@
         margin-bottom: 0;
         font-size: 0.875rem
     }
-    .slds-form-element__label + .slds-form-element__icon .slds-button_icon{
+    .slds-form-element__icon .slds-button_icon{
         height: 2rem
+    }
+    .slds-form-element__control .slds-form-element__icon .slds-button_icon{
+        height: 2.75rem
     }
     .slds-form-element__icon{
         padding-top: 0
@@ -296,6 +308,11 @@
     }
     .slds-input[type=text], .slds-input[type=email], .slds-input[type=url], .slds-input[type=tel]{
         -webkit-appearance: none
+    }
+    .slds-input[type=date], .slds-input[type=datetime], .slds-input[type=datetime-local], .slds-input[type=time], .slds-input[type=week], .slds-input[type=month]{
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex
     }
     .slds-input[type=date], .slds-input[type=datetime-local], .slds-input[type=month], .slds-input[type=time]{
         height: 2.75rem
@@ -387,7 +404,7 @@
     }
     .slds-pill{
         line-height: 1.875rem;
-        padding: 0 0.75rem
+        padding: 0 0.5rem
     }
     .slds-pill + .slds-pill{
         margin-left: 0.25rem
@@ -399,20 +416,33 @@
         font-size: 0.875rem
     }
     .slds-pill__icon ~ .slds-pill__action, .slds-pill__icon_container ~ .slds-pill__action{
-        padding-left: calc(1.25rem + 0.75rem + 0.25rem)
+        padding-left: calc(1.25rem + 0.5rem)
+    }
+    .slds-pill_link,
+.slds-pill--link{
+        padding: 0
     }
     .slds-pill_link .slds-pill__icon_container,
 .slds-pill--link .slds-pill__icon_container{
-        left: 0.75rem
+        left: 0.25rem
     }
     .slds-pill_link .slds-pill__remove,
 .slds-pill--link .slds-pill__remove{
-        right: 0.75rem
+        right: 0;
+        width: 2rem;
+        height: 2rem;
+        margin: 0;
+        border: 0
+    }
+    .slds-pill_link__icon ~ .slds-pill__action, .slds-pill_link__icon_container ~ .slds-pill__action,
+.slds-pill--link__icon ~ .slds-pill__action,
+.slds-pill--link__icon_container ~ .slds-pill__action{
+        padding-left: calc(1.25rem + 0.5rem)
     }
     .slds-pill__action{
         padding: 0;
-        padding-left: 0.75rem;
-        padding-right: calc(1rem + 0.75rem + 2px)
+        padding-left: 0.5rem;
+        padding-right: 2rem
     }
     .slds-popover_prompt__heading{
         font-size: 1.25rem
@@ -425,21 +455,21 @@
         min-height: 2.75rem
     }
     .slds-progress__item .slds-button:before{
-        content: "";
         position: absolute;
+        width: calc(100% + 8px);
         height: 2.75rem;
-        width: calc(100% + 8px)
+        content: ""
     }
     .slds-progress__marker{
         width: 1.25rem;
         height: 1.25rem;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center
+        line-height: 1
     }
-    .slds-progress__marker_icon .slds-button__icon,
-.slds-progress__marker_icon .slds-icon, .slds-progress__marker--icon .slds-button__icon,
-.slds-progress__marker--icon .slds-icon{
+    .slds-progress__marker_icon{
+        width: 2rem;
+        height: 2rem
+    }
+    .slds-progress__marker_icon .slds-button__icon{
         width: 1.25rem;
         height: 1.25rem
     }
@@ -448,6 +478,13 @@
     }
     .slds-progress_vertical .slds-progress__item_content{
         font-size: 0.875rem
+    }
+    .slds-progress_vertical .slds-progress__marker{
+        width: 1.25rem
+    }
+    .slds-progress_vertical .slds-progress__marker .slds-icon{
+        width: 1.25rem;
+        height: 1.25rem
     }
     .slds-radio_button-group,
 .slds-radio--button-group{
