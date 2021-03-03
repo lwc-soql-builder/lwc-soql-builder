@@ -24,6 +24,10 @@ module.exports = {
                 replacement: config.GOOGLE_ANALYTICS_ID
             }
         ]),
-        new GenerateSW({ swDest: 'sw.js', skipWaiting: true })
+        new GenerateSW({
+            swDest: 'sw.js',
+            skipWaiting: true,
+            exclude: [/.DS_Store/]
+        })
     ]
 };
