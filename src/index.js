@@ -1,5 +1,4 @@
 import '@lwc/synthetic-shadow';
-import { buildCustomElementConstructor } from 'lwc';
 import AppContainer from 'app/container';
 
 const availableFeature = detectFeatures();
@@ -12,7 +11,7 @@ if (isCompatibleBrowser) {
 } else {
     customElements.define(
         'app-container',
-        buildCustomElementConstructor(AppContainer)
+        AppContainer.CustomElementConstructor
     );
 
     if ('serviceWorker' in navigator) {
