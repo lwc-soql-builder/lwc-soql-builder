@@ -2,17 +2,20 @@
   <base-spinner if:true={isLoading}></base-spinner>
   <template if:true={response}>
     <div class="slds-p-around_small slds-grid">
-      <button class="slds-button slds-button_neutral" onclick={exportCsv}>Export CSV</button>
-      <div class="slds-p-around_x-small slds-col_bump-left">Total: {response.totalSize}</div>
+      <button class="slds-button slds-button_neutral" onclick={exportCsv}>{i18n.OUTPUT_PANEL_EXPORT_CSV}</button>
+      <div class="slds-p-around_x-small slds-col_bump-left">{i18n.OUTPUT_PANEL_TOTAL}: {response.totalSize}</div>
     </div>
     <cmp-output-table class="main-output" response={response}></cmp-output-table>
     <div class="child-relationsihp-panel" if:true={childResponse}>
-      <button class="slds-button slds-button_icon slds-button_icon" title="Close Child Relationship"
-        onclick={closeChildRelationship}>
+      <button
+        class="slds-button slds-button_icon slds-button_icon"
+        title={i18n.OUTPUT_PANEL_CLOSE_CHILD_REL}
+        onclick={closeChildRelationship}
+      >
         <svg class="slds-button__icon" aria-hidden="true">
           <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#close"></use>
         </svg>
-        <span class="slds-assistive-text">Close Child Relationship</span>
+        <span class="slds-assistive-text">{i18n.OUTPUT_PANEL_CLOSE_CHILD_REL}</span>
       </button>
       <cmp-output-table response={childResponse}></cmp-output-table>
     </div>

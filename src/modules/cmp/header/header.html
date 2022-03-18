@@ -3,19 +3,23 @@
     <div class="slds-builder-header__item">
       <div class="slds-builder-header__item-label slds-media slds-media_center">
         <a href="/">
-          <img class="header-logo" src="./resources/imgs/logo_white.svg">
+          <img class="header-logo" src="./resources/imgs/logo_white.svg" />
         </a>
       </div>
     </div>
     <div class="slds-builder-header__item slds-builder-header__utilities">
       <div class="slds-builder-header__utilities-item" if:true={apiUsage}>
-        <h1 class="slds-builder-header__item-label">API Usage: {apiUsage}</h1>
+        <h1 class="slds-builder-header__item-label">{i18n.HEADER_API_USAGE}: {apiUsage}</h1>
       </div>
       <div class="slds-builder-header__utilities-item" if:true={userLabel}>
         <h1 class="slds-builder-header__item-label">{userLabel}</h1>
       </div>
       <div class="slds-builder-header__utilities-item" if:true={isLoggedIn}>
-        <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center" onclick={logout}>
+        <a
+          href="javascript:void(0);"
+          class="slds-builder-header__item-action slds-media slds-media_center"
+          onclick={logout}
+        >
           <div class="slds-media__figure">
             <span class="slds-icon_container slds-icon-utility-logout slds-current-color">
               <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
@@ -23,14 +27,18 @@
               </svg>
             </span>
           </div>
-          <div class="slds-media__body">Logout</div>
+          <div class="slds-media__body">{i18n.HEADER_LOGOUT}</div>
         </a>
       </div>
       <div class="slds-builder-header__utilities-item">
-        <a href="https://github.com/lwc-soql-builder/lwc-soql-builder" class="slds-builder-header__item-action slds-media slds-media_center" target="_blank">
-            <span class="slds-avatar">
-              <img src="./resources/imgs/GitHub-Mark-Light-64px.png">
-            </span>
+        <a
+          href="https://github.com/lwc-soql-builder/lwc-soql-builder"
+          class="slds-builder-header__item-action slds-media slds-media_center"
+          target="_blank"
+        >
+          <span class="slds-avatar">
+            <img src="./resources/imgs/GitHub-Mark-Light-64px.png" />
+          </span>
         </a>
       </div>
     </div>

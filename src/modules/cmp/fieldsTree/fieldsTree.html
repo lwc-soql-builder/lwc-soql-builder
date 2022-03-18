@@ -1,25 +1,34 @@
 <template>
-  <div class="slds-is-relative" style="height:2rem;" if:true={isLoading}>
+  <div class="slds-is-relative" style="height: 2rem" if:true={isLoading}>
     <base-spinner size="x-small"></base-spinner>
   </div>
   <div if:false={isLoading}>
-    <div class="slds-p-around_small" if:true={isNoFields}>No matching fields found</div>
+    <div class="slds-p-around_small" if:true={isNoFields}>{i18n.FIELDS_TREE_NO_MATCHING_FIELD}</div>
     <ul class="slds-tree" if:false={isNoFields}>
       <template for:each={fields} for:item="field">
-        <li aria-level={level} aria-selected={field.isActive} aria-expanded={field.isExpanded} role="treeitem" key={field.name}>
+        <li
+          aria-level={level}
+          aria-selected={field.isActive}
+          aria-expanded={field.isExpanded}
+          role="treeitem"
+          key={field.name}
+        >
           <div class="slds-tree__item">
-            <button class="slds-button slds-button_icon slds-m-right_x-small" aria-hidden={field.isNotReference}
-              tabindex="-1" title="Expand Reference Field"
-              data-field={field.name} onclick={toggleReferenceField}>
+            <button
+              class="slds-button slds-button_icon slds-m-right_x-small"
+              aria-hidden={field.isNotReference}
+              tabindex="-1"
+              title="Expand Reference Field"
+              data-field={field.name}
+              onclick={toggleReferenceField}
+            >
               <svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
                 <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
-              <span class="slds-assistive-text">Expand Reference Field</span>
+              <span class="slds-assistive-text">{i18n.FIELDS_TREE_EXPAND_REFERENCE}</span>
             </button>
             <span class="slds-has-flexi-truncate" onclick={selectField} data-name={field.name}>
-              <a class="slds-tree__item-label slds-truncate" title={field.name}>
-                {field.name}
-              </a>
+              <a class="slds-tree__item-label slds-truncate" title={field.name}> {field.name} </a>
               <div class="field-details" title={field.details}>{field.details}</div>
             </span>
           </div>
@@ -28,17 +37,19 @@
               <ul class="slds-tree">
                 <li aria-level={level}>
                   <div class="slds-tree__item">
-                    <div class="slds-text-color_error">
-                      No more than five levels can be specified in a child-to-parent relationship.
-                    </div>
+                    <div class="slds-text-color_error">{i18n.FIELDS_TREE_FILE_LEVELS_MESSAGE}</div>
                   </div>
                 </li>
               </ul>
             </template>
             <template if:false={isMaxLevel}>
-              <cmp-fields-tree sobject={field.relationshipSObjectName} relationship={field.relationshipPath}
-                rootlevel={rootlevel} childrelation={childrelation}
-                if:true={field.relationshipPath}></cmp-fields-tree>
+              <cmp-fields-tree
+                sobject={field.relationshipSObjectName}
+                relationship={field.relationshipPath}
+                rootlevel={rootlevel}
+                childrelation={childrelation}
+                if:true={field.relationshipPath}
+              ></cmp-fields-tree>
             </template>
           </template>
         </li>

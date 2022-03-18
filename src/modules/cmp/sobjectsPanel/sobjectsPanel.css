@@ -8,14 +8,14 @@
   flex-direction: column;
 }
 .slds-tree__group-header {
-  padding: .5rem .5rem .5rem 1rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 700;
 }
 .sobjects-list {
   flex: 1;
   position: relative;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 .slds-tabs_default__content {
   position: absolute;

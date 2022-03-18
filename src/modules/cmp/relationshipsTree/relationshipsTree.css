@@ -1,9 +1,9 @@
 .slds-tree__item {
-  padding-top: .2rem;
-  padding-bottom: .2rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
 }
 .relationship-details {
-  font-size: .5rem;
+  font-size: 0.5rem;
   line-height: 1;
   color: #919191;
 }

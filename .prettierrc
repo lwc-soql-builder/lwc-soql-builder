@@ -6,7 +6,17 @@
     "overrides": [
         {
             "files": "**/*.html",
-            "options": { "parser": "lwc" }
+            "options": {
+                "parser": "lwc",
+                "tabWidth": 2,
+                "printWidth": 120
+            }
+        },
+        {
+            "files": "**/*.css",
+            "options": {
+                "tabWidth": 2
+            }
         }
     ]
 }

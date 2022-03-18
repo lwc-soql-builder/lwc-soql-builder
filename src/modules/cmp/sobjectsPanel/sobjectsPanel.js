@@ -7,8 +7,9 @@ import {
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
+import { I18nMixin } from '../../i18n/i18n';
 
-export default class SobjectsPanel extends LightningElement {
+export default class SobjectsPanel extends I18nMixin(LightningElement) {
     keyword = '';
     sobjects;
     isLoading;
@@ -38,7 +39,7 @@ export default class SobjectsPanel extends LightningElement {
         } else if (sobjects.error) {
             console.error(sobjects.error);
             showToast({
-                message: 'Failed to fetch sObjects.',
+                message: this.i18n.SOBJECTS_PANEL_FAILED_FETCH_SOBJECTS,
                 errors: sobjects.error
             });
             store.dispatch(clearSObjectsError());

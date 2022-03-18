@@ -1,15 +1,15 @@
 .slds-tree__item {
-  padding-top: .2rem;
-  padding-bottom: .2rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
 }
-.slds-tree__item button[aria-hidden=true] {
+.slds-tree__item button[aria-hidden='true'] {
   visibility: hidden;
 }
 .slds-tree__item .slds-text-color_error {
   padding-left: 2rem;
 }
 .field-details {
-  font-size: .5rem;
+  font-size: 0.5rem;
   line-height: 1;
   color: #919191;
 }

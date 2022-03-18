@@ -1,16 +1,23 @@
 <template>
-  <button class="slds-button slds-button_icon" aria-haspopup="true"
+  <button
+    class="slds-button slds-button_icon"
+    aria-haspopup="true"
     title={alternativeText}
     onclick={toggleMenu}
-    onblur={handleBlur}>
+    onblur={handleBlur}
+  >
     <svg class="slds-button__icon" aria-hidden="true">
       <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#down"></use>
     </svg>
     <span class="slds-assistive-text">{alternativeText}</span>
   </button>
   <div class="slds-dropdown slds-dropdown_right">
-    <ul class="slds-dropdown__list" role="menu" aria-label={alternativeText}
-      onprivateselect={handleMenuItemPrivateSelect}>
+    <ul
+      class="slds-dropdown__list"
+      role="menu"
+      aria-label={alternativeText}
+      onprivateselect={handleMenuItemPrivateSelect}
+    >
       <slot></slot>
     </ul>
   </div>

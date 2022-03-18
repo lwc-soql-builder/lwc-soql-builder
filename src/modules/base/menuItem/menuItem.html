@@ -1,8 +1,13 @@
 <template>
   <a href="javascript:void(0);" role="menuitem" tabindex="-1" onclick={handleClick}>
     <span class="slds-truncate" title="Select All Fields">
-      <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-m-right_x-small" aria-hidden="true" if:true={iconPath}>
-        <use xlink:href={iconPath}></use>
-      </svg>{label}</span>
+      <svg
+        class="slds-icon slds-icon_x-small slds-icon-text-default slds-m-right_x-small"
+        aria-hidden="true"
+        if:true={iconPath}
+      >
+        <use xlink:href={iconPath}></use></svg
+      >{label}</span
+    >
   </a>
 </template>

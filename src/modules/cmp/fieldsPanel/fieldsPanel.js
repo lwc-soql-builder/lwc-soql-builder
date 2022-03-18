@@ -10,17 +10,18 @@ import {
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
 import { fullApiName } from '../../service/salesforce';
+import { I18nMixin } from '../../i18n/i18n';
 
-export default class FieldsPanel extends LightningElement {
+export default class FieldsPanel extends I18nMixin(LightningElement) {
     tabs = [
         {
             id: 'tab-fields',
-            label: 'Fields',
+            label: this.i18n.FIELDS_PANEL_FIELDS,
             isActive: true
         },
         {
             id: 'tab-relationships',
-            label: 'Child Relationships',
+            label: this.i18n.FIELDS_PANEL_CHILD_REL,
             isActive: false
         }
     ];
@@ -55,7 +56,7 @@ export default class FieldsPanel extends LightningElement {
         } else if (sobjectState.error) {
             console.error(sobjectState.error);
             showToast({
-                message: 'Failed to describe sObject',
+                message: this.i18n.FIELDS_PANEL_FAILED_DESCRIBE_OBJ,
                 errors: sobjectState.error
             });
             store.dispatch(clearSObjectError(this._selectedSObject));

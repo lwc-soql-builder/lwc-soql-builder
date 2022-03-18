@@ -3,7 +3,7 @@
   flex-direction: column;
   display: flex;
 }
-.output-panel { 
+.output-panel {
   position: relative;
   flex: 1;
 }
@@ -15,13 +15,15 @@
   border-top: 1px solid #dddbda;
   border-right: 1px solid #dddbda;
 }
-th, td, .slds-cell-fixed {
+th,
+td,
+.slds-cell-fixed {
   max-width: 400px;
   min-width: 50px;
 }
 .slds-cell-fixed {
-  padding-left: .5rem;
-  transform: translate(-.25rem);
+  padding-left: 0.5rem;
+  transform: translate(-0.25rem);
   line-height: 2rem;
 }
 .slds-cell-fixed::before {
@@ -29,5 +31,5 @@ th, td, .slds-cell-fixed {
   border-left: 1px solid #dddbda;
   position: absolute;
   height: 2rem;
-  left: calc(.25rem - 1px);
+  left: calc(0.25rem - 1px);
 }

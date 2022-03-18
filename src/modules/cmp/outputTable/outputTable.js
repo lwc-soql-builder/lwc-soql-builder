@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import * as salesforce from '../../service/salesforce';
 import { showToast } from '../../base/toast/toast-manager';
+import { I18nMixin } from '../../i18n/i18n';
 
 class ColumnCollector {
     columnMap = new Map();
@@ -52,7 +53,7 @@ class ColumnCollector {
 
 const PAGE_SIZE = 200;
 
-export default class OutputPanel extends LightningElement {
+export default class OutputPanel extends I18nMixin(LightningElement) {
     columns;
     rows;
     _response;
@@ -114,7 +115,7 @@ export default class OutputPanel extends LightningElement {
                 this._fetchNextRecords(this._nextRecordsUrl).catch(e => {
                     console.error(e);
                     showToast({
-                        message: 'Failed to fetch next records',
+                        message: this.i18n.OUTPUT_TABLE_FAILED_FETCH_NEXT,
                         errors: e
                     });
                 });
