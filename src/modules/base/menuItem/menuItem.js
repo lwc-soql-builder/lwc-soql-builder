@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 
-export default class Menu extends LightningElement {
+export default class MenuItem extends LightningElement {
     @api iconName;
     @api label;
     @api value;

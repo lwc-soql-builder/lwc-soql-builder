@@ -12,7 +12,8 @@ import {
     SELECT_CHILD_RELATIONSHIP,
     DESELECT_CHILD_RELATIONSHIP,
     SELECT_ALL_FIELDS,
-    CLEAR_ALL_FIELDS
+    CLEAR_ALL_FIELDS,
+    SORT_FIELDS
 } from './constants';
 
 export function login(user) {
@@ -107,5 +108,16 @@ export function selectAllFields(sObjectMeta) {
 export function clearAllFields() {
     return {
         type: CLEAR_ALL_FIELDS
+    };
+}
+
+export function sortFields(order) {
+    return {
+        type: SORT_FIELDS,
+        payload: {
+            sort: {
+                order
+            }
+        }
     };
 }

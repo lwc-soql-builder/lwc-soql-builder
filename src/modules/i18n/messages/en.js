@@ -10,6 +10,8 @@ export default {
     FIELDS_PANEL_SHOW_MENU: 'Show Menu',
     FIELDS_PANEL_SELECT_ALL_FIELDS: 'Select All Fields',
     FIELDS_PANEL_CLEAR_ALL_FIELDS: 'Clear All Fields',
+    FIELDS_PANEL_SORT_ASC: 'Sort By FieldName (ASC)',
+    FIELDS_PANEL_SORT_DESC: 'Sort By FieldName (DESC)',
     FIELDS_PANEL_KEYWORD_CLEAR: 'Clear',
     FIELDS_TREE_NO_MATCHING_FIELD: 'No matching field found',
     FIELDS_TREE_EXPAND_REFERENCE: 'Expand Reference Field',

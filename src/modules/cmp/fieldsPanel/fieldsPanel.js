@@ -6,11 +6,13 @@ import {
     deselectSObject,
     clearSObjectError,
     selectAllFields,
-    clearAllFields
+    clearAllFields,
+    sortFields
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
 import { fullApiName } from '../../service/salesforce';
 import { I18nMixin } from '../../i18n/i18n';
+import { SORT } from '../../store/modules/ui/constants';
 
 export default class FieldsPanel extends I18nMixin(LightningElement) {
     tabs = [
@@ -95,6 +97,12 @@ export default class FieldsPanel extends I18nMixin(LightningElement) {
                 break;
             case 'clear_all':
                 store.dispatch(clearAllFields());
+                break;
+            case 'sort_asc':
+                store.dispatch(sortFields(SORT.ORDER.ASC));
+                break;
+            case 'sort_desc':
+                store.dispatch(sortFields(SORT.ORDER.DESC));
                 break;
             default:
                 break;

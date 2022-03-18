@@ -64,6 +64,7 @@ export default class FieldsTree extends I18nMixin(LightningElement) {
         }
 
         this._updateFields(ui.query);
+        this._sortFields(ui.sort);
     }
 
     connectedCallback() {
@@ -163,5 +164,22 @@ export default class FieldsTree extends I18nMixin(LightningElement) {
 
     _getFlattenedFields(query) {
         return getFlattenedFields(query).map(field => fullApiName(field));
+    }
+
+    _sortFields(sort) {
+        if (sort) {
+            const SORT_ORDER_PRE_NUMBER = {
+                ASC: 1,
+                DESC: -1
+            };
+            const sortOrderPreNumber = SORT_ORDER_PRE_NUMBER[sort.order];
+            this.fields.sort((prev, next) => {
+                return (
+                    (prev.name.toLowerCase() > next.name.toLowerCase()
+                        ? 1
+                        : -1) * sortOrderPreNumber
+                );
+            });
+        }
     }
 }
