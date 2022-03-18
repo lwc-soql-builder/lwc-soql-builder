@@ -39,6 +39,9 @@
   display: flex;
   flex-direction: column;
 }
+.right-top-right-panel {
+  width: 300px;
+}
 .right-separator {
   width: 100%;
   cursor: grab;
