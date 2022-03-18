@@ -63,8 +63,7 @@ export default class FieldsTree extends I18nMixin(LightningElement) {
             this.sobjectMeta = sobjectState.data;
         }
 
-        this._updateFields(ui.query);
-        this._sortFields(ui.sort);
+        this._updateFields(ui.query, ui.sort);
     }
 
     connectedCallback() {
@@ -86,7 +85,7 @@ export default class FieldsTree extends I18nMixin(LightningElement) {
         this._filterFields();
     }
 
-    _updateFields(query) {
+    _updateFields(query, sort) {
         if (!this.sobjectMeta) return;
         const selectedFields = this._getSelectedFields(query);
         this._rawFields = this.sobjectMeta.fields.map(field => {
@@ -99,6 +98,7 @@ export default class FieldsTree extends I18nMixin(LightningElement) {
                 ...this._generateRelationshipProperties(field)
             };
         });
+        this._sortFields(sort);
         this._filterFields();
     }
 
@@ -173,7 +173,7 @@ export default class FieldsTree extends I18nMixin(LightningElement) {
                 DESC: -1
             };
             const sortOrderPreNumber = SORT_ORDER_PRE_NUMBER[sort.order];
-            this.fields.sort((prev, next) => {
+            this._rawFields.sort((prev, next) => {
                 return (
                     (prev.name.toLowerCase() > next.name.toLowerCase()
                         ? 1
