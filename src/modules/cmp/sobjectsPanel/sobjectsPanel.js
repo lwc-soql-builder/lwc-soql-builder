@@ -10,6 +10,7 @@ import { escapeRegExp } from '../../base/utils/regexp-utils';
 import { I18nMixin } from '../../i18n/i18n';
 
 export default class SobjectsPanel extends I18nMixin(LightningElement) {
+    keyword = '';
     sobjects;
     isLoading;
 
@@ -17,6 +18,10 @@ export default class SobjectsPanel extends I18nMixin(LightningElement) {
 
     get isNoSObjects() {
         return !this.isLoading && (!this.sobjects || !this.sobjects.length);
+    }
+
+    get isDisplayClearButton() {
+        return this.keyword !== '';
     }
 
     @wire(connectStore, { store })
@@ -41,8 +46,12 @@ export default class SobjectsPanel extends I18nMixin(LightningElement) {
         }
     }
 
-    filterSObjects(event) {
-        const keyword = event.target.value;
+    setKeyword(event) {
+        this.keyword = event.target.value;
+        this.filterSObjects(this.keyword);
+    }
+
+    filterSObjects(keyword) {
         if (keyword) {
             const escapedKeyword = escapeRegExp(keyword);
             const keywordPattern = new RegExp(escapedKeyword, 'i');
@@ -57,5 +66,10 @@ export default class SobjectsPanel extends I18nMixin(LightningElement) {
     selectSObject(event) {
         const sObjectName = event.target.dataset.name;
         store.dispatch(selectSObject(sObjectName));
+    }
+
+    handleClear() {
+        this.keyword = '';
+        this.filterSObjects(this.keyword);
     }
 }

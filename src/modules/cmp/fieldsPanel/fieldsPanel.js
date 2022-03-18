@@ -26,7 +26,7 @@ export default class FieldsPanel extends I18nMixin(LightningElement) {
         }
     ];
     sobjectMeta;
-    keyword;
+    keyword = '';
     isLoading;
 
     _selectedSObject;
@@ -99,5 +99,13 @@ export default class FieldsPanel extends I18nMixin(LightningElement) {
             default:
                 break;
         }
+    }
+
+    get isDisplayClearButton() {
+        return this.keyword !== '';
+    }
+
+    handleClear() {
+        this.keyword = '';
     }
 }

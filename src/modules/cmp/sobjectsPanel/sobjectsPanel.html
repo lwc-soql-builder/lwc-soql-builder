@@ -6,13 +6,30 @@
     </div>
     <div class="slds-form-element slds-p-horizontal_large">
       <label class="slds-form-element__label slds-assistive-text">{i18n.SOBJECTS_PANEL_FILTER_SOBJECTS}</label>
-      <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+      <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
         <span class="slds-icon_container slds-icon-utility-search">
-          <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
+          <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
             <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#search"></use>
           </svg>
         </span>
-        <input type="search" placeholder={i18n.SOBJECTS_PANEL_QUICK_FIND} class="slds-input" onkeyup={filterSObjects} />
+        <input
+          type="search"
+          placeholder={i18n.SOBJECTS_PANEL_QUICK_FIND}
+          class="slds-input"
+          value={keyword}
+          onkeyup={setKeyword}
+        />
+        <button
+          class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+          title={i18n.SOBJECTS_PANEL_KEYWORD_CLEAR}
+          onclick={handleClear}
+          if:true={isDisplayClearButton}
+        >
+          <svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
+            <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#clear"></use>
+          </svg>
+          <span class="slds-assistive-text">{i18n.SOBJECTS_PANEL_KEYWORD_CLEAR}</span>
+        </button>
       </div>
     </div>
     <div class="sobjects-list slds-border_top">
