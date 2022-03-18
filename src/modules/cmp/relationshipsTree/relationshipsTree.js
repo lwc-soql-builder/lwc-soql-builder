@@ -51,8 +51,8 @@ export default class RelationshipsTree extends I18nMixin(LightningElement) {
 
     toggleChildRelationship(event) {
         const relationshipName = event.target.dataset.name;
-        this._expandedRelationshipNames[relationshipName] =
-            !this._expandedRelationshipNames[relationshipName];
+        this._expandedRelationshipNames[relationshipName] = !this
+            ._expandedRelationshipNames[relationshipName];
         this._filterRelationships();
     }
 
@@ -107,8 +107,9 @@ export default class RelationshipsTree extends I18nMixin(LightningElement) {
         this.relationships = relationships.map(relation => {
             return {
                 ...relation,
-                isExpanded:
-                    !!this._expandedRelationshipNames[relation.relationshipName]
+                isExpanded: !!this._expandedRelationshipNames[
+                    relation.relationshipName
+                ]
             };
         });
     }

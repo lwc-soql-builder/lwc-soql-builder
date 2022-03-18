@@ -79,8 +79,9 @@ export default class FieldsTree extends I18nMixin(LightningElement) {
 
     toggleReferenceField(event) {
         const fieldName = event.target.dataset.field;
-        this._expandedFieldNames[fieldName] =
-            !this._expandedFieldNames[fieldName];
+        this._expandedFieldNames[fieldName] = !this._expandedFieldNames[
+            fieldName
+        ];
         this._filterFields();
     }
 
