@@ -9,8 +9,9 @@ import {
 } from '../../store/store';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
 import { fullApiName, stripNamespace } from '../../service/salesforce';
+import { I18nMixin } from '../../i18n/i18n';
 
-export default class QueryEditorPanel extends LightningElement {
+export default class QueryEditorPanel extends I18nMixin(LightningElement) {
     isCompletionVisible;
     completionStyle;
     completionFields;

@@ -3,7 +3,7 @@
     <base-spinner size="x-small"></base-spinner>
   </div>
   <div if:false={isLoading}>
-    <div class="slds-p-around_small" if:true={isNoFields}>No matching fields found</div>
+    <div class="slds-p-around_small" if:true={isNoFields}>{i18n.FIELDS_TREE_NO_MATCHING_FIELD}</div>
     <ul class="slds-tree" if:false={isNoFields}>
       <template for:each={fields} for:item="field">
         <li
@@ -25,7 +25,7 @@
               <svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
                 <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
-              <span class="slds-assistive-text">Expand Reference Field</span>
+              <span class="slds-assistive-text">{i18n.FIELDS_TREE_EXPAND_REFERENCE}</span>
             </button>
             <span class="slds-has-flexi-truncate" onclick={selectField} data-name={field.name}>
               <a class="slds-tree__item-label slds-truncate" title={field.name}> {field.name} </a>
@@ -37,9 +37,7 @@
               <ul class="slds-tree">
                 <li aria-level={level}>
                   <div class="slds-tree__item">
-                    <div class="slds-text-color_error">
-                      No more than five levels can be specified in a child-to-parent relationship.
-                    </div>
+                    <div class="slds-text-color_error">{i18n.FIELDS_TREE_FILE_LEVELS_MESSAGE}</div>
                   </div>
                 </li>
               </ul>

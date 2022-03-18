@@ -9,7 +9,7 @@
     </div>
     <div class="slds-builder-header__item slds-builder-header__utilities">
       <div class="slds-builder-header__utilities-item" if:true={apiUsage}>
-        <h1 class="slds-builder-header__item-label">API Usage: {apiUsage}</h1>
+        <h1 class="slds-builder-header__item-label">{i18n.HEADER_API_USAGE}: {apiUsage}</h1>
       </div>
       <div class="slds-builder-header__utilities-item" if:true={userLabel}>
         <h1 class="slds-builder-header__item-label">{userLabel}</h1>
@@ -27,7 +27,7 @@
               </svg>
             </span>
           </div>
-          <div class="slds-media__body">Logout</div>
+          <div class="slds-media__body">{i18n.HEADER_LOGOUT}</div>
         </a>
       </div>
       <div class="slds-builder-header__utilities-item">

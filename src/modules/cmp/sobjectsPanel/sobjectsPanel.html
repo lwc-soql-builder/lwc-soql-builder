@@ -2,21 +2,21 @@
   <base-spinner if:true={isLoading}></base-spinner>
   <div class="slds-tree_container">
     <div>
-      <h2 class="slds-tree__group-header slds-truncate">SObjects</h2>
+      <h2 class="slds-tree__group-header slds-truncate">{i18n.SOBJECTS_PANEL_SOBJECTS}</h2>
     </div>
     <div class="slds-form-element slds-p-horizontal_large">
-      <label class="slds-form-element__label slds-assistive-text">Filter sObjects</label>
+      <label class="slds-form-element__label slds-assistive-text">{i18n.SOBJECTS_PANEL_FILTER_SOBJECTS}</label>
       <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
         <span class="slds-icon_container slds-icon-utility-search">
           <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
             <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#search"></use>
           </svg>
         </span>
-        <input type="search" placeholder="Quick Find" class="slds-input" onkeyup={filterSObjects} />
+        <input type="search" placeholder={i18n.SOBJECTS_PANEL_QUICK_FIND} class="slds-input" onkeyup={filterSObjects} />
       </div>
     </div>
     <div class="sobjects-list slds-border_top">
-      <div class="slds-p-around_small" if:true={isNoSObjects}>No matching sObjects found</div>
+      <div class="slds-p-around_small" if:true={isNoSObjects}>{i18n.SOBJECTS_PANEL_NO_MATCHING}</div>
       <ul class="slds-tree left-panel-scrollable" aria-describedby="entity-header" if:true={sobjects}>
         <template for:each={sobjects} for:item="sobject">
           <li aria-level="1" role="treeitem" key={sobject.name} if:true={sobject.queryable}>

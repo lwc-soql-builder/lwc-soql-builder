@@ -1,19 +1,15 @@
 <template>
   <div class="slds-p-around_small">
-    <button class="slds-button slds-button_brand" onclick={runQuery}>Query</button>
-    <button
-      class="slds-button slds-button_brand"
-      onclick={runQueryAll}
-      title="Query All will return records that have been deleted"
-    >
-      Query All
+    <button class="slds-button slds-button_brand" onclick={runQuery}>{i18n.QUERY_EDITOR_PANEL_QUERY}</button>
+    <button class="slds-button slds-button_brand" onclick={runQueryAll} title={i18n.QUERY_EDITOR_PANEL_QUERY_ALL_TITLE}>
+      {i18n.QUERY_EDITOR_PANEL_QUERY_ALL}
     </button>
-    <button class="slds-button slds-button_neutral" onclick={formatQuery}>Format SOQL</button>
+    <button class="slds-button slds-button_neutral" onclick={formatQuery}>{i18n.QUERY_EDITOR_PANEL_FORMAT_SOQL}</button>
   </div>
   <div class="soql-editor slds-m-horizontal_small slds-m-bottom_small">
     <textarea
       class="slds-textarea soql-input"
-      placeholder="Input SOQL"
+      placeholder={i18n.QUERY_EDITOR_PANEL_INPUT_SOQL}
       onkeydown={handleKeydownSoql}
       onkeyup={handleKeyupSoql}
       onblur={handleBlurSoql}

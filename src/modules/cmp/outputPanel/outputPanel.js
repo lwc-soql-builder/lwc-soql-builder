@@ -6,8 +6,9 @@ import {
     clearQueryError
 } from '../../store/store';
 import { showToast } from '../../base/toast/toast-manager';
+import { I18nMixin } from '../../i18n/i18n';
 
-export default class OutputPanel extends LightningElement {
+export default class OutputPanel extends I18nMixin(LightningElement) {
     response;
     childResponse;
     isLoading;
@@ -28,7 +29,7 @@ export default class OutputPanel extends LightningElement {
         if (query.error) {
             console.error(query.error);
             showToast({
-                message: 'Failed to execute SOQL',
+                message: this.i18n.OUTPUT_PANEL_FAILED_SOQL,
                 errors: query.error
             });
             store.dispatch(clearQueryError());
@@ -57,7 +58,7 @@ export default class OutputPanel extends LightningElement {
         } catch (e) {
             console.error(e);
             showToast({
-                message: 'Failed to export CSV',
+                message: this.i18n.OUTPUT_PANEL_FAILED_EXPORT_CSV,
                 errors: e
             });
         }

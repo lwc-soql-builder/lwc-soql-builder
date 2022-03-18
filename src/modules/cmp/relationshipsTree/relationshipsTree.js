@@ -3,8 +3,9 @@ import { getFlattenedFields } from 'soql-parser-js';
 import { connectStore, store, toggleRelationship } from '../../store/store';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
 import { fullApiName } from '../../service/salesforce';
+import { I18nMixin } from '../../i18n/i18n';
 
-export default class RelationshipsTree extends LightningElement {
+export default class RelationshipsTree extends I18nMixin(LightningElement) {
     // sObject Name
     @api sobject;
     sobjectMeta;

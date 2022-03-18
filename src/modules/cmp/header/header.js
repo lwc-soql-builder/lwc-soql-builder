@@ -1,7 +1,8 @@
 import { LightningElement, wire } from 'lwc';
 import { connectStore, store } from '../../store/store';
 import * as salesforce from '../../service/salesforce';
-export default class Header extends LightningElement {
+import { I18nMixin } from '../../i18n/i18n';
+export default class Header extends I18nMixin(LightningElement) {
     isLoggedIn;
     _user;
     _apiUsage;

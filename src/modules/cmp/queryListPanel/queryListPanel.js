@@ -1,11 +1,12 @@
 import { LightningElement, wire } from 'lwc';
+import { I18nMixin } from '../../i18n/i18n';
 import {
     connectStore,
     store,
     loadRecentQueries,
     updateSoql
 } from '../../store/store';
-export default class QueryListPanel extends LightningElement {
+export default class QueryListPanel extends I18nMixin(LightningElement) {
     recentQueries;
 
     @wire(connectStore, { store })

@@ -8,8 +8,9 @@ import {
 import { escapeRegExp } from '../../base/utils/regexp-utils';
 import { fullApiName, isSame } from '../../service/salesforce';
 import { getFlattenedFields } from 'soql-parser-js';
+import { I18nMixin } from '../../i18n/i18n';
 
-export default class FieldsTree extends LightningElement {
+export default class FieldsTree extends I18nMixin(LightningElement) {
     // sObject Name
     @api sobject;
     // relationship Path e.g. "Contact.Owner"

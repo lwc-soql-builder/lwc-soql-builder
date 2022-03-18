@@ -1,8 +1,9 @@
 import { LightningElement, api } from 'lwc';
 import { store, selectChildRelationship } from '../../store/store';
 import * as salesforce from '../../service/salesforce';
+import { I18nMixin } from '../../i18n/i18n';
 
-export default class OutputPanel extends LightningElement {
+export default class OutputPanel extends I18nMixin(LightningElement) {
     @api value;
 
     get isChildRelationship() {
