@@ -19,7 +19,8 @@ import {
     SELECT_CHILD_RELATIONSHIP,
     DESELECT_CHILD_RELATIONSHIP,
     SELECT_ALL_FIELDS,
-    CLEAR_ALL_FIELDS
+    CLEAR_ALL_FIELDS,
+    SORT_FIELDS
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
 import { connection, stripNamespace } from '../../../service/salesforce';
@@ -342,6 +343,14 @@ export default function ui(state = {}, action) {
                 ...state,
                 query,
                 soql: composeQuery(query, { format: true })
+            };
+        }
+
+        case SORT_FIELDS: {
+            const { sort } = action.payload;
+            return {
+                ...state,
+                sort
             };
         }
 

@@ -59,6 +59,16 @@
           ></base-menu-item>
           <base-menu-item icon-name="utility:clear" label={i18n.FIELDS_PANEL_CLEAR_ALL_FIELDS} value="clear_all">
           </base-menu-item>
+          <base-menu-item
+            icon-name="utility:arrowdown"
+            label={i18n.FIELDS_PANEL_SORT_ASC}
+            value="sort_asc"
+          ></base-menu-item>
+          <base-menu-item
+            icon-name="utility:arrowup"
+            label={i18n.FIELDS_PANEL_SORT_DESC}
+            value="sort_desc"
+          ></base-menu-item>
         </base-menu>
       </div>
       <div class="slds-tabs_default__content" role="tabpanel" if:true={isFieldsActive}>

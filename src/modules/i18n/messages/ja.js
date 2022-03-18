@@ -11,6 +11,8 @@ export default {
     FIELDS_PANEL_SHOW_MENU: 'メニューの表示',
     FIELDS_PANEL_SELECT_ALL_FIELDS: 'すべての項目の選択',
     FIELDS_PANEL_CLEAR_ALL_FIELDS: 'すべての項目の選択解除',
+    FIELDS_PANEL_SORT_ASC: '項目API名でソート (昇順)',
+    FIELDS_PANEL_SORT_DESC: '項目API名でソート (降順)',
     FIELDS_PANEL_KEYWORD_CLEAR: 'クリア',
     FIELDS_TREE_NO_MATCHING_FIELD: '項目がありません',
     FIELDS_TREE_EXPAND_REFERENCE: '参照項目を開く',
