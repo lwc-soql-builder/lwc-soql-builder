@@ -18,7 +18,7 @@ export default class Menu extends LightningElement {
 
     handleBlur() {
         // eslint-disable-next-line @lwc/lwc/no-async-operation
-        this._closeMenuTimer = setTimeout(() => this._closeMenu(), 10);
+        this._closeMenuTimer = setTimeout(() => this._closeMenu(), 200);
     }
 
     handleMenuItemPrivateSelect(event) {
