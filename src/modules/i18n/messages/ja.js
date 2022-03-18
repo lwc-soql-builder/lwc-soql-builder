@@ -11,6 +11,7 @@ export default {
     FIELDS_PANEL_SHOW_MENU: 'メニューの表示',
     FIELDS_PANEL_SELECT_ALL_FIELDS: 'すべての項目の選択',
     FIELDS_PANEL_CLEAR_ALL_FIELDS: 'すべての項目の選択解除',
+    FIELDS_PANEL_KEYWORD_CLEAR: 'クリア',
     FIELDS_TREE_NO_MATCHING_FIELD: '項目がありません',
     FIELDS_TREE_EXPAND_REFERENCE: '参照項目を開く',
     FIELDS_TREE_FILE_LEVELS_MESSAGE:
@@ -37,6 +38,7 @@ export default {
     SOBJECTS_PANEL_FILTER_SOBJECTS: 'オブジェクトの絞り込み',
     SOBJECTS_PANEL_QUICK_FIND: 'オブジェクトの検索',
     SOBJECTS_PANEL_NO_MATCHING: 'オブジェクトがありません',
+    SOBJECTS_PANEL_KEYWORD_CLEAR: 'クリア',
     WELCOME_TITLE: 'LWC SOQL Builderにようこそ！',
     WELCOME_DESCRIPTION:
         'LWC SOQL BuilderはLWC OSSで開発されたそQL実行ツールです。SOQLの入力補完、オブジェクト/項目一覧からのSOQLの構築、実行クエリの保存、CSVエクスポートなど便利な機能を備えています。',

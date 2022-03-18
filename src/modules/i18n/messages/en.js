@@ -10,6 +10,7 @@ export default {
     FIELDS_PANEL_SHOW_MENU: 'Show Menu',
     FIELDS_PANEL_SELECT_ALL_FIELDS: 'Select All Fields',
     FIELDS_PANEL_CLEAR_ALL_FIELDS: 'Clear All Fields',
+    FIELDS_PANEL_KEYWORD_CLEAR: 'Clear',
     FIELDS_TREE_NO_MATCHING_FIELD: 'No matching field found',
     FIELDS_TREE_EXPAND_REFERENCE: 'Expand Reference Field',
     FIELDS_TREE_FILE_LEVELS_MESSAGE:
@@ -35,6 +36,7 @@ export default {
     SOBJECTS_PANEL_FILTER_SOBJECTS: 'Filter sObjects',
     SOBJECTS_PANEL_QUICK_FIND: 'Quick Find',
     SOBJECTS_PANEL_NO_MATCHING: 'No matching sObjects found',
+    SOBJECTS_PANEL_KEYWORD_CLEAR: 'Clear',
     WELCOME_TITLE: 'Welcome to LWC SOQL Builder!',
     WELCOME_DESCRIPTION:
         'LWC SOQL Builder is a SOQL execution tool developed in Lightning Web Components Open Source, which provides useful features such as viewing the list of items, completing item names, saving queries, and exporting execution results to CSV.',

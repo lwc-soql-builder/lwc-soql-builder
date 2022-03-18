@@ -29,14 +29,14 @@
         />
         <button
           class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
-          title="Clear"
+          title={i18n.FIELDS_PANEL_KEYWORD_CLEAR}
           onclick={handleClear}
           if:true={isDisplayClearButton}
         >
           <svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
             <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#clear"></use>
           </svg>
-          <span class="slds-assistive-text">Clear</span>
+          <span class="slds-assistive-text">{i18n.FIELDS_PANEL_KEYWORD_CLEAR}</span>
         </button>
       </div>
     </div>
