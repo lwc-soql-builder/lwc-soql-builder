@@ -267,7 +267,8 @@ export default function ui(state = {}, action) {
         case DESELECT_SOBJECT:
             return {
                 ...state,
-                selectedSObject: undefined
+                selectedSObject: undefined,
+                sort: undefined
             };
 
         case TOGGLE_FIELD: {
