@@ -59,12 +59,12 @@ export default class Container extends LightningElement {
         return 'height:' + this.rightTopLeftPanelHeight + 'px';
     }
 
-    dragRightSparator(event) {
+    dragRightSeparator(event) {
         if (event.clientY > 0)
             this.rightTopLeftPanelHeight = event.clientY - 56;
     }
 
-    dragOverRightSparator(event) {
+    dragOverRightSeparator(event) {
         event.preventDefault();
     }
 }
