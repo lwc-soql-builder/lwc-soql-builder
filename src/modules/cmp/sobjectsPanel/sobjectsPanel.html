@@ -12,13 +12,7 @@
             <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#search"></use>
           </svg>
         </span>
-        <input
-          type="search"
-          placeholder="Quick Find"
-          class="slds-input"
-          value={searchword}
-          onkeyup={handleKeywordChange}
-        />
+        <input type="search" placeholder="Quick Find" class="slds-input" value={keyword} onkeyup={setKeyword} />
         <button
           class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
           title="Clear"

@@ -25,7 +25,7 @@ export default class FieldsPanel extends LightningElement {
         }
     ];
     sobjectMeta;
-    keyword;
+    keyword = '';
     isLoading;
 
     _selectedSObject;
@@ -98,5 +98,13 @@ export default class FieldsPanel extends LightningElement {
             default:
                 break;
         }
+    }
+
+    get isDisplayClearButton() {
+        return this.keyword !== '';
+    }
+
+    handleClear() {
+        this.keyword = '';
     }
 }
