@@ -3,7 +3,13 @@
   <ul class="slds-tree" if:false={isNoRelationships}>
     <template for:each={relationships} for:item="relation">
       <template if:true={relation.relationshipName}>
-        <li aria-level="1" aria-selected={relation.isActive} role="treeitem" key={relation.relationshipName}>
+        <li
+          aria-level="1"
+          aria-selected={relation.isActive}
+          aria-expanded={relation.isExpanded}
+          role="treeitem"
+          key={relation.relationshipName}
+        >
           <div class="slds-tree__item">
             <button
               class="slds-button slds-button_icon slds-m-right_x-small"
