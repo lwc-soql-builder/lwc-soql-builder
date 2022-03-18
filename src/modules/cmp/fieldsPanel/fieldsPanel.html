@@ -9,9 +9,7 @@
           </svg>
           <span class="slds-assistive-text">Back</span>
         </button>
-        <h2 class="slds-tree__group-header slds-truncate">
-          {sobjectMeta.name} / {sobjectMeta.label}
-        </h2>
+        <h2 class="slds-tree__group-header slds-truncate">{sobjectMeta.name} / {sobjectMeta.label}</h2>
       </div>
     </div>
     <div class="slds-form-element slds-p-horizontal_large">
@@ -29,18 +27,20 @@
       <ul class="slds-tabs_default__nav" role="tablist">
         <template for:each={tabs} for:item="tab">
           <li class="slds-tabs_default__item" aria-selected={tab.isActive} title={tab.label} key={tab.id}>
-            <a class="slds-tabs_default__link" role="tab" tabindex="-1" onclick={selectTab} data-id={tab.id}>{tab.label}</a>
+            <a class="slds-tabs_default__link" role="tab" tabindex="-1" onclick={selectTab} data-id={tab.id}
+              >{tab.label}</a
+            >
           </li>
         </template>
       </ul>
       <div class="dropdown-menu" if:true={isFieldsActive}>
         <base-menu alternative-text="Show Menu" onselect={handleMenuSelect}>
-          <base-menu-item icon-name="utility:multi_select_checkbox"
+          <base-menu-item
+            icon-name="utility:multi_select_checkbox"
             label="Select All Fields"
-            value="select_all"></base-menu-item>
-          <base-menu-item icon-name="utility:clear"
-            label="Clear All Fields"
-            value="clear_all"></base-menu-item>
+            value="select_all"
+          ></base-menu-item>
+          <base-menu-item icon-name="utility:clear" label="Clear All Fields" value="clear_all"></base-menu-item>
         </base-menu>
       </div>
       <div class="slds-tabs_default__content" role="tabpanel" if:true={isFieldsActive}>

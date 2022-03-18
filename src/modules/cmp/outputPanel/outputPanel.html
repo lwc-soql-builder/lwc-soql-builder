@@ -7,8 +7,11 @@
     </div>
     <cmp-output-table class="main-output" response={response}></cmp-output-table>
     <div class="child-relationsihp-panel" if:true={childResponse}>
-      <button class="slds-button slds-button_icon slds-button_icon" title="Close Child Relationship"
-        onclick={closeChildRelationship}>
+      <button
+        class="slds-button slds-button_icon slds-button_icon"
+        title="Close Child Relationship"
+        onclick={closeChildRelationship}
+      >
         <svg class="slds-button__icon" aria-hidden="true">
           <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#close"></use>
         </svg>

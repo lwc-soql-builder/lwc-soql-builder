@@ -2,15 +2,35 @@
   <div class="slds-tabs_default">
     <ul class="slds-tabs_default__nav" role="tablist">
       <li class="slds-tabs_default__item slds-is-active" title="Recent Queries" role="presentation">
-        <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-recent-queries" id="tab-recent-queries__item">Recent Queries</a>
+        <a
+          class="slds-tabs_default__link"
+          href="javascript:void(0);"
+          role="tab"
+          tabindex="-1"
+          aria-selected="false"
+          aria-controls="tab-recent-queries"
+          id="tab-recent-queries__item"
+          >Recent Queries</a
+        >
       </li>
     </ul>
-    <div id="tab-recent-queries" class="slds-tabs_default__content" role="tabpanel" aria-labelledby="tab-recent-queries__item">
+    <div
+      id="tab-recent-queries"
+      class="slds-tabs_default__content"
+      role="tabpanel"
+      aria-labelledby="tab-recent-queries__item"
+    >
       <div class="slds-scrollable">
         <template for:each={recentQueries} for:item="query">
-          <div class="slds-p-around_small slds-border_bottom recent-query-item"
-            title={query.soql} key={query.key}
-            data-key={query.key} onclick={selectQuery}>{query.soql}</div>
+          <div
+            class="slds-p-around_small slds-border_bottom recent-query-item"
+            title={query.soql}
+            key={query.key}
+            data-key={query.key}
+            onclick={selectQuery}
+          >
+            {query.soql}
+          </div>
         </template>
       </div>
     </div>

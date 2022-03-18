@@ -22,8 +22,12 @@
           <li aria-level="1" role="treeitem" key={sobject.name} if:true={sobject.queryable}>
             <div class="slds-tree__item">
               <span class="slds-has-flexi-truncate">
-                <a class="slds-tree__item-label slds-truncate"
-                  title={sobject.itemLabel} onclick={selectSObject} data-name={sobject.name}>
+                <a
+                  class="slds-tree__item-label slds-truncate"
+                  title={sobject.itemLabel}
+                  onclick={selectSObject}
+                  data-name={sobject.name}
+                >
                   {sobject.itemLabel}
                 </a>
               </span>
