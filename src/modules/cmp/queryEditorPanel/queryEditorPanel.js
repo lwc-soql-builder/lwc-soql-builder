@@ -11,6 +11,21 @@ import { escapeRegExp } from '../../base/utils/regexp-utils';
 import { fullApiName, stripNamespace } from '../../service/salesforce';
 import { I18nMixin } from '../../i18n/i18n';
 
+const SOQL_SYNTAX_WORDS = [
+    'SELECT',
+    'FROM',
+    'WHERE',
+    'AND',
+    'OR',
+    'LIKE',
+    'IN',
+    'GROUP BY',
+    'HAVING',
+    'ORDER BY',
+    'LIMIT',
+    'OFFSET'
+];
+
 export default class QueryEditorPanel extends I18nMixin(LightningElement) {
     isCompletionVisible;
     completionStyle;
@@ -56,13 +71,15 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
     }
 
     insertField(event) {
-        const name = event.target.dataset.name;
+        const key = event.target.dataset.key;
+        console.log('insertField', key);
         if (this._closeCompletionTimer) {
             clearTimeout(this._closeCompletionTimer);
         }
         const selectedField = this.completionFields.find(
-            field => field.name === name
+            field => field.key === key
         );
+        console.log('selectedField', selectedField);
         const inputEl = this.template.querySelector('.soql-input');
         this._insertField(inputEl, selectedField);
     }
@@ -175,14 +192,31 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
             .filter(field =>
                 keywordPattern.test(`${field.name} ${field.label}`)
             )
-            .map((field, index) => {
+            .map(field => {
                 return {
                     ...field,
+                    key: field.name,
                     itemLabel: `${field.name} / ${field.label}`,
-                    isActive: index === 0
+                    isActive: false,
+                    isSyntax: false
                 };
             });
+        const syntaxItems = SOQL_SYNTAX_WORDS.filter(syntax =>
+            keywordPattern.test(`${syntax}`)
+        ).map((syntax, index) => {
+            return {
+                name: syntax,
+                key: `syntax_${index}`,
+                itemLabel: syntax,
+                isActive: false,
+                isSyntax: true
+            };
+        });
+        if (syntaxItems.length > 0) {
+            this.completionFields = syntaxItems.concat(this.completionFields);
+        }
         if (this.completionFields.length > 0) {
+            this.completionFields[0].isActive = true;
             this._setCompletionPosition(event);
             this.isCompletionVisible = true;
         } else {
