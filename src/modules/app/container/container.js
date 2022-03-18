@@ -15,6 +15,7 @@ export default class Container extends LightningElement {
     isLoading;
     isLoggedIn;
     selectedSObject;
+    rightTopLeftPanelHeight = 300;
 
     get sobjectsPanelClass() {
         return this.selectedSObject ? 'slds-hide' : '';
@@ -52,5 +53,18 @@ export default class Container extends LightningElement {
             store.dispatch(login(user));
             store.dispatch(fetchSObjectsIfNeeded());
         }
+    }
+
+    get rightTopPanelStyle() {
+        return 'height:' + this.rightTopLeftPanelHeight + 'px';
+    }
+
+    dragRightSparator(event) {
+        if (event.clientY > 0)
+            this.rightTopLeftPanelHeight = event.clientY - 56;
+    }
+
+    dragOverRightSparator(event) {
+        event.preventDefault();
     }
 }

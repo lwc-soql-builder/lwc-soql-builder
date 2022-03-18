@@ -12,13 +12,23 @@
         </template>
       </div>
       <div class="right-panel">
-        <div class="right-top-panel">
+        <div class="right-top-panel" style={rightTopPanelStyle}>
           <div class="right-top-left-panel">
             <cmp-query-editor-panel></cmp-query-editor-panel>
           </div>
           <div class="right-top-right-panel">
             <cmp-query-list-panel></cmp-query-list-panel>
           </div>
+        </div>
+        <div
+          class="right-separator slds-align_absolute-center slds-border_bottom"
+          draggable="true"
+          ondrag={dragRightSparator}
+          ondragover={dragOverRightSparator}
+        >
+          <svg class="slds-button__icon slds-button__icon_x-small" aria-hidden="true">
+            <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#record"></use>
+          </svg>
         </div>
         <div class="right-bottom-panel">
           <cmp-output-panel></cmp-output-panel>
