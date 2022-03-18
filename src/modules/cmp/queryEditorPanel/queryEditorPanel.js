@@ -188,6 +188,9 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
         );
         const escapedKeyword = escapeRegExp(keyword);
         const keywordPattern = new RegExp(escapedKeyword, 'i');
+        console.log('escapedKeyword', escapedKeyword);
+        console.log('keywordPattern', JSON.stringify(keywordPattern));
+
         this.completionFields = this._sobjectMeta.fields
             .filter(field =>
                 keywordPattern.test(`${field.name} ${field.label}`)
@@ -215,6 +218,7 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
         if (syntaxItems.length > 0) {
             this.completionFields = syntaxItems.concat(this.completionFields);
         }
+        console.log('_searchCompletionFields1', this.completionFields.length);
         if (this.completionFields.length > 0) {
             this.completionFields[0].isActive = true;
             this._setCompletionPosition(event);
@@ -222,6 +226,10 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
         } else {
             this.isCompletionVisible = false;
         }
+        console.log(
+            '_searchCompletionFields this.isCompletionVisible1',
+            this.isCompletionVisible
+        );
     }
 
     _handleCompletion(event) {
