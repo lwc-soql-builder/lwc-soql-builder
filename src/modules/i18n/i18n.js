@@ -5,12 +5,15 @@ const I18N_MESSAGES = { en, ja };
 
 const I18nMixin = base =>
     class I18nElement extends base {
-        language = window.navigator.language;
-        // TODO: ja_JPとか対応？
-        i18n = Object.assign(
-            {},
-            I18N_MESSAGES.en,
-            I18N_MESSAGES[this.language]
-        );
+        get i18n() {
+            const language = window.navigator.language;
+            const langPrefix = language.replace(/_.*/, '');
+            return Object.assign(
+                {},
+                I18N_MESSAGES.en,
+                I18N_MESSAGES[langPrefix],
+                I18N_MESSAGES[language]
+            );
+        }
     };
 export { I18nMixin };
