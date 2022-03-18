@@ -12,7 +12,7 @@ const API_VERSION_KEY = 'lsb.apiVersion';
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
 
 const MANAGED_NAME_PATTERN = new RegExp(
-    '^([a-z_]?[a-z])+(?:__[cr]|__Share|__latitude__s|__longitude__s)$',
+    '^([a-z]|_(?!_))*[a-z]__(?:[cr]|Share|latitude__s|longitude__s)$',
     'i'
 );
 
