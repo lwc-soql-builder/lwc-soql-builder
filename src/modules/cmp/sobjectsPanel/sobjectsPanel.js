@@ -9,6 +9,7 @@ import { showToast } from '../../base/toast/toast-manager';
 import { escapeRegExp } from '../../base/utils/regexp-utils';
 
 export default class SobjectsPanel extends LightningElement {
+    searchword = '';
     sobjects;
     isLoading;
 
@@ -16,6 +17,10 @@ export default class SobjectsPanel extends LightningElement {
 
     get isNoSObjects() {
         return !this.isLoading && (!this.sobjects || !this.sobjects.length);
+    }
+
+    get isDisplayClearButton() {
+        return this.searchword !== '';
     }
 
     @wire(connectStore, { store })
@@ -40,8 +45,12 @@ export default class SobjectsPanel extends LightningElement {
         }
     }
 
-    filterSObjects(event) {
-        const keyword = event.target.value;
+    handleKeywordChange(event) {
+        this.searchword = event.target.value;
+        this.filterSObjects(this.searchword);
+    }
+
+    filterSObjects(keyword) {
         if (keyword) {
             const escapedKeyword = escapeRegExp(keyword);
             const keywordPattern = new RegExp(escapedKeyword, 'i');
@@ -56,5 +65,10 @@ export default class SobjectsPanel extends LightningElement {
     selectSObject(event) {
         const sObjectName = event.target.dataset.name;
         store.dispatch(selectSObject(sObjectName));
+    }
+
+    handleClear() {
+        this.searchword = '';
+        this.filterSObjects(this.searchword);
     }
 }
