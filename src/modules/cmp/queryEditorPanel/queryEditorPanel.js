@@ -11,10 +11,30 @@ import { escapeRegExp } from '../../base/utils/regexp-utils';
 import { fullApiName, stripNamespace } from '../../service/salesforce';
 import { I18nMixin } from '../../i18n/i18n';
 
+const SOQL_SYNTAX_KEYWORDS = [
+    'SELECT',
+    'FROM',
+    'USING SCOPE',
+    'WHERE',
+    'AND',
+    'OR',
+    'LIKE',
+    'IN',
+    'GROUP BY',
+    'HAVING',
+    'ORDER BY',
+    'ASC',
+    'DESC',
+    'NULLS FIRST',
+    'NULLS LAST',
+    'LIMIT',
+    'OFFSET'
+];
+
 export default class QueryEditorPanel extends I18nMixin(LightningElement) {
     isCompletionVisible;
     completionStyle;
-    completionFields;
+    completionItems;
     _sobjectMeta;
     _selectionStart;
     _soql;
@@ -55,16 +75,16 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
         store.dispatch(formatSoql());
     }
 
-    insertField(event) {
-        const name = event.target.dataset.name;
+    insertItem(event) {
+        const key = event.target.dataset.key;
         if (this._closeCompletionTimer) {
             clearTimeout(this._closeCompletionTimer);
         }
-        const selectedField = this.completionFields.find(
-            field => field.name === name
+        const selectedItem = this.completionItems.find(
+            item => item.key === key
         );
         const inputEl = this.template.querySelector('.soql-input');
-        this._insertField(inputEl, selectedField);
+        this._insertItem(inputEl, selectedItem);
     }
 
     handleKeyupSoql(event) {
@@ -87,13 +107,13 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
             if (isComposing) return;
             switch (key) {
                 case 'ArrowDown':
-                    this._selectBellowField(event);
+                    this._selectBellowItem(event);
                     break;
                 case 'ArrowUp':
-                    this._selectAboveField(event);
+                    this._selectAboveItem(event);
                     break;
                 case 'Enter':
-                    this._insertFieldByKeyboard(event);
+                    this._insertItemByKeyboard(event);
                     break;
                 default:
                     break;
@@ -128,7 +148,7 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
                 target.value.substring(0, target.selectionEnd)
             ) || target.selectionEnd;
         if (this._canOpenCompletion(event)) {
-            this._searchCompletionFields(event);
+            this._searchCompletionItems(event);
         }
     }
 
@@ -147,7 +167,7 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
     }
 
     _findSeparator(value) {
-        const result = /[,. ][^,. ]*$/g.exec(value);
+        const result = /[,. \n][^,. \n]*$/g.exec(value);
         return result && result.index + 1;
     }
 
@@ -163,7 +183,7 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
         }px;`;
     }
 
-    _searchCompletionFields(event) {
+    _searchCompletionItems(event) {
         const { target } = event;
         const keyword = target.value.substring(
             this._selectionStart,
@@ -171,18 +191,33 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
         );
         const escapedKeyword = escapeRegExp(keyword);
         const keywordPattern = new RegExp(escapedKeyword, 'i');
-        this.completionFields = this._sobjectMeta.fields
+        const completionFields = this._sobjectMeta.fields
             .filter(field =>
                 keywordPattern.test(`${field.name} ${field.label}`)
             )
-            .map((field, index) => {
+            .map(field => {
                 return {
                     ...field,
+                    key: field.name,
                     itemLabel: `${field.name} / ${field.label}`,
-                    isActive: index === 0
+                    isActive: false,
+                    isSyntax: false
                 };
             });
-        if (this.completionFields.length > 0) {
+        const completionClauses = SOQL_SYNTAX_KEYWORDS.filter(syntax =>
+            keywordPattern.test(`${syntax}`)
+        ).map((syntax, index) => {
+            return {
+                name: syntax,
+                key: `syntax_${index}`,
+                itemLabel: syntax,
+                isActive: false,
+                isSyntax: true
+            };
+        });
+        this.completionItems = [...completionClauses, ...completionFields];
+        if (this.completionItems.length > 0) {
+            this.completionItems[0].isActive = true;
             this._setCompletionPosition(event);
             this.isCompletionVisible = true;
         } else {
@@ -211,74 +246,68 @@ export default class QueryEditorPanel extends I18nMixin(LightningElement) {
             case 'ArrowUp':
             case 'Enter':
                 if (event.isComposing) {
-                    this._searchCompletionFields(event);
+                    this._searchCompletionItems(event);
                 }
                 break;
             default:
-                this._searchCompletionFields(event);
+                this._searchCompletionItems(event);
                 break;
         }
     }
 
     _deleteKeyword(event) {
-        this._searchCompletionFields(event);
+        this._searchCompletionItems(event);
         if (this._selectionStart === event.target.selectionStart) {
             this._closeCompletion();
         }
     }
 
-    _selectBellowField(event) {
+    _selectBellowItem(event) {
         event.preventDefault();
-        const activeIndex = this._getActiveFieldIndex();
-        if (activeIndex + 1 < this.completionFields.length) {
-            this.completionFields = this.completionFields.map(
-                (field, index) => {
-                    return {
-                        ...field,
-                        isActive: index === activeIndex + 1
-                    };
-                }
-            );
+        const activeIndex = this._getActiveItemIndex();
+        if (activeIndex + 1 < this.completionItems.length) {
+            this.completionItems = this.completionItems.map((item, index) => {
+                return {
+                    ...item,
+                    isActive: index === activeIndex + 1
+                };
+            });
         }
     }
 
-    _selectAboveField(event) {
+    _selectAboveItem(event) {
         event.preventDefault();
-        const activeIndex = this._getActiveFieldIndex();
+        const activeIndex = this._getActiveItemIndex();
         if (activeIndex > 0) {
-            this.completionFields = this.completionFields.map(
-                (field, index) => {
-                    return {
-                        ...field,
-                        isActive: index === activeIndex - 1
-                    };
-                }
-            );
+            this.completionItems = this.completionItems.map((item, index) => {
+                return {
+                    ...item,
+                    isActive: index === activeIndex - 1
+                };
+            });
         }
     }
 
-    _getActiveFieldIndex() {
-        return this.completionFields.findIndex(field => field.isActive);
+    _getActiveItemIndex() {
+        return this.completionItems.findIndex(item => item.isActive);
     }
 
-    _insertFieldByKeyboard(event) {
+    _insertItemByKeyboard(event) {
         event.preventDefault();
-        const selectedField = this.completionFields.find(
-            field => field.isActive
-        );
+        const selectedItem = this.completionItems.find(item => item.isActive);
         const { target } = event;
-        this._insertField(target, selectedField);
+        this._insertItem(target, selectedItem);
     }
 
-    _insertField(textarea, selectedField) {
-        if (selectedField) {
+    _insertItem(textarea, selectedItem) {
+        if (selectedItem) {
             const soql = textarea.value;
             const preSoql = soql.substring(0, this._selectionStart);
             const postSoql = soql.substring(textarea.selectionStart);
-            const strippedFieldName = stripNamespace(selectedField.name);
-            this.soql = preSoql + strippedFieldName + postSoql;
+            const strippedItemName = stripNamespace(selectedItem.name);
+            this.soql = preSoql + strippedItemName + postSoql;
             const insertedIndex =
-                this._selectionStart + strippedFieldName.length;
+                this._selectionStart + strippedItemName.length;
             textarea.focus();
             textarea.setSelectionRange(insertedIndex, insertedIndex);
             store.dispatch(updateSoql(this.soql));
