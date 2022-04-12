@@ -42,6 +42,10 @@
 .right-top-right-panel {
   width: 300px;
 }
+.right-separator {
+  width: 100%;
+  cursor: grab;
+}
 .right-bottom-panel {
   flex: 1;
   display: flex;
