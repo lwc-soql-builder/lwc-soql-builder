@@ -17,16 +17,32 @@
     <div class="completion-popover slds-popover" style={completionStyle} if:true={isCompletionVisible}>
       <ul class="slds-listbox slds-listbox_vertical" role="presentation">
         <template for:each={completionFields} for:item="field">
-          <li role="presentation" class="slds-listbox__item" key={field.name}>
+          <li role="presentation" class="slds-listbox__item" key={field.key}>
             <div
               class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
               aria-selected={field.isActive}
               role="option"
             >
-              <span class="slds-media__body">
-                <span class="slds-truncate" title={field.itemLabel} data-name={field.name} onclick={insertField}
-                  >{field.itemLabel}</span
+              <span class="slds-icon_container slds-icon-utility-text" if:false={field.isSyntax}>
+                <svg
+                  class="slds-icon slds-icon_x-small slds-input__icon_left slds-icon-text-default"
+                  aria-hidden="true"
                 >
+                  <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#text"></use>
+                </svg>
+              </span>
+              <span class="slds-icon_container slds-icon-utility-display_text" if:true={field.isSyntax}>
+                <svg
+                  class="slds-icon slds-icon_x-small slds-input__icon_left slds-icon-text-default"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#display_text"></use>
+                </svg>
+              </span>
+              <span class="slds-media__body slds-m-left_x-small">
+                <span class="slds-truncate" title={field.itemLabel} data-key={field.key} onclick={insertField}>
+                  {field.itemLabel}
+                </span>
               </span>
             </div>
           </li>
