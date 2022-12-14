@@ -7,7 +7,7 @@
     "dependencies": {
         "@salesforce-ux/design-system": "^2.13.7",
         "compression": "^1.7.4",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "helmet": "^4.2.0",
         "jsforce": "^1.10.0",
         "soql-parser-js": "^3.0.0",
