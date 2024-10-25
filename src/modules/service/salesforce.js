@@ -71,6 +71,7 @@ export function init(callback) {
     jsforce.browser.on('disconnect', () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(INSTANCE_URL_KEY);
+        sessionStorage.removeItem(API_VERSION_KEY);
     });
 
     const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -88,6 +89,7 @@ export function init(callback) {
     }
 
     jsforce.browser.on('connect', conn => {
+        sessionStorage.removeItem(API_VERSION_KEY);
         localStorage.setItem(ACCESS_TOKEN_KEY, conn.accessToken);
         localStorage.setItem(INSTANCE_URL_KEY, conn.instanceUrl);
         connection = conn;
