@@ -14,20 +14,10 @@ import {
 export default class Container extends LightningElement {
     isLoading;
     isLoggedIn;
-    selectedSObject;
-
-    get sobjectsPanelClass() {
-        return this.selectedSObject ? 'slds-hide' : '';
-    }
 
     @wire(connectStore, { store })
     storeChange({ ui }) {
         this.isLoggedIn = ui.isLoggedIn;
-        if (ui.selectedSObject) {
-            this.selectedSObject = ui.selectedSObject;
-        } else {
-            this.selectedSObject = null;
-        }
     }
 
     constructor() {

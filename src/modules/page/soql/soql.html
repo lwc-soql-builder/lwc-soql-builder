@@ -1,0 +1,21 @@
+<template>
+  <div class="left-panel">
+    <cmp-sobjects-panel class={sobjectsPanelClass}></cmp-sobjects-panel>
+    <template if:true={selectedSObject}>
+      <cmp-fields-panel></cmp-fields-panel>
+    </template>
+  </div>
+  <div class="right-panel">
+    <div class="right-top-panel">
+      <div class="right-top-left-panel">
+        <cmp-query-editor-panel></cmp-query-editor-panel>
+      </div>
+      <div class="right-top-right-panel">
+        <cmp-query-list-panel></cmp-query-list-panel>
+      </div>
+    </div>
+    <div class="right-bottom-panel">
+      <cmp-output-panel></cmp-output-panel>
+    </div>
+  </div>
+</template>
