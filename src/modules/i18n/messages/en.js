@@ -1,6 +1,9 @@
 export default {
     HEADER_API_USAGE: 'API Usage',
     HEADER_LOGOUT: 'Logout',
+    HEADER_MODE_SOQL: 'SOQL',
+    HEADER_MODE_API: 'API',
+    HEADER_MODE_APEX: 'Apex',
     FIELDS_PANEL_FIELDS: 'Fields',
     FIELDS_PANEL_CHILD_REL: 'Child Relationships',
     FIELDS_PANEL_FAILED_DESCRIBE_OBJ: 'Failed to describe sObject',

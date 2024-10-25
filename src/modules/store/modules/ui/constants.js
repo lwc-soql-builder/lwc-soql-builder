@@ -14,3 +14,5 @@ export const SELECT_ALL_FIELDS = 'SELECT_ALL_FIELDS';
 export const CLEAR_ALL_FIELDS = 'CLEAR_ALL_FIELDS';
 export const SORT_FIELDS = 'SORT_FIELDS';
 export const SORT = { ORDER: { ASC: 'ASC', DESC: 'DESC' } };
+export const SELECT_MODE = 'SELECT_MODE';
+export const MODE = { SOQL: 'SOQL', API: 'API', APEX: 'APEX' };

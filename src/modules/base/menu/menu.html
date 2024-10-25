@@ -1,5 +1,9 @@
 <template>
+  <template if:true={useCustomTrigger}>
+    <slot name="trigger" onslotchange={handleTriggerSlotChange}></slot>
+  </template>
   <button
+    if:false={useCustomTrigger}
     class="slds-button slds-button_icon"
     aria-haspopup="true"
     title={alternativeText}

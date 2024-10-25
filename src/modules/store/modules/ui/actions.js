@@ -13,7 +13,8 @@ import {
     DESELECT_CHILD_RELATIONSHIP,
     SELECT_ALL_FIELDS,
     CLEAR_ALL_FIELDS,
-    SORT_FIELDS
+    SORT_FIELDS,
+    SELECT_MODE
 } from './constants';
 
 export function login(user) {
@@ -119,5 +120,12 @@ export function sortFields(order) {
                 order
             }
         }
+    };
+}
+
+export function selectMode(mode) {
+    return {
+        type: SELECT_MODE,
+        payload: { mode }
     };
 }

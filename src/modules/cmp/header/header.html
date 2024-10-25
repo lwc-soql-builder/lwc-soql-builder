@@ -7,6 +7,41 @@
         </a>
       </div>
     </div>
+    <nav class="slds-builder-header__item slds-builder-header__nav">
+      <ul if:true={selectedMode} class="slds-builder-header__nav-list">
+        <base-menu use-custom-trigger="true" class="slds-builder-header__nav-item" onselect={handleModeSelect}>
+          <button
+            slot="trigger"
+            class="slds-button slds-builder-header__item-action slds-media slds-media_center"
+            aria-haspopup="true"
+          >
+            <span class="slds-media__figure">
+              <span class="slds-icon_container slds-current-color">
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                  <use xlink:href={selectedModeIconPath}></use>
+                </svg>
+              </span>
+            </span>
+            <span class="slds-media__body">
+              <span class="slds-truncate" title="Dropdown">{selectedMode.label}</span>
+              <span class="slds-icon_container slds-icon-utility-chevrondown slds-current-color slds-m-left_small">
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                  <use xlink:href="./resources/slds/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                </svg>
+              </span>
+            </span>
+          </button>
+          <template for:each={modeOptions} for:item="mode">
+            <base-menu-item
+              key={mode.value}
+              icon-name={mode.icon}
+              label={mode.label}
+              value={mode.value}
+            ></base-menu-item>
+          </template>
+        </base-menu>
+      </ul>
+    </nav>
     <div class="slds-builder-header__item slds-builder-header__utilities">
       <div class="slds-builder-header__utilities-item" if:true={apiUsage}>
         <h1 class="slds-builder-header__item-label">{i18n.HEADER_API_USAGE}: {apiUsage}</h1>

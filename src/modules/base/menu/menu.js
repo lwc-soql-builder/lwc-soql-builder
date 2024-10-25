@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 
 export default class Menu extends LightningElement {
     @api alternativeText;
+    @api useCustomTrigger;
 
     _closeMenuTimer;
 
@@ -14,6 +15,12 @@ export default class Menu extends LightningElement {
 
     toggleMenu() {
         this.classList.toggle('slds-is-open');
+    }
+
+    handleTriggerSlotChange() {
+        const triggerElement = this.querySelector('[slot="trigger"]');
+        triggerElement.addEventListener('click', this.toggleMenu.bind(this));
+        triggerElement.addEventListener('blur', this.handleBlur.bind(this));
     }
 
     handleBlur() {

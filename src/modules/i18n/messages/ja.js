@@ -1,6 +1,9 @@
 export default {
     HEADER_API_USAGE: 'API使用量',
     HEADER_LOGOUT: 'ログアウト',
+    HEADER_MODE_SOQL: 'SOQL',
+    HEADER_MODE_API: 'API',
+    HEADER_MODE_APEX: 'Apex',
     FIELDS_PANEL_FIELDS: '項目',
     FIELDS_PANEL_CHILD_REL: '子リレーション',
     FIELDS_PANEL_FAILED_DESCRIBE_OBJ:

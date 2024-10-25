@@ -20,7 +20,8 @@ import {
     DESELECT_CHILD_RELATIONSHIP,
     SELECT_ALL_FIELDS,
     CLEAR_ALL_FIELDS,
-    SORT_FIELDS
+    SORT_FIELDS,
+    SELECT_MODE
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
 import { connection, stripNamespace } from '../../../service/salesforce';
@@ -352,6 +353,14 @@ export default function ui(state = {}, action) {
             return {
                 ...state,
                 sort
+            };
+        }
+
+        case SELECT_MODE: {
+            const { mode } = action.payload;
+            return {
+                ...state,
+                mode
             };
         }
 
