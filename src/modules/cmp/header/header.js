@@ -1,11 +1,13 @@
-import { LightningElement, wire } from 'lwc';
-import { connectStore, selectMode, store } from '../../store/store';
-import * as salesforce from '../../service/salesforce';
+import { api, LightningElement, wire } from 'lwc';
 import { I18nMixin } from '../../i18n/i18n';
+import * as salesforce from '../../service/salesforce';
 import { MODE } from '../../store/modules/ui/constants';
+import { connectStore, selectMode, store } from '../../store/store';
+
 export default class Header extends I18nMixin(LightningElement) {
+    @api mode;
+
     isLoggedIn;
-    mode;
     _user;
     _apiUsage;
 
@@ -53,7 +55,6 @@ export default class Header extends I18nMixin(LightningElement) {
         this.isLoggedIn = ui.isLoggedIn;
         this._user = ui.user;
         this._apiUsage = ui.apiUsage;
-        this.mode = ui.mode || MODE.SOQL;
     }
 
     logout() {

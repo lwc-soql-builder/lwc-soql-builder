@@ -2,10 +2,11 @@
   <base-spinner if:true={isLoading}></base-spinner>
   <div class="app">
     <div>
-      <cmp-header></cmp-header>
+      <cmp-header mode={mode}></cmp-header>
     </div>
     <div class="body">
-      <page-soql></page-soql>
+      <page-soql if:true={isSoqlMode}></page-soql>
+      <page-api if:true={isApiMode}></page-api>
     </div>
   </div>
   <template if:false={isLoggedIn}>
