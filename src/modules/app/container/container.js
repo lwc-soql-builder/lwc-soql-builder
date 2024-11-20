@@ -15,6 +15,14 @@ export default class Container extends LightningElement {
     isLoading;
     isLoggedIn;
     selectedSObject;
+    rightTopLeftPanelHeight = 300;
+    rightTopPanelTop;
+    rightSeparator;
+
+    renderedCallback() {
+        this.rightTopPanelTop = this.template.querySelector('.right-top-panel');
+        this.rightSeparator = this.template.querySelector('.right-separator');
+    }
 
     get sobjectsPanelClass() {
         return this.selectedSObject ? 'slds-hide' : '';
@@ -52,5 +60,22 @@ export default class Container extends LightningElement {
             store.dispatch(login(user));
             store.dispatch(fetchSObjectsIfNeeded());
         }
+    }
+
+    get rightTopPanelStyle() {
+        return 'height:' + this.rightTopLeftPanelHeight + 'px';
+    }
+
+    dragRightSeparator(event) {
+        if (event.clientY > 0) {
+            this.rightTopLeftPanelHeight =
+                event.clientY -
+                this.rightTopPanelTop.offsetTop -
+                Math.floor(this.rightSeparator.offsetHeight / 2);
+        }
+    }
+
+    dragOverRightSeparator(event) {
+        event.preventDefault();
     }
 }
