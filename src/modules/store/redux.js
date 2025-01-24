@@ -7,6 +7,7 @@ import sobjects from './modules/sobjects/reducers';
 import sobject from './modules/sobject/reducers';
 import query from './modules/query/reducers';
 import ui from './modules/ui/reducers';
+import api from './modules/api/reducers';
 
 let middlewares = [thunk];
 // eslint-disable-next-line no-undef
@@ -19,7 +20,8 @@ export const store = createStore(
         sobjects,
         sobject,
         query,
-        ui
+        ui,
+        api
     }),
     applyMiddleware(...middlewares)
 );

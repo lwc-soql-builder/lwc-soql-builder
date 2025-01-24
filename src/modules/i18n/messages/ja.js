@@ -1,6 +1,9 @@
 export default {
     HEADER_API_USAGE: 'API使用量',
     HEADER_LOGOUT: 'ログアウト',
+    HEADER_MODE_SOQL: 'SOQL',
+    HEADER_MODE_API: 'API',
+    HEADER_MODE_APEX: 'Apex',
     FIELDS_PANEL_FIELDS: '項目',
     FIELDS_PANEL_CHILD_REL: '子リレーション',
     FIELDS_PANEL_FAILED_DESCRIBE_OBJ:
@@ -46,5 +49,6 @@ export default {
         'LWC SOQL BuilderはLWC OSSで開発されたそQL実行ツールです。SOQLの入力補完、オブジェクト/項目一覧からのSOQLの構築、実行クエリの保存、CSVエクスポートなど便利な機能を備えています。',
     WELCOME_LOGIN_PRODUCTION: '本番組織にログイン',
     WELCOME_LOGIN_SANDBOX: 'Sandbox組織にログイン',
-    WELCOME_BACK_HOME: 'ホームに戻る'
+    WELCOME_BACK_HOME: 'ホームに戻る',
+    API_HISTORY_PANEL_RECENT_APIS: '最近のAPIリクエスト'
 };

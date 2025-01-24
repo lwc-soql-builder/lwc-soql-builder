@@ -1,0 +1,53 @@
+<template>
+  <div class="slds-form slds-form_stacked slds-var-p-around_medium">
+    <div class="slds-form-element slds-var-m-bottom_medium">
+      <button class="slds-button slds-button_brand" onclick={executeApi}>Execute</button>
+      <button class="slds-button slds-button_neutral">Reset</button>
+    </div>
+    <div class="slds-form-element slds-var-m-bottom_medium">
+      <label class="slds-form-element__label">API Path</label>
+      <div class="slds-form-element__control">
+        <input
+          type="text"
+          class="slds-input"
+          name="api-path"
+          placeholder="Enter API Path (e.g., /services/data/62.0/sobjects/Account/)"
+          value={apiPath}
+          onchange={handleApiPathChange}
+        />
+      </div>
+    </div>
+    <fieldset class="slds-form-element slds-var-m-bottom_medium">
+      <legend class="slds-form-element__legend slds-form-element__label">HTTP Method</legend>
+      <div class="slds-form-element__control slds-grid slds-wrap">
+        <template for:each={httpMethods} for:item="httpMethod">
+          <div class="slds-radio slds-var-m-right_small" key={httpMethod.value}>
+            <input
+              type="radio"
+              id={httpMethod.value}
+              name="http-method"
+              value={httpMethod.value}
+              checked={httpMethod.checked}
+              onchange={handleHttpMethodChange}
+            />
+            <label class="slds-radio__label" for={httpMethod.value}>
+              <span class="slds-radio_faux"></span>
+              <span class="slds-form-element__label">{httpMethod.value}</span>
+            </label>
+          </div>
+        </template>
+      </div>
+    </fieldset>
+    <div class="slds-form-element slds-var-m-bottom_medium">
+      <label class="slds-form-element__label">Request Body</label>
+      <div class="slds-form-element__control">
+        <textarea
+          class="slds-textarea"
+          name="request-body"
+          placeholder="Enter request body"
+          onchange={handleRequestBodyChange}
+        ></textarea>
+      </div>
+    </div>
+  </div>
+</template>

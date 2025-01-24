@@ -20,9 +20,13 @@ import {
     DESELECT_CHILD_RELATIONSHIP,
     SELECT_ALL_FIELDS,
     CLEAR_ALL_FIELDS,
-    SORT_FIELDS
+    SORT_FIELDS,
+    SELECT_MODE,
+    LOAD_RECENT_APIS,
+    SELECT_API_REQUEST
 } from './constants';
 import { RECEIVE_QUERY_SUCCESS } from '../query/constants';
+import { RECEIVE_API_SUCCESS } from '../api/constants';
 import { connection, stripNamespace } from '../../../service/salesforce';
 
 const RECENT_QUERIES_KEY = 'lsb.recentQueries';
@@ -32,6 +36,9 @@ const INITIAL_QUERY = {
     fields: [getField('Id')],
     sObject: undefined
 };
+
+const RECENT_API_KEY = 'lsb.recentAPIs';
+const MAX_RECENT_API = 10;
 
 function _getRawFieldName(fieldName, relationships) {
     if (relationships) {
@@ -159,6 +166,29 @@ function loadRecentQueries() {
     return [];
 }
 
+function saveRecentAPIs(state = [], action) {
+    const recentAPIs = [
+        action.payload.request,
+        ...state.slice(0, MAX_RECENT_API - 1)
+    ];
+    try {
+        localStorage.setItem(RECENT_API_KEY, JSON.stringify(recentAPIs));
+    } catch (e) {
+        console.warn('Failed to save recent API to localStorage', e);
+    }
+    return recentAPIs;
+}
+
+function loadRecentAPIs() {
+    try {
+        const recentAPIsText = localStorage.getItem(RECENT_API_KEY);
+        if (recentAPIsText) return JSON.parse(recentAPIsText);
+    } catch (e) {
+        console.warn('Failed to load recent API from localStorage', e);
+    }
+    return [];
+}
+
 function toggleField(state = INITIAL_QUERY, action) {
     const { fieldName, relationships, childRelationship } = action.payload;
     if (childRelationship) {
@@ -248,6 +278,26 @@ export default function ui(state = {}, action) {
             return {
                 ...state,
                 recentQueries: loadRecentQueries()
+            };
+
+        case RECEIVE_API_SUCCESS: {
+            const newState = {
+                ...state,
+                recentAPIs: saveRecentAPIs(state.recentAPIs, action)
+            };
+            return newState;
+        }
+
+        case LOAD_RECENT_APIS:
+            return {
+                ...state,
+                recentAPIs: loadRecentAPIs()
+            };
+
+        case SELECT_API_REQUEST:
+            return {
+                ...state,
+                selectedAPIRequest: action.payload.request
             };
 
         case SELECT_SOBJECT: {
@@ -352,6 +402,14 @@ export default function ui(state = {}, action) {
             return {
                 ...state,
                 sort
+            };
+        }
+
+        case SELECT_MODE: {
+            const { mode } = action.payload;
+            return {
+                ...state,
+                mode
             };
         }
 

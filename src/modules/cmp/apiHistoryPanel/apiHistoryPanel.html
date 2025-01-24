@@ -1,0 +1,47 @@
+<template>
+  <div class="slds-tabs_default">
+    <ul class="slds-tabs_default__nav" role="tablist">
+      <li class="slds-tabs_default__item slds-is-active" title={i18n.API_HISTORY_PANEL_RECENT_APIS} role="presentation">
+        <a
+          class="slds-tabs_default__link"
+          href="javascript:void(0);"
+          role="tab"
+          tabindex="-1"
+          aria-selected="false"
+          aria-controls="tab-recent-apis"
+          id="tab-recent-apis__item"
+          >{i18n.API_HISTORY_PANEL_RECENT_APIS}</a
+        >
+      </li>
+    </ul>
+    <div
+      id="tab-recent-apis"
+      class="slds-tabs_default__content"
+      role="tabpanel"
+      aria-labelledby="tab-recent-apis__item"
+    >
+      <div class="slds-scrollable">
+        <template for:each={recentAPIs} for:item="api">
+          <div
+            class="slds-p-around_small slds-border_bottom recent-api-item"
+            key={api.key}
+            data-key={api.key}
+            onclick={selectAPIRequest}
+          >
+            <div class="slds-grid slds-wrap">
+              <div class="recent-api-item-method">
+                <span class="slds-badge">{api.request.httpMethod}</span>
+              </div>
+              <div class="recent-api-item-path slds-text-title_bold slds-truncate">{api.request.apiPath}</div>
+              <template if:true={api.request.requestBodyPreview}>
+                <div class="slds-text-body_small slds-m-top_x-small slds-truncate">
+                  {api.request.requestBodyPreview}
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,38 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+}
+.left-panel {
+  display: flex;
+  height: 100%;
+  width: 300px;
+  background-color: #fff;
+  position: relative;
+  border-right: 1px solid #dddbda;
+}
+.right-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.right-top-panel {
+  border-bottom: 1px solid #dddbda;
+  height: 300px;
+  display: flex;
+}
+.right-top-left-panel {
+  flex: 1;
+  border-right: 1px solid #dddbda;
+  display: flex;
+  flex-direction: column;
+}
+.right-top-right-panel {
+  width: 300px;
+}
+.right-bottom-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
