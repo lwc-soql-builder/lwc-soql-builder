@@ -117,7 +117,7 @@ export function isLoggedIn() {
     return !!(connection && connection.accessToken);
 }
 
-export function getQueryHeaders() {
+export function getRequestHeaders() {
     if (namespace) {
         return {
             'Sforce-Call-Options': `defaultNamespace=${namespace}`

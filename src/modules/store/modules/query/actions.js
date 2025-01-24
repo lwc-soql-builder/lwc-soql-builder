@@ -38,7 +38,7 @@ export function executeQuery(soql, isAllRows) {
                 .request({
                     method: 'GET',
                     url: `${apiPath}?q=${encodeURIComponent(soql)}`,
-                    headers: salesforce.getQueryHeaders()
+                    headers: salesforce.getRequestHeaders()
                 })
                 .then(res => {
                     dispatch(receiveQuerySuccess(res, soql));

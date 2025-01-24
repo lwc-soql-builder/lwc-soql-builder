@@ -2,19 +2,19 @@
   flex: 1;
   display: flex;
   flex-direction: row;
-  background-color: #fff;
+  background-color: var(--lwc-colorBackgroundAlt, #fff);
 }
 .panel-container {
   flex: 1;
 }
 .left-panel {
-  border-right: 1px solid #dddbda;
+  border-right: var(--lwc-borderWidthThin, 1px) solid #dddbda;
 }
 .left-top-panel {
-  border-bottom: 1px solid #dddbda;
+  border-bottom: var(--lwc-borderWidthThin, 1px) solid #dddbda;
   flex: 1;
 }
 .left-bottom-panel {
-  border-bottom: 1px solid #dddbda;
-  flex: 1;
+  border-bottom: var(--lwc-borderWidthThin, 1px) solid #dddbda;
+  flex: 2;
 }
