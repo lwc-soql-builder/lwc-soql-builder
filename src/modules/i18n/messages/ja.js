@@ -49,5 +49,6 @@ export default {
         'LWC SOQL BuilderはLWC OSSで開発されたそQL実行ツールです。SOQLの入力補完、オブジェクト/項目一覧からのSOQLの構築、実行クエリの保存、CSVエクスポートなど便利な機能を備えています。',
     WELCOME_LOGIN_PRODUCTION: '本番組織にログイン',
     WELCOME_LOGIN_SANDBOX: 'Sandbox組織にログイン',
-    WELCOME_BACK_HOME: 'ホームに戻る'
+    WELCOME_BACK_HOME: 'ホームに戻る',
+    API_HISTORY_PANEL_RECENT_APIS: '最近のAPIリクエスト'
 };

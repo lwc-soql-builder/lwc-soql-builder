@@ -12,46 +12,41 @@
           class="slds-input"
           name="api-path"
           placeholder="Enter API Path (e.g., /services/data/62.0/sobjects/Account/)"
+          value={apiPath}
+          onchange={handleApiPathChange}
         />
       </div>
     </div>
     <fieldset class="slds-form-element slds-var-m-bottom_medium">
       <legend class="slds-form-element__legend slds-form-element__label">HTTP Method</legend>
       <div class="slds-form-element__control slds-grid slds-wrap">
-        <div class="slds-radio slds-var-m-right_small">
-          <input type="radio" id="http-method-get" name="http-method" value="GET" checked />
-          <label class="slds-radio__label" for="http-method-get">
-            <span class="slds-radio_faux"></span>
-            <span class="slds-form-element__label">GET</span>
-          </label>
-        </div>
-        <div class="slds-radio slds-var-m-right_small">
-          <input type="radio" id="http-method-post" name="http-method" value="POST" />
-          <label class="slds-radio__label" for="http-method-post">
-            <span class="slds-radio_faux"></span>
-            <span class="slds-form-element__label">POST</span>
-          </label>
-        </div>
-        <div class="slds-radio slds-var-m-right_small">
-          <input type="radio" id="http-method-put" name="http-method" value="PUT" />
-          <label class="slds-radio__label" for="http-method-put">
-            <span class="slds-radio_faux"></span>
-            <span class="slds-form-element__label">PUT</span>
-          </label>
-        </div>
-        <div class="slds-radio slds-var-m-right_small">
-          <input type="radio" id="http-method-delete" name="http-method" value="DELETE" />
-          <label class="slds-radio__label" for="http-method-delete">
-            <span class="slds-radio_faux"></span>
-            <span class="slds-form-element__label">DELETE</span>
-          </label>
-        </div>
+        <template for:each={httpMethods} for:item="httpMethod">
+          <div class="slds-radio slds-var-m-right_small" key={httpMethod.value}>
+            <input
+              type="radio"
+              id={httpMethod.value}
+              name="http-method"
+              value={httpMethod.value}
+              checked={httpMethod.checked}
+              onchange={handleHttpMethodChange}
+            />
+            <label class="slds-radio__label" for={httpMethod.value}>
+              <span class="slds-radio_faux"></span>
+              <span class="slds-form-element__label">{httpMethod.value}</span>
+            </label>
+          </div>
+        </template>
       </div>
     </fieldset>
     <div class="slds-form-element slds-var-m-bottom_medium">
       <label class="slds-form-element__label">Request Body</label>
       <div class="slds-form-element__control">
-        <textarea class="slds-textarea" name="request-body" placeholder="Enter request body"></textarea>
+        <textarea
+          class="slds-textarea"
+          name="request-body"
+          placeholder="Enter request body"
+          onchange={handleRequestBodyChange}
+        ></textarea>
       </div>
     </div>
   </div>

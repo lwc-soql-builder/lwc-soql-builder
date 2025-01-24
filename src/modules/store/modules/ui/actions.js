@@ -14,7 +14,9 @@ import {
     SELECT_ALL_FIELDS,
     CLEAR_ALL_FIELDS,
     SORT_FIELDS,
-    SELECT_MODE
+    SELECT_MODE,
+    LOAD_RECENT_APIS,
+    SELECT_API_REQUEST
 } from './constants';
 
 export function login(user) {
@@ -39,6 +41,19 @@ export function updateApiLimit() {
 export function loadRecentQueries() {
     return {
         type: LOAD_RECENT_QUERIES
+    };
+}
+
+export function loadRecentAPIs() {
+    return {
+        type: LOAD_RECENT_APIS
+    };
+}
+
+export function selectAPIRequest(request) {
+    return {
+        type: SELECT_API_REQUEST,
+        payload: { request }
     };
 }
 

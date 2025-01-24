@@ -1,0 +1,14 @@
+.recent-api-item {
+  /* max-height: 30px; */
+  overflow: hidden;
+}
+.recent-api-item:hover {
+  background: #f3f2f2;
+  cursor: pointer;
+}
+.recent-api-item-method {
+  width: 50px;
+}
+.recent-api-item-path {
+  flex: 1;
+}

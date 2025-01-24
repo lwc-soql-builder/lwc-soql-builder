@@ -14,10 +14,10 @@ function requestApi() {
     };
 }
 
-function receiveApiSuccess(data, apiPath) {
+function receiveApiSuccess(data, request) {
     return {
         type: RECEIVE_API_SUCCESS,
-        payload: { data, apiPath }
+        payload: { data, request }
     };
 }
 
@@ -44,7 +44,13 @@ export function executeApi(apiPath, httpMethod, requestBody) {
                     }
                 })
                 .then(res => {
-                    dispatch(receiveApiSuccess(res, apiPath));
+                    dispatch(
+                        receiveApiSuccess(res, {
+                            apiPath,
+                            httpMethod,
+                            requestBody
+                        })
+                    );
                     dispatch(updateApiLimit());
                 })
                 .catch(err => {

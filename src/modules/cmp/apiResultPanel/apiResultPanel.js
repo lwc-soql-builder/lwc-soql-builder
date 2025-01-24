@@ -10,13 +10,19 @@ export default class ApiResultPanel extends I18nMixin(LightningElement) {
     response;
 
     get responseString() {
+        if (!this.response) {
+            return '';
+        }
         return JSON.stringify(this.response, null, 2);
+    }
+
+    get hasResponse() {
+        return !!this.response;
     }
 
     @wire(connectStore, { store })
     storeChange({ api }) {
         this.isLoading = api.isFetching;
-        console.log(api);
         if (api.data) {
             if (this.response !== api.data) {
                 this.response = api.data;

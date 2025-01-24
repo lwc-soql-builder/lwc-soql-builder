@@ -9,8 +9,12 @@
   width: 100%;
   height: 100%;
 }
+.header {
+  height: 50px;
+}
 .body {
   flex: 1;
   display: flex;
   flex-direction: row;
+  height: calc(100vh - 50px);
 }
