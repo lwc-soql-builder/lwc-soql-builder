@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 module.exports = {
-    CLIENT_ID: '<YOUR CONNECTED APP CLIENT ID>',
+    // Firebase project of the jsforce AJAX proxy. Used for API calls and as a
+    // fallback for the OAuth token exchange when the org doesn't enable
+    // "CORS for OAuth endpoints". Optional when CORS is fully configured.
     FIREBASE_PROJECT_ID: '<YOUR FIREBASE PROJECT ID>',
     GOOGLE_ANALYTICS_ID: ''
 };

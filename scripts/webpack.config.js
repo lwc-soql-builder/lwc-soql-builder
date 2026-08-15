@@ -27,6 +27,7 @@ module.exports = {
         new GenerateSW({
             swDest: 'sw.js',
             skipWaiting: true,
+            clientsClaim: true,
             exclude: [/.DS_Store/]
         })
     ]

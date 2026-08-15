@@ -21,10 +21,51 @@ For more information, visit https://lwc-soql-builder.github.io/
 -   Support for ignoring default namespace
     -   You can run a SOQL without the namespace prefix of a managed package. So, you can copy and paste the SOQL into your Apex code as-is.
 
+## Login setup (External Client App)
+
+LWC SOQL Builder logs in with the OAuth 2.0 Authorization Code flow with PKCE.
+The previously used user-agent (implicit) flow was removed in OAuth 2.1 and no
+longer works with Salesforce ([#47](https://github.com/lwc-soql-builder/lwc-soql-builder/issues/47)).
+Also, since Salesforce restricts self-authorization of uninstalled connected
+apps (September 2025) and no longer allows creating new connected apps
+(Spring '26), each org now needs its own External Client App (ECA). An admin
+creates it once per org:
+
+1. In Setup, open **External Client App Manager** and create a new External
+   Client App:
+    - Enable OAuth. Scopes: `api`, `refresh_token`, `web`, `openid`
+    - Callback URLs: the URL where the app is hosted, e.g.
+      `https://lwc-soql-builder.github.io/lwc-soql-builder/`
+      (add `http://localhost:3001/` for local development)
+    - Flow: **Authorization Code and Credentials** is NOT required; the
+      standard web server flow is used
+    - **Require Proof Key for Code Exchange (PKCE): ON** (enforced by
+      Salesforce anyway)
+    - **Require Secret for Web Server Flow: OFF**
+    - **Require Secret for Refresh Token Flow: OFF**
+    - Policy: permitted users **All users may self-authorize** (or
+      admin-approved, as your org prefers)
+2. (Recommended) In Setup > **CORS**, add the app's origin (e.g.
+   `https://lwc-soql-builder.github.io`) to the allowlist and check
+   **Enable CORS for OAuth endpoints**. With this, the OAuth token exchange
+   goes directly from the browser to your org. Without it, the app falls back
+   to the jsforce AJAX proxy for the token exchange.
+3. Open the app, and register the org on the welcome screen with a label, the
+   org's **My Domain URL** (e.g. `https://yourdomain.my.salesforce.com`), and
+   the ECA's **consumer key**. The consumer key of a PKCE public client is an
+   identifier, not a secret.
+
+You can register multiple orgs (production, sandboxes) and switch between
+them on the welcome screen. Sandboxes need the ECA deployed in each sandbox
+org, and their My Domain URL looks like
+`https://yourdomain--sboxname.sandbox.my.salesforce.com`.
+
 ## How to setup local machine for development
 
 1. Setup proxy. You must set `proxy.allowed_origin=http://localhost:3001`.  
-   For more information, see [lwc-soql-builder/jsforce-ajax-proxy-cloud-functions](https://github.com/lwc-soql-builder/jsforce-ajax-proxy-cloud-functions)
+   For more information, see [lwc-soql-builder/jsforce-ajax-proxy-cloud-functions](https://github.com/lwc-soql-builder/jsforce-ajax-proxy-cloud-functions)  
+   (Optional: if you add `http://localhost:3001` to your org's CORS allowlist,
+   API calls work without the proxy and `FIREBASE_PROJECT_ID` can stay empty.)
 
 2. Copy & edit `config/development.js.example` file to add your custom configurations.
 

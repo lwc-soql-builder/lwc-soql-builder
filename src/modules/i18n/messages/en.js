@@ -42,7 +42,16 @@ export default {
     WELCOME_TITLE: 'Welcome to LWC SOQL Builder!',
     WELCOME_DESCRIPTION:
         'LWC SOQL Builder is a SOQL execution tool developed in Lightning Web Components Open Source, which provides useful features such as viewing the list of items, completing item names, saving queries, and exporting execution results to CSV.',
-    WELCOME_LOGIN_PRODUCTION: 'Login to Production Org',
-    WELCOME_LOGIN_SANDBOX: 'Login to Sandbox Org',
+    WELCOME_ECA_HELP:
+        'Login uses the OAuth 2.0 Authorization Code flow with PKCE. Create an External Client App in your org (see README) and register it here with your My Domain URL and its consumer key.',
+    WELCOME_ADD_ORG: 'Add an Org',
+    WELCOME_EDIT_ORG: 'Edit Org',
+    WELCOME_ORG_EDIT: 'Edit',
+    WELCOME_ORG_SAVE: 'Save',
+    WELCOME_CANCEL: 'Cancel',
+    WELCOME_ORG_LABEL: 'Label',
+    WELCOME_ORG_MY_DOMAIN: 'My Domain URL',
+    WELCOME_ORG_CONSUMER_KEY: 'Consumer Key',
+    WELCOME_ORG_REMOVE: 'Remove',
     WELCOME_BACK_HOME: 'Back to Home'
 };

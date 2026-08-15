@@ -43,8 +43,17 @@ export default {
     SOBJECTS_PANEL_KEYWORD_CLEAR: 'クリア',
     WELCOME_TITLE: 'LWC SOQL Builderにようこそ！',
     WELCOME_DESCRIPTION:
-        'LWC SOQL BuilderはLWC OSSで開発されたそQL実行ツールです。SOQLの入力補完、オブジェクト/項目一覧からのSOQLの構築、実行クエリの保存、CSVエクスポートなど便利な機能を備えています。',
-    WELCOME_LOGIN_PRODUCTION: '本番組織にログイン',
-    WELCOME_LOGIN_SANDBOX: 'Sandbox組織にログイン',
+        'LWC SOQL BuilderはLWC OSSで開発されたSOQL実行ツールです。SOQLの入力補完、オブジェクト/項目一覧からのSOQLの構築、実行クエリの保存、CSVエクスポートなど便利な機能を備えています。',
+    WELCOME_ECA_HELP:
+        'ログインにはOAuth 2.0認可コードフロー（PKCE）を使用します。組織に外部クライアントアプリケーションを作成し（READMEを参照）、My Domain URLとコンシューマー鍵をここに登録してください。',
+    WELCOME_ADD_ORG: '組織を追加',
+    WELCOME_EDIT_ORG: '組織を編集',
+    WELCOME_ORG_EDIT: '編集',
+    WELCOME_ORG_SAVE: '保存',
+    WELCOME_CANCEL: 'キャンセル',
+    WELCOME_ORG_LABEL: '表示名',
+    WELCOME_ORG_MY_DOMAIN: 'My Domain URL',
+    WELCOME_ORG_CONSUMER_KEY: 'コンシューマー鍵',
+    WELCOME_ORG_REMOVE: '削除',
     WELCOME_BACK_HOME: 'ホームに戻る'
 };

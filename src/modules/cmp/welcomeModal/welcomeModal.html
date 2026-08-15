@@ -12,14 +12,75 @@
                 <h2 class="slds-welcome-mat__info-title">{i18n.WELCOME_TITLE}</h2>
                 <div class="slds-welcome-mat__info-description slds-text-longform">
                   <p>{i18n.WELCOME_DESCRIPTION}</p>
+                  <p class="slds-text-body_small">{i18n.WELCOME_ECA_HELP}</p>
                 </div>
-                <div class="slds-welcome-mat__info-actions">
-                  <button class="slds-button slds-button_brand" onclick={loginProduction}>
-                    {i18n.WELCOME_LOGIN_PRODUCTION}
-                  </button>
-                  <button class="slds-button slds-button_brand" onclick={loginSandbox}>
-                    {i18n.WELCOME_LOGIN_SANDBOX}
-                  </button>
+                <template if:true={hasOrgs}>
+                  <div class="slds-welcome-mat__info-actions">
+                    <ul>
+                      <template for:each={orgItems} for:item="org">
+                        <li key={org.key} class="slds-m-top_x-small">
+                          <div class="slds-grid slds-grid_vertical-align-center">
+                            <button
+                              class="slds-button slds-button_brand slds-col slds-grow slds-m-right_x-small"
+                              data-index={org.index}
+                              onclick={loginOrg}
+                            >
+                              {org.label}
+                            </button>
+                            <button
+                              class="slds-button slds-button_neutral slds-m-right_x-small"
+                              data-index={org.index}
+                              onclick={editOrg}
+                              title={i18n.WELCOME_ORG_EDIT}
+                            >
+                              {i18n.WELCOME_ORG_EDIT}
+                            </button>
+                            <button
+                              class="slds-button slds-button_destructive"
+                              data-index={org.index}
+                              onclick={removeOrg}
+                              title={i18n.WELCOME_ORG_REMOVE}
+                            >
+                              ×
+                            </button>
+                          </div>
+                        </li>
+                      </template>
+                    </ul>
+                  </div>
+                </template>
+                <div class="slds-form slds-m-top_medium slds-text-align_left">
+                  <h3 class="slds-text-heading_small">{formTitle}</h3>
+                  <div class="slds-form-element slds-m-top_x-small">
+                    <label class="slds-form-element__label">{i18n.WELCOME_ORG_LABEL}</label>
+                    <div class="slds-form-element__control">
+                      <input class="slds-input" type="text" value={label} oninput={handleLabelChange} />
+                    </div>
+                  </div>
+                  <div class="slds-form-element slds-m-top_x-small">
+                    <label class="slds-form-element__label">{i18n.WELCOME_ORG_MY_DOMAIN}</label>
+                    <div class="slds-form-element__control">
+                      <input
+                        class="slds-input"
+                        type="text"
+                        placeholder="https://yourdomain.my.salesforce.com"
+                        value={loginUrl}
+                        oninput={handleLoginUrlChange}
+                      />
+                    </div>
+                  </div>
+                  <div class="slds-form-element slds-m-top_x-small">
+                    <label class="slds-form-element__label">{i18n.WELCOME_ORG_CONSUMER_KEY}</label>
+                    <div class="slds-form-element__control">
+                      <input class="slds-input" type="text" value={clientId} oninput={handleClientIdChange} />
+                    </div>
+                  </div>
+                  <div class="slds-m-top_small">
+                    <button class="slds-button slds-button_neutral" onclick={saveOrg}>{saveButtonLabel}</button>
+                    <template if:true={isEditing}>
+                      <button class="slds-button" onclick={cancelEdit}>{i18n.WELCOME_CANCEL}</button>
+                    </template>
+                  </div>
                 </div>
                 <div class="slds-welcome-mat__info-actions slds-m-top_small">
                   <a class="slds-button" href="/">{i18n.WELCOME_BACK_HOME}</a>
